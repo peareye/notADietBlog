@@ -1,0 +1,19 @@
+# Things to ignore
+
+# Local configuration file
+config/config.local.php
+
+# Uploaded files
+web/files/
+
+# Log files
+logs/*.log
+
+# Twig Cache
+twigcache/*
+
+# Vendor
+vendor/
+
+# Misc
+*thumb*
