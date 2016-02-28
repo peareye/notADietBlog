@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+  <h2>Edit Post</h2>
+  <input type="hidden" name="id" value="{{ post.id }}">
+  <div class="post-button-controls">
+    <a href="{{ pathFor('adminDashboard') }}" class="btn btn-default">Cancel</a>
+    <button type="submit" class="btn btn-default" name="button" value="save">Save{% if not blog.published_date %} Draft{% endif %}</button>
+
+    {% if blog.published_date %}
+    <a href="#" class="btn btn-warning">Unpublish</a>
+    {% else %}
+    <div class="btn-group">
+      <button type="submit" class="btn btn-success" name="button" value="publish">Publish Now</button>
+      <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu publish-date">
+        <li>Publish Later</li>
+        <li><input type="date" class="form-control" name="published_date" autocomplete="off" value="{{ post.published_date }}"></li>
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if blog.blog_id %}
+    <a href="#" class="btn btn-danger deleteButton">Delete Post</a>
+    {% endif %}
+  </div>
+  <form action="#" method="post" accept-charset="utf-8">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" name="title" maxlength="60" autocomplete="off" value="{{ post.title }}">
+      <p class="form-control-static">URL: <var>{{ post.url }}</var></p>
+    </div>
+
+    <div class="form-group">
+      <label for="content">Content</label>
+      <textarea class="form-control wysiwyg" rows="20" name="content">{{ post.content }}</textarea>
+    </div>
+
+  </form>
+{% endblock %}
+
+{% block footer %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
+<script src="{{ basePath() }}/assets/js/adminScript.js"></script>
+{% endblock %}

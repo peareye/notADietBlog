@@ -16,4 +16,15 @@ class AdminController extends BaseController
 
         $this->container->view->render($response, 'admin/dashboard.html', ['posts' => $posts]);
     }
+
+    /**
+     * Add/Edit Post
+     */
+    public function editPost($request, $response, $args)
+    {
+        $postMapper = $this->container['postMapper'];
+        $post = $postMapper->findById($args['id']);
+
+        $this->container->view->render($response, 'admin/editPost.html', ['post' => $post]);
+    }
 }

@@ -12,6 +12,11 @@ $app->group('/pippi', function () {
     $this->get('/dashboard', function ($request, $response, $args) {
         (new Blog\Controllers\AdminController($this))->dashboard($request, $response, $args);
     })->setName('adminDashboard');
+
+    // Add or edit post
+    $this->get('/editpost[/{id}]', function ($request, $response, $args) {
+        (new Blog\Controllers\AdminController($this))->editPost($request, $response, $args);
+    })->setName('editPost');
 });
 
 //
