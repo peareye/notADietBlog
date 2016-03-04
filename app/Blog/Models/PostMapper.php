@@ -71,4 +71,29 @@ class PostMapper extends DataMapperAbstract
 
     //     return $this->_save($post);
     // }
+
+    /**
+     * Verify URL
+     *
+     * Check if post URL is unique
+     * @param string $url Cleaned title
+     * @return boolean
+     */
+    public function postUrlIsUnique($url)
+    {
+        $this->sql = "select 1 from {$this->table} where url = ?";
+        $this->bindValues[] = $url;
+
+        // Execute the query
+        $this->execute();
+        $data = $this->statement->fetchAll();
+        $this->clear();
+
+        // Did we find anything?
+        if (!empty($data)) {
+            return false;
+        }
+
+        return true;
+    }
 }

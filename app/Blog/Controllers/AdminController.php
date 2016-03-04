@@ -27,4 +27,32 @@ class AdminController extends BaseController
 
         $this->container->view->render($response, 'admin/editPost.html', ['post' => $post]);
     }
+
+    /**
+     * Validate Unique URL
+     */
+    public function validateUniqueUrl($request, $response, $args)
+    {
+        // Get toolbox to clean URL
+        $toolbox = $this->container['toolbox'];
+        $postMapper = $this->container['postMapper'];
+        $title = $request->getParsedBodyParam('title');
+
+        // Set the response type
+        $r = $response->withHeader('Content-Type', 'application/json');
+
+        // Prep title string
+        $url = $toolbox->cleanUrl($title);
+
+        // Check table to see if this URL exists
+        $urlIsUnique = $postMapper->postUrlIsUnique($url);
+
+        if ($urlIsUnique) {
+            $status = 'success';
+        } else {
+            $status = 'fail';
+        }
+
+        return $r->write(json_encode(["status" => "$status", "url" => $url]));
+    }
 }

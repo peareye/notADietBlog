@@ -58,6 +58,11 @@ $container['sessionHandler'] = function ($c) {
     return new WolfMoritz\Session\SessionHandler($c['database'], $c->get('settings')['session']);
 };
 
+// Load Toolbox
+$container['toolbox'] = function ($c) {
+    return new Blog\Library\Toolbox();
+};
+
 $container['postMapper'] = $container->factory(function ($c) {
     return new \Blog\Models\PostMapper($c['database'], $c['logger'], ['user_id' => 1]);
 });
@@ -71,11 +76,6 @@ $container['postMapper'] = $container->factory(function ($c) {
 // $app->ImageUploader = function () use ($app) {
 //     return new Recipe\Library\ImageUploader($app->config('image'), $app->log);
 // };
-
-// Load Toolbox
-$container['toolbox'] = function ($c) {
-    return new Blog\Library\Toolbox();
-};
 
 // Validation
 // $app->Validation = function () {

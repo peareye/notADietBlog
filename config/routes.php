@@ -6,7 +6,12 @@
 //
 // Private routes
 //
-$app->group('/pippi', function () {
+$app->group('/admin', function () {
+
+    // Validate unique post URL (Ajax request)
+    $this->post('/api/validateurl', function ($request, $response, $args) {
+        return (new Blog\Controllers\AdminController($this))->validateUniqueUrl($request, $response, $args);
+    });
 
     // Main dashboard
     $this->get('/dashboard', function ($request, $response, $args) {
