@@ -3,13 +3,19 @@
 {% block body %}
 	<span class="h2">Blog Posts</span> <a class="btn btn-success pull-right" href="{{ pathFor('editPost') }}" role="button">New Post</a>
 	<hr>
+
   {% for p in posts %}
   <div>
     <h3><a href="#">{{ p.title }}</a></h3>
-    <a href="{{ pathFor('editPost', {'id': p.id}) }}">Edit</a> | <a href="#"><span class="text-danger">Delete</span></a> | Published: {%if p.published_date %}{{ p.published_date|date('F j, Y') }}{% else %}<span class="label label-default">Not Published</span>{% endif %}
+    <a href="{{ pathFor('editPost', {'id': p.id}) }}">Edit</a> | <a href="{{ pathFor('deletePost', {'id': p.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a> | Published: {% if p.published_date %}{{ p.published_date|date('F j, Y') }}{% else %}<span class="label label-default">Not Published</span>{% endif %}
   </div>
   <hr>
   {% else %}
   <h4>No posts found</h4>
   {% endfor %}
+{% endblock %}
+
+{% block footer %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
+<script src="{{ basePath() }}/assets/js/adminScript.js"></script>
 {% endblock %}

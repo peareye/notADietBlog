@@ -51,28 +51,6 @@ class PostMapper extends DataMapperAbstract
     }
 
     /**
-     * Save Blog Post
-     *
-     * Adds pre-save manipulation prior to calling _save
-     * @param Domain $post Object
-     * @return mixed Domain Object on success, false otherwise
-     */
-    // public function save(DomainObjectAbstract $post)
-    // {
-    //     // Get dependencies
-    //     $app = \Slim\Slim::getInstance();
-    //     $Toolbox = $this->container->toolbox;
-
-    //     // Set URL safe post title
-    //     $post->url = $Toolbox->cleanUrl($post->title);
-
-    //     // Set content excerpt
-    //     $post->content_excerpt = $Toolbox->truncateHtmlText($post->content);
-
-    //     return $this->_save($post);
-    // }
-
-    /**
      * Verify URL
      *
      * Check if post URL is unique
