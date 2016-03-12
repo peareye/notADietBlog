@@ -43,6 +43,11 @@ $app->group('/admin', function () {
 // Public routes
 //
 
+// Sample HTML fragment for formatting
+$app->get('/sample', function ($request, $response, $args) {
+    return $this->view->render($response, 'sample.html');
+});
+
 // Search
 $app->get('/search', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->searchLocations($request, $response, $args);

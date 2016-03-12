@@ -1,12 +1,6 @@
 {% extends 'layout.html' %}
 
-      {% block blogheader %}
-        <h1 class="blog-title">Wolfgang Moritz</h1>
-        <p class="lead blog-description">Random bits of things.</p>
-      {% endblock %}
-
-{% block body %}
-
+      {% block body %}
         {% for p in posts %}
           <div class="blog-post">
             <h2 class="blog-post-title"><a href="{{ pathFor('viewPost', {'url': p.url}) }}">{{ p.title }}</a></h2>
@@ -26,4 +20,4 @@
             </ul>
           </nav>
 
-{% endblock %}
+      {% endblock %}
