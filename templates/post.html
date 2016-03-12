@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+      {% block blogheader %}
+        <h1 class="blog-title">Wolfgang Moritz</h1>
+        <p class="lead blog-description">Random bits of things.</p>
+      {% endblock %}
+
+{% block body %}
+
+          <div class="blog-post">
+            <h2 class="blog-post-title">{{ post.title }}</h2>
+            <p class="blog-post-meta">{{ post.published_date|date('F j, Y') }}</p>
+            {{ post.content|raw }}
+          </div><!-- /.blog-post -->
+
+{% endblock %}

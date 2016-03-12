@@ -48,6 +48,11 @@ $app->get('/search', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->searchLocations($request, $response, $args);
 })->setName('searchLocations');
 
+// View post
+$app->get('/{url}', function ($request, $response, $args) {
+    return (new Blog\Controllers\IndexController($this))->viewPost($request, $response, $args);
+})->setName('viewPost');
+
 // Home page (last route, the default)
 $app->get('/', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->home($request, $response, $args);
