@@ -25,6 +25,11 @@ class IndexController extends BaseController
         $postMapper = $this->container['postMapper'];
         $post = $postMapper->getSinglePost($args['url']);
 
+        // Was anything found?
+        if (empty($post)) {
+            return $this->notFound($request, $response);
+        }
+
         $this->container->view->render($response, 'post.html', ['post' => $post]);
     }
 }

@@ -26,7 +26,7 @@ $container['view'] = function ($c) {
 // Monolog logging
 $container['logger'] = function ($c) {
     $logger = new Monolog\Logger('blog');
-    $logger->pushProcessor(new Monolog\Processor\UidProcessor());
+    // $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(new Monolog\Handler\StreamHandler(ROOT_DIR . 'logs/' . date('Y-m-d') . '.log', Monolog\Logger::DEBUG));
 
     return $logger;
@@ -63,8 +63,14 @@ $container['toolbox'] = function ($c) {
     return new Blog\Library\Toolbox();
 };
 
+// Override the default Not Found Handler
+$container['notFoundHandler'] = function ($c) {
+    return new Blog\Extensions\NotFound($c->get('view'), $c->get('logger'));
+};
+
+// Post Data Mapper
 $container['postMapper'] = $container->factory(function ($c) {
-    return new \Blog\Models\PostMapper($c['database'], $c['logger'], ['user_id' => 1]);
+    return new Blog\Models\PostMapper($c['database'], $c['logger'], ['user_id' => 1]);
 });
 
 // Sitemap
@@ -83,20 +89,3 @@ $container['postMapper'] = $container->factory(function ($c) {
 //         return new Valitron\Validator($data);
 //     };
 // };
-
-// Register 404 page
-// $app->notFound(function () use ($app) {
-//     // Log URL for not found request
-//     $request = $app->request;
-//     $serverVars = isset($_SERVER['HTTP_USER_AGENT']) ? ' [HTTP_USER_AGENT] ' . $_SERVER['HTTP_USER_AGENT'] : '';
-//     $serverVars .= isset($_SERVER['REMOTE_ADDR']) ? ' [REMOTE_ADDR] ' . $_SERVER['REMOTE_ADDR'] : '';
-//     $app->log->error('404 Not Found: ' . $request->getMethod() . ' ' . $request->getResourceUri() . $serverVars);
-
-//     // If request is for a file image then just return
-//     if (preg_match('/^.*\.(jpg|jpeg|png|gif)$/i', $request->getResourceUri())) {
-//         return;
-//     }
-
-//     // Render 404 page
-//     $app->twig->display('notFound.html');
-// });
