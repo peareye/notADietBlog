@@ -13,7 +13,7 @@ class LoginController extends BaseController
      */
     public function login($request, $response, $args)
     {
-        $this->container->view->render($response, 'admin/login.html');
+        $this->container->view->render($response, 'login.html');
     }
 
     /**
