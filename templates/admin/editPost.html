@@ -1,8 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block head %}
-<link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
-{% endblock %}
+{% extends 'admin/adminLayout.html' %}
 
 {% block body %}
   <h2>Edit Post</h2>
@@ -47,9 +43,4 @@
       <textarea class="form-control wysiwyg" rows="20" name="content">{{ post.content|raw }}</textarea>
     </div>
   </form>
-{% endblock %}
-
-{% block footer %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
-<script src="{{ basePath() }}/assets/js/adminScript.js"></script>
 {% endblock %}
