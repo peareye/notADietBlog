@@ -113,6 +113,8 @@ class AdminController extends BaseController
 
     /**
      * Validate Unique URL
+     *
+     * @return JSON status
      */
     public function validateUniqueUrl($request, $response, $args)
     {

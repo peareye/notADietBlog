@@ -2,9 +2,7 @@
 /**
  * Default Configuration Settings
  *
- * Define all server specific settings in config.local.php.
- *
- * Do not commit config.local.php to version control!
+ * Define all instance specific settings in config.local.php.
  */
 
 /**
@@ -16,7 +14,15 @@ $config['production'] = true;
  * Default Domain
  * Note: Do not include a trailing slash
  */
-// $config['baseurl'] = '';
+$config['baseurl'] = '';
+
+/**
+ * Blog User
+ *
+ * Keep it simple for now, just one user is all we need
+ */
+$config['user']['user_id'] = 1;
+$config['user']['email'] = '';
 
 /**
  * Database Settings
@@ -38,12 +44,9 @@ $config['session']['secondsUntilExpiration'] = 7200; // 180 days (60*60*24*180)
 /**
  * Email Connection
  */
-$config['email']['protocol'] = 'smtp';
-$config['email']['smtp_host'] = 'localhost';
-$config['email']['smtp_port'] = '';
-$config['email']['smtp_user'] = '';
-$config['email']['smtp_pass'] = '';
-$config['email']['mailtype'] = 'html';
+$config['email']['host'] = '';
+$config['email']['username'] = '';
+$config['email']['password'] = '';
 
 /**
  * File Uploads Config

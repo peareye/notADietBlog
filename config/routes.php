@@ -6,7 +6,8 @@
 //
 // Private routes
 //
-$app->group('/admin', function () {
+
+$app->group('/wolf', function () {
 
     // Validate unique post URL (Ajax request)
     $this->post('/api/validateurl', function ($request, $response, $args) {
@@ -37,11 +38,41 @@ $app->group('/admin', function () {
     $this->get('/unpublishpost/{id}', function ($request, $response, $args) {
         return (new Blog\Controllers\AdminController($this))->unpublishPost($request, $response, $args);
     })->setName('unpublishPost');
+
+})->add(function ($request, $response, $next) {
+    // Authentication
+    $security = $this->get('securityHandler');
+
+    if (!$security->authenticated()) {
+        // Failed authentication, redirect away
+        $response = $next($request, $response);
+        return $response->withRedirect($this->router->pathFor('home'));
+    }
+
+    // Next call
+    $response = $next($request, $response);
+
+    return $response;
 });
 
 //
 // Public routes
 //
+
+// Login - submit request for token
+$app->get('/letmein', function ($request, $response, $args) {
+    return (new Blog\Controllers\LoginController($this))->login($request, $response, $args);
+})->setName('login');
+
+// Send login token
+$app->post('/sendlogintoken/', function ($request, $response, $args) {
+    return (new Blog\Controllers\LoginController($this))->sendLoginToken($request, $response, $args);
+})->setName('sendLoginToken');
+
+// Accept login token and set session
+$app->get('/logintoken/{token:[a-zA-Z0-9]{64}}', function ($request, $response, $args) {
+    return (new Blog\Controllers\LoginController($this))->processLoginToken($request, $response, $args);
+})->setName('processLoginToken');
 
 // Sample HTML fragment for formatting
 $app->get('/sample', function ($request, $response, $args) {
@@ -54,7 +85,7 @@ $app->get('/search', function ($request, $response, $args) {
 })->setName('searchLocations');
 
 // View post
-$app->get('/{url}', function ($request, $response, $args) {
+$app->get('/blog/{url}', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->viewPost($request, $response, $args);
 })->setName('viewPost');
 

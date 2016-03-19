@@ -1,25 +1,26 @@
 <?php
-namespace Blog\Library;
-
 /**
  * Security Handler
  *
  * Manages Authorization and Authentication
  */
+namespace Blog\Library;
+
 class SecurityHandler
 {
-    protected $app;
-    protected $roles = array(
-        'admin' => 20,
-        'cook' => 10,
-    );
+    /**
+     * Session Handler
+     *
+     * @var Session Class
+     */
+    protected $session;
 
     /**
      * Constructor
      */
-    public function __construct(\Slim\Slim $app)
+    public function __construct($sessionHandler)
     {
-        $this->app = $app;
+        $this->session = $sessionHandler;
     }
 
     /**
@@ -30,76 +31,22 @@ class SecurityHandler
      */
     public function authenticated()
     {
-        $SessionHandler = $this->app->SessionHandler;
-
-        return $SessionHandler->getData('loggedIn');
+        return $this->session->getData('loggedIn');
     }
 
     /**
-     * Authorized
-     *
-     * Checks supplied required level against logged in user authorization level
-     * @param String $requiredRole
-     * @return Boolean True = Authorized, False = Not Authorized
+     * Start Authenicated Session
      */
-    public function authorized($requiredRole = null)
+    public function startAuthenticatedSession()
     {
-        // If the user is not logged in return false in all cases
-        if (!$this->authenticated()) {
-            return false;
-        }
-
-        $SessionHandler = $this->app->SessionHandler;
-        $userRole = $SessionHandler->getData('role');
-
-        // Compare role levels
-        if ($requiredRole !== null
-            and isset($this->roles[$userRole])
-            and isset($this->roles[$requiredRole])
-            and $this->roles[$userRole] >= $this->roles[$requiredRole]) {
-            return true;
-        }
-
-        return false;
+        $this->session->setData(['loggedIn' => true]);
     }
 
     /**
-     * Get Role List
-     *
-     * @return Array of roles
+     * End Authenticated Session
      */
-    public function getRoles()
+    public function endAuthenticatedSession()
     {
-        return $this->roles;
-    }
-
-    /**
-     * Authorized to Edit Recipe
-     *
-     * @param object, \Recipe\Storage\Recipe
-     * @param array, user data from session
-     * @return bool, true (authorized) or false (not authorized)
-     */
-    public function authorizedToEditRecipe(\Recipe\Storage\Recipe $recipe, array $user = null)
-    {
-        $SessionHandler = $this->app->SessionHandler;
-        $user = $SessionHandler->getData();
-
-        // Make sure we are logged in and have the minimum info to validate the user
-        if (!$this->authenticated() || empty($user['user_id'])) {
-            return false;
-        }
-
-        // Admins can always edit
-        if ($this->authorized('admin')) {
-            return true;
-        }
-
-        // Final check, verify authority to modify recipe
-        if (empty($recipe->recipe_id) || is_numeric($recipe->recipe_id) && (int) $user['user_id'] === (int) $recipe->created_by) {
-            return true;
-        }
-
-        return false;
+        $this->session->destroy();
     }
 }

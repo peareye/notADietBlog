@@ -73,6 +73,21 @@ $container['postMapper'] = $container->factory(function ($c) {
     return new Blog\Models\PostMapper($c['database'], $c['logger'], ['user_id' => 1]);
 });
 
+// Mail message
+$container['mailMessage'] = $container->factory(function ($c) {
+    return new Nette\Mail\Message;
+});
+
+// Send mail message
+$container['sendMailMessage'] = function ($c) {
+    return new Nette\Mail\SmtpMailer($c->get('settings')['email']);
+};
+
+// Security Handler
+$container['securityHandler'] = function ($c) {
+    return new Blog\Library\SecurityHandler($c->get('sessionHandler'));
+};
+
 // Sitemap
 // $app->sitemap = function () use ($app) {
 //     return new Recipe\Library\SitemapHandler($app);
