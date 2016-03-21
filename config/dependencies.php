@@ -10,10 +10,7 @@ $container['view'] = function ($c) {
         'debug' => !$c->get('settings')['production'],
     ]);
 
-    $view->addExtension(new Blog\Extensions\TwigExtension(
-        $c['router'],
-        $c['request']->getUri()
-    ));
+    $view->addExtension(new Blog\Extensions\TwigExtension($c));
     // $view->addExtension(new Blog\Extensions\PaginationExtension());
 
     if ($c->get('settings')['production'] === false) {

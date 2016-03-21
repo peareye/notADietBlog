@@ -4,6 +4,8 @@
  */
 namespace Blog\Extensions;
 
+use Interop\Container\ContainerInterface;
+
 class TwigExtension extends \Twig_Extension
 {
     /**
@@ -16,16 +18,29 @@ class TwigExtension extends \Twig_Extension
      */
     private $uri;
 
-    public function __construct($router, $uri)
+    /**
+     * @var Interop\Container\ContainerInterface
+     */
+    private $container;
+
+    /**
+     * Application Settings
+     * @var array
+     */
+    private $settings = [];
+
+    public function __construct(ContainerInterface $container)
     {
-        $this->router = $router;
-        $this->uri = $uri;
+        $this->router = $container['router'];
+        $this->uri = $container['request']->getUri();
+        $this->container = $container;
+        $this->settings = $container->get('settings');
     }
 
     // Identifer
     public function getName()
     {
-        return 'three';
+        return 'blog';
     }
 
     /**
@@ -33,7 +48,13 @@ class TwigExtension extends \Twig_Extension
      */
     public function getGlobals()
     {
-        return [];
+        return ['setting' =>
+            [
+                'adminSegment' => $this->settings['adminSegment'],
+                'baseUrl' => $this->settings['baseUrl'],
+            ],
+
+        ];
     }
 
     /**

@@ -13,7 +13,7 @@ $('.deleteButton').on('click', function() {
 $('input[name="title"]').on('focusout', function() {
 	console.log()
 	$.ajax({
-		url: basePath + '/admin/api/validateurl',
+		url: basePath + adminSegment + '/api/validateurl',
 		method: 'POST',
 		data: {title: $(this).val()},
 		success: function(r) {

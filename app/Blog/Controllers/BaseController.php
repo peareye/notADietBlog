@@ -7,6 +7,7 @@
  */
 namespace Blog\Controllers;
 
+use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -19,7 +20,7 @@ class BaseController
      *
      * @param ContainerInterface $container
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }

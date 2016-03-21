@@ -5,7 +5,7 @@
       	<hr>
         {% for p in posts %}
         <div>
-          <h3><a href="{{ pathFor('viewPost', {'url': p.url}) }}">{{ p.title }}</a></h3>
+          <h3><a href="{{ pathFor('viewPost', {'url': p.url}) }}" target="_blank">{{ p.title }}</a></h3>
           <a href="{{ pathFor('editPost', {'id': p.id}) }}">Edit</a> | <a href="{{ pathFor('deletePost', {'id': p.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a> | Published: {% if p.published_date %}{{ p.published_date|date('F j, Y') }}{% else %}<span class="label label-default">Not Published</span>{% endif %}
         </div>
         <hr>

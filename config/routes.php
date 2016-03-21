@@ -7,7 +7,7 @@
 // Private routes
 //
 
-$app->group('/wolf', function () {
+$app->group("{$app->getContainer()->get('settings')['adminSegment']}", function () {
 
     // Validate unique post URL (Ajax request)
     $this->post('/api/validateurl', function ($request, $response, $args) {

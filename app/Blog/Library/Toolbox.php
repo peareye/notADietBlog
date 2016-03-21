@@ -57,11 +57,17 @@ class Toolbox
         // First replace ampersands with the word 'and'
         $string = str_replace('&', 'and', $string);
 
+        // Remove slashes
+        $string = str_replace('/', '-', $string);
+
         // Strip out any single quotes
         $string = str_replace("'", '', $string);
 
         // Remove unwelcome characters, and replace with dashes
         $string = preg_replace('/[^a-zA-Z0-9]+/', '-', $string);
+
+        // Lower case
+        $string = strtolower($string);
 
         // Finally remove and trailing dashes
         $string = trim($string, '-');

@@ -47,7 +47,12 @@ class LoginController extends BaseController
             ->addTo($config['user']['email'])
             ->setSubject('Blog Login')
             ->setBody("Click to login\n\n http://{$link}");
-        $mailer->send($message);
+
+        try {
+            $mailer->send($message);
+        } catch (\Exception $e) {
+            $this->container->logger->error('Email exception: ' . $e->getMessage());
+        }
 
         // Direct to home page
         return $response->withRedirect($this->container->router->pathFor('home'));

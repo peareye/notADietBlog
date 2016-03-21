@@ -25,6 +25,11 @@ $config['user']['user_id'] = 1;
 $config['user']['email'] = '';
 
 /**
+ * Admin Segment
+ */
+$config['adminSegment'] = 'admin';
+
+/**
  * Database Settings
  */
 $config['database']['host'] = 'localhost';
@@ -65,11 +70,6 @@ $config['image']['file.upload.max.size'] = '6M'; // Use "B", "K", M", or "G"
  */
 $config['pagination']['rowsPerPage'] = 20;
 $config['pagination']['numberOfLinks'] = 2;
-
-/**
- * Routing Options
- */
-// $config['routes.case_sensitive'] = false;
 
 /**
  * Social Authentication Options

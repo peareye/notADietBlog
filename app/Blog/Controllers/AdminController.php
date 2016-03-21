@@ -22,8 +22,13 @@ class AdminController extends BaseController
      */
     public function editPost($request, $response, $args)
     {
+        // Get dependencies
         $postMapper = $this->container['postMapper'];
-        $post = $postMapper->findById($args['id']);
+
+        // Was an ID supplied?
+        $id = isset($args['id']) ? $args['id'] : null;
+
+        $post = $postMapper->findById($id);
 
         $this->container->view->render($response, 'admin/editPost.html', ['post' => $post]);
     }
