@@ -74,6 +74,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('pathFor', array($this, 'pathFor')),
             new \Twig_SimpleFunction('baseUrl', array($this, 'baseUrl')),
             new \Twig_SimpleFunction('basePath', array($this, 'getBasePath')),
+            new \Twig_SimpleFunction('getPostArchive', array($this, 'getPostArchiveNavigation')),
         ];
     }
 
@@ -122,5 +123,14 @@ class TwigExtension extends \Twig_Extension
         if (method_exists($this->uri, 'getBasePath')) {
             return $this->uri->getBasePath();
         }
+    }
+
+    /**
+     * Get Post Archives
+     */
+    public function getPostArchiveNavigation()
+    {
+        $postMapper = $this->container->get('postMapper');
+        return $postMapper->getPosts();
     }
 }
