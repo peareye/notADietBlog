@@ -7,9 +7,8 @@ namespace Blog\Extensions;
 class PaginationExtension extends \Twig_Extension
 {
     protected $environment;
-    protected $baseUrl;
     protected $pageUrl;
-    public $useQueryString = false;
+    public $useQueryString = true;
     public $queryStringParam = 'page';
     protected $currentPageNumber;
     protected $rowsPerPage;
@@ -19,9 +18,10 @@ class PaginationExtension extends \Twig_Extension
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($params)
     {
-        $this->setParams();
+        $this->rowsPerPage = $params['rowsPerPage'];
+        $this->numberOfLinks = $params['numberOfLinks'];
     }
 
     // Identifer
@@ -57,22 +57,6 @@ class PaginationExtension extends \Twig_Extension
     }
 
     /**
-     * Set Pagination Params
-     *
-     * Gets and sets config params from $config['pagination'], and other basic setup tasks
-     */
-    public function setParams()
-    {
-        $app = \Slim\Slim::getInstance();
-        $params = $app->config('pagination');
-        $this->rowsPerPage = $params['rowsPerPage'];
-        $this->numberOfLinks = $params['numberOfLinks'];
-
-        // And set the base URL while we are it
-        $this->baseUrl = $app->request()->getUrl();
-    }
-
-    /**
      * Set Base Page Path
      *
      * The application will determine the schema, domain, and use this path to set URL
@@ -82,9 +66,9 @@ class PaginationExtension extends \Twig_Extension
     {
         // Are we using query strings?
         if ($this->useQueryString) {
-            $this->pageUrl = $this->baseUrl . $pagePath . '?' . $this->queryStringParam . '=';
+            $this->pageUrl = $pagePath . '?' . $this->queryStringParam . '=';
         } else {
-            $this->pageUrl = $this->baseUrl . $pagePath . '/';
+            $this->pageUrl = $pagePath . '/';
         }
     }
 

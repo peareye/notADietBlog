@@ -11,13 +11,17 @@ $container['view'] = function ($c) {
     ]);
 
     $view->addExtension(new Blog\Extensions\TwigExtension($c));
-    // $view->addExtension(new Blog\Extensions\PaginationExtension());
 
     if ($c->get('settings')['production'] === false) {
         $view->addExtension(new Twig_Extension_Debug());
     }
 
     return $view;
+};
+
+// Twig pagination extenion
+$container['pagination'] = function ($c) {
+    return new Blog\Extensions\PaginationExtension($c->get('settings')['pagination']);
 };
 
 // Monolog logging

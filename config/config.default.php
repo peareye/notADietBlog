@@ -68,7 +68,7 @@ $config['image']['file.upload.max.size'] = '6M'; // Use "B", "K", M", or "G"
 /**
  * Pagination Options
  */
-$config['pagination']['rowsPerPage'] = 20;
+$config['pagination']['rowsPerPage'] = 10;
 $config['pagination']['numberOfLinks'] = 2;
 
 /**
