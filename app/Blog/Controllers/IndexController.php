@@ -46,4 +46,36 @@ class IndexController extends BaseController
 
         $this->container->view->render($response, 'post.html', ['post' => $post]);
     }
+
+    /**
+     * Submit Contact Message
+     */
+    public function submitMessage($request, $response, $args)
+    {
+        // Get dependencies
+        $params = $request->getParsedBody();
+        $message = $this->container->get('mailMessage');
+        $mailer = $this->container->get('sendMailMessage');
+        $config = $this->container->get('settings');
+
+        // Create message
+        $message->setFrom("My Blog <{$config['email']['username']}>")
+            ->addTo($config['user']['email'])
+            ->setSubject('A message from your blog')
+            ->setBody("Name: {$params['name']}\nEmail: {$params['email']}\nURL: {$params['url']}\n\n{$params['message']}");
+
+        // Send
+        $mailer->send($message);
+
+        // Redirect to thank you
+        return $response->withRedirect($this->container->router->pathFor('thankYou'));
+    }
+
+    /**
+     * Contact Thank You
+     */
+    public function contactThankYou($request, $response, $args)
+    {
+        return $this->container->view->render($response, 'thankYou.html');
+    }
 }

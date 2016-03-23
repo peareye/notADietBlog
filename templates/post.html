@@ -2,10 +2,16 @@
 
 {% block body %}
 
-          <div class="blog-post">
-            <h2 class="blog-post-title">{{ post.title }}</h2>
-            <p class="blog-post-meta">{{ post.published_date|date('F j, Y') }}</p>
-            {{ post.content|raw }}
-          </div><!-- /.blog-post -->
+  <div class="blog-post">
+    <h2 class="blog-post-title">{{ post.title }}</h2>
+    <p class="blog-post-meta">{{ post.published_date|date('F j, Y') }}</p>
+    {{ post.content|raw }}
+  </div><!-- /.blog-post -->
+
+  <hr>
+  <div class="blog-post">
+    <h1>Comment? Or just say hello.</h1>
+    {% include '_contactForm.html' %}
+  </div>
 
 {% endblock %}

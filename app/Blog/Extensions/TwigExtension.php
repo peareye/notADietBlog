@@ -53,7 +53,7 @@ class TwigExtension extends \Twig_Extension
                 'adminSegment' => $this->settings['adminSegment'],
                 'baseUrl' => $this->settings['baseUrl'],
             ],
-
+            'currentUrl' => $this->uri,
         ];
     }
 
