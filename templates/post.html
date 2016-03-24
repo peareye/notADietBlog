@@ -1,5 +1,9 @@
 {% extends 'layout.html' %}
 
+{% block head %}
+<meta name="description" content="{{ post.meta_description }}">
+{% endblock %}
+
 {% block body %}
 
   <div class="blog-post">
@@ -10,7 +14,7 @@
 
   <hr>
   <div class="blog-post">
-    <h1>Comment? Or just say hello.</h1>
+    <h1>Have a Comment? Or just say hello.</h1>
     {% include '_contactForm.html' %}
   </div>
 

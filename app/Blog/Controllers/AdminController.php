@@ -66,6 +66,7 @@ class AdminController extends BaseController
         $post->id = $body['id'];
         $post->title = $body['title'];
         $post->url = $body['url']; // Should have been converted when title was edited in page
+        $post->meta_description = $body['meta_description'];
         $post->content = $body['content'];
 
         // Create post excerpt

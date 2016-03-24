@@ -8,7 +8,7 @@ class PostMapper extends DataMapperAbstract
 {
     protected $table = 'post';
     protected $tableAlias = 'p';
-    protected $modifyColumns = array('title', 'url', 'content', 'content_excerpt', 'published_date');
+    protected $modifyColumns = array('title', 'url', 'meta_description', 'content', 'content_excerpt', 'published_date');
     protected $domainObjectClass = 'Post';
     protected $defaultSelect = 'select SQL_CALC_FOUND_ROWS p.* from post p';
 

@@ -39,6 +39,11 @@
     </div>
 
     <div class="form-group">
+      <label for="post-title">Meta Description</label>
+      <input type="text" class="form-control" name="meta_description" maxlength="160" autocomplete="off" value="{{ post.meta_description }}" required>
+    </div>
+
+    <div class="form-group">
       <label for="content">Content</label>
       <textarea class="form-control wysiwyg" rows="20" name="content">{{ post.content|raw }}</textarea>
     </div>

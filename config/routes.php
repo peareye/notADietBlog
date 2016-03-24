@@ -95,7 +95,7 @@ $app->get('/search', function ($request, $response, $args) {
 })->setName('searchLocations');
 
 // View post
-$app->get('/blog/{url}', function ($request, $response, $args) {
+$app->get('/post/{url}', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->viewPost($request, $response, $args);
 })->setName('viewPost');
 
