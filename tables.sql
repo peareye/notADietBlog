@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2016 at 08:08 PM
+-- Generation Time: Mar 26, 2016 at 03:23 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -16,10 +16,11 @@ SET time_zone = "+00:00";
 -- Table structure for table `post`
 --
 
-CREATE TABLE `post` (
+CREATE TABLE IF NOT EXISTS `post` (
 `id` int(11) NOT NULL,
   `title` varchar(60) NOT NULL,
   `url` varchar(70) NOT NULL,
+  `url_locked` enum('N','Y') NOT NULL DEFAULT 'N',
   `meta_description` varchar(160) DEFAULT NULL,
   `content` text,
   `content_excerpt` varchar(500) DEFAULT NULL,
@@ -28,7 +29,7 @@ CREATE TABLE `post` (
   `created_date` datetime NOT NULL,
   `updated_by` int(11) NOT NULL DEFAULT '1',
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -48,4 +49,4 @@ ALTER TABLE `post`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=0;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
