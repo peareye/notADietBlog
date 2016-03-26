@@ -90,18 +90,10 @@ $container['securityHandler'] = function ($c) {
 };
 
 // Sitemap
-// $app->sitemap = function () use ($app) {
-//     return new Recipe\Library\SitemapHandler($app);
-// };
-
-// Image Uploader
-// $app->ImageUploader = function () use ($app) {
-//     return new Recipe\Library\ImageUploader($app->config('image'), $app->log);
-// };
-
-// Validation
-// $app->Validation = function () {
-//     return function ($data) {
-//         return new Valitron\Validator($data);
-//     };
-// };
+$container['sitemapHandler'] = function ($c) {
+    return new Blog\Library\SitemapHandler($c->get('logger'), [
+        'sitemapFilePath' => ROOT_DIR . 'web/',
+        'baseUrl' => $c->get('settings')['baseUrl'],
+        'alertSearchEngines' => $c->get('settings')['production'],
+    ]);
+};

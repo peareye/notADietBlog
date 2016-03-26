@@ -39,6 +39,11 @@ $app->group("{$app->getContainer()->get('settings')['adminSegment']}", function 
         return (new Blog\Controllers\AdminController($this))->unpublishPost($request, $response, $args);
     })->setName('unpublishPost');
 
+    // Make sitemap
+    $this->get('/updatesitmap', function ($request, $response, $args) {
+        return (new Blog\Controllers\AdminController($this))->updateSitemap($request, $response, $args);
+    })->setName('updateSitemap');
+
 })->add(function ($request, $response, $next) {
     // Authentication
     $security = $this->get('securityHandler');

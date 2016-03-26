@@ -146,4 +146,30 @@ class AdminController extends BaseController
 
         return $r->write(json_encode(["status" => "$status", "url" => $url]));
     }
+
+    /**
+     * Update Sitemap
+     */
+    public function updateSitemap($request, $response, $args)
+    {
+        // Get dependencies
+        $postMapper = $this->container->get('postMapper');
+        $sitemap = $this->container->get('sitemapHandler');
+        $baseUrl = $this->container->get('settings')['baseUrl'];
+
+        // Create page link array starting with home page
+        $pages[] = ['link' => $baseUrl, 'date' => date('c')];
+
+        // Other pages
+        $posts = $postMapper->getPosts();
+        foreach ($posts as $post) {
+            $pages[] = ['link' => $baseUrl . $this->container->router->pathFor('viewPost', ['url' => $post->url]),
+                'date' => date('c', strtotime($post->updated_date))];
+        }
+
+        // Make sitemap
+        $sitemap->make($pages);
+
+        return $response->withRedirect($this->container->router->pathFor('adminDashboard'));
+    }
 }

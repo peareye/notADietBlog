@@ -14,7 +14,7 @@ $config['production'] = true;
  * Default Domain
  * Note: Do not include a trailing slash
  */
-$config['baseurl'] = '';
+$config['baseUrl'] = '';
 
 /**
  * Blog User

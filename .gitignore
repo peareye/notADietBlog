@@ -16,4 +16,5 @@ twigcache/*
 vendor/
 
 # Misc
+sitemap.xml
 *thumb*

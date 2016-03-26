@@ -1,127 +1,126 @@
 <?php
-namespace Blog\Library;
-
 /**
  *  Sitemap Handler Class
  *
- *  Generates or updates sitemap on request
+ *  Generates or updates sitemap
  */
+namespace Blog\Library;
+
 class SitemapHandler
 {
-
-    protected $app;
-    protected $baseUrl;
     protected $sitemapFileName = 'sitemap.xml';
     protected $sitemapFilePath;
+    protected $baseUrl;
+    protected $logger;
+    protected $sitemapXML;
+    protected $alertSearchEngines;
 
     /**
      *  Constructor
-     *
-     * @param $app, Object, Slim Application Object
      */
-    public function __construct(\Slim\Slim $app)
+    public function __construct($logger, $config)
     {
-        // Get the instance
-        $this->app = $app;
-
-        // Set the base url from config
-        $this->baseUrl = $this->app->config('baseurl');
-
-        // Set the full file path
-        $this->sitemapFilePath = ROOT_DIR . 'web/' . $this->sitemapFileName;
+        $this->logger = $logger;
+        $this->sitemapFilePath = $config['sitemapFilePath'] . $this->sitemapFileName;
+        $this->baseUrl = $config['baseUrl'];
+        $this->alertSearchEngines = $config['alertSearchEngines'];
     }
 
     /**
-     *  Generate sitemap
+     * Generate sitemap
+     *
+     * Renders XML, writes to file, and pings search engines
+     * @param array $links
      */
-    public function make()
+    public function make(array $links = null)
     {
-        // Get handlers
-        $dataMapper = $this->app->dataMapper;
-        $RecipeMapper = $dataMapper('RecipeMapper');
-        $BlogMapper = $dataMapper('BlogMapper');
-        $log = $this->app->log;
-        $log->alert('Updating sitemap');
-
-        // Begin assembling the sitemap starting with the header
-        $sitemap = "<\x3Fxml version=\"1.0\" encoding=\"UTF-8\"\x3F>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
-
-        // Add static pages
-        $today = date('Y-m-d', time());
-        $sitemap .= "\t<url>\n\t\t<loc>{$this->baseUrl}</loc>\n";
-        $sitemap .= "\t\t<lastmod>{$today}</lastmod>\n \t</url>\n";
-
-        $sitemap .= "\t<url>\n\t\t<loc>{$this->baseUrl}{$this->app->router->urlFor('about')}</loc>\n";
-        $sitemap .= "\t\t<lastmod>{$today}</lastmod>\n \t</url>\n";
-
-        // Track the most recent update date
-        $lastUpdated = strtotime('-2 days'); // Something  before the last update
-
-        // Get all recipes pages and add to sitemap
-        $pages = $RecipeMapper->getRecipes();
-        foreach ($pages as $page) {
-            $updated = strtotime($page->updated_date);
-            $lastUpdated = max($lastUpdated, $updated);
-            $modifiedDate = date('Y-m-d', $updated);
-            $sitemap .= "\t<url>\n\t\t<loc>{$this->baseUrl}{$this->app->router->urlFor('showRecipe', ['id' => $page->recipe_id, 'slug' => $page->url])}</loc>\n";
-            $sitemap .= "\t\t<lastmod>{$modifiedDate}</lastmod>\n \t</url>\n";
+        if (empty($links)) {
+            return;
         }
 
-        // Get all blog pages
-        $posts = $BlogMapper->getPosts();
-        foreach ($posts as $post) {
-            $updated = strtotime($post->updated_date);
-            $lastUpdated = max($lastUpdated, $updated);
-            $modifiedDate = date('Y-m-d', $updated);
-            $sitemap .= "\t<url>\n\t\t<loc>{$this->baseUrl}{$this->app->router->urlFor('showBlogPost', ['id' => $post->blog_id, 'url' => $post->url])}</loc>\n";
-            $sitemap .= "\t\t<lastmod>{$modifiedDate}</lastmod>\n \t</url>\n";
+        $this->generateXML($links);
+        $this->writeXMLFile();
+
+        // Only alert search engines if in production
+        if ($this->alertSearchEngines === true) {
+            $this->logger->alert('..Alerting search engines with updated sitemap');
+            $this->alertSearchEngines();
+        }
+    }
+
+    /**
+     * Generate XML
+     *
+     * Creates XML string from array of links
+     * @param array $links
+     */
+    public function generateXML(array $links)
+    {
+        // Start sitemap XML header
+        $this->sitemapXML = "<\x3Fxml version=\"1.0\" encoding=\"UTF-8\"\x3F>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
+
+        // Add all links
+        foreach ($links as $link) {
+            $this->sitemapXML .= "\t<url>\n\t\t<loc>{$link['link']}</loc>\n";
+            $this->sitemapXML .= "\t\t<lastmod>{$link['date']}</lastmod>\n \t</url>\n";
         }
 
         // Close the sitemap XML string
-        $sitemap .= "</urlset>\n";
+        $this->sitemapXML .= "</urlset>\n";
+    }
 
-        // Write the sitemap data to file at web root
-        $log->alert('..Writing sitemap.xml file');
+    /**
+     * Write XML File
+     */
+    public function writeXMLFile()
+    {
+        // Write the sitemap data to file
         try {
             $fh = fopen($this->sitemapFilePath, 'w');
-            fwrite($fh, $sitemap);
+            fwrite($fh, $this->sitemapXML);
             fclose($fh);
         } catch (\Exception $e) {
             // Log failure
-            $log->error('Failed to write sitemap');
-            $log->error(print_r($e->getMessage(), true));
+            $this->logger->error('..Failed to write sitemap');
+            $this->logger->error(print_r($e->getMessage(), true));
 
-            $this->app->halt(500);
+            return false;
         }
 
-        // If this is the production instance, attempt to ping Google and Bing with the new sitemap
-        if ($this->app->config('mode') === 'production' && $lastUpdated >= strtotime('-1 day')) {
-            $sitemapUrl = urlencode($this->baseUrl . '/' . $this->sitemapFileName);
+        return true;
+    }
 
-            // Google
-            $submitSitemapUrl[] = "http://www.google.com/webmasters/tools/ping?sitemap=" . $sitemapUrl;
+    /**
+     * Alert Search Engines
+     */
+    public function alertSearchEngines()
+    {
+        // Ping Google and Bing with the updated sitemap
+        $sitemapUrl = urlencode($this->baseUrl . '/' . $this->sitemapFileName);
 
-            // Bing
-            $submitSitemapUrl[] = 'http://www.bing.com/ping?sitemap=' . $sitemapUrl;
+        // Google
+        $submitSitemapUrl[] = "http://www.google.com/webmasters/tools/ping?sitemap=" . $sitemapUrl;
 
-            foreach ($submitSitemapUrl as $submission) {
-                $log->alert('..Submitting sitemap to: ' . $submission);
-                try {
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt($ch, CURLOPT_URL, $submission);
-                    $response = curl_exec($ch);
-                    $httpResponseStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                    curl_close($ch);
-                } catch (\Exception $e) {
-                    // Log failure
-                    $log->error('Failed to connect to search engines');
-                    $log->error(print_r($e->getMessage(), true));
-                }
+        // Bing
+        $submitSitemapUrl[] = 'http://www.bing.com/ping?sitemap=' . $sitemapUrl;
 
-                $log->alert('..Sitemap submission response: ' . $httpResponseStatus);
+        foreach ($submitSitemapUrl as $submission) {
+            $this->logger->alert('..Submitting sitemap to: ' . $submission);
+            try {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_URL, $submission);
+                $response = curl_exec($ch);
+                $httpResponseStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+            } catch (\Exception $e) {
+                // Log failure
+                $log->error('Failed to connect to search engines');
+                $log->error(print_r($e->getMessage(), true));
             }
+
+            $this->logger->alert('..Sitemap submission response: ' . $httpResponseStatus);
         }
     }
 }
