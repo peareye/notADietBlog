@@ -11,6 +11,10 @@ Options -Indexes
 
 RewriteEngine On
 
+# Handle old wordpress style category path links
+RewriteCond %{REQUEST_URI} ^(.*)/(php|oracle|jquery|mysql)/.*$
+RewriteRule ^(php|oracle|jquery|mysql)/(.*)$ http://%{HTTP_HOST}%1/post/$2 [NC,R=301,L]
+
 # If a thumbnail is not found then invoke thumbnail maker
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^files/thumbnails/.*\.(jpe?g|png) thumb.php [L,NC]
@@ -18,7 +22,7 @@ RewriteRule ^files/thumbnails/.*\.(jpe?g|png) thumb.php [L,NC]
 # Redirect from non-www subdomain to www domain
 RewriteCond %{HTTP_HOST} !^localhost$ [NC]
 RewriteCond %{HTTP_HOST} ^wolfmoritz.com [NC]
-RewriteRule ^(.*)$ http://www.wolfmoritz.com/$1 [L,R=301]
+RewriteRule ^(.*)$ http://www.wolfmoritz.com/$1 [NC,L,R=301]
 
 # Final check to see if the user is attempting to access a valid file,
 # such as an image or css document, if this isn't true this sends the
