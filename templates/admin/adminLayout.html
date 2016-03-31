@@ -1,7 +1,6 @@
 {% extends 'layout.html' %}
 
   {% block head %}
-  <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
   <script type="text/javascript">var adminSegment = '{{ setting.adminSegment }}';</script>
   <meta name="robots" content="noindex, nofollow">
   {% endblock %}
@@ -31,6 +30,5 @@
       {% endblock %}
 
       {% block footer %}
-      <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
       <script src="{{ basePath() }}/assets/js/adminScript.js"></script>
       {% endblock %}

@@ -97,3 +97,8 @@ $container['sitemapHandler'] = function ($c) {
         'alertSearchEngines' => $c->get('settings')['production'],
     ]);
 };
+
+// Markdown parser
+$container['markdownParser'] = function ($c) {
+    return new Parsedown();
+};

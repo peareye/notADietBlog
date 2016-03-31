@@ -180,3 +180,15 @@ h6, .h6 {
 .post-title-ok {
   color: #5cb85c;
 }
+
+/*
+ * Markdown Code Format
+ */
+.hljs {
+  white-space: pre;
+  word-wrap: normal;
+}
+
+textarea {
+  resize: vertical;
+}

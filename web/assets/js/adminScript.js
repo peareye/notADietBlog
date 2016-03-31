@@ -1,8 +1,3 @@
-// WYSWYG editor
-$('.wysiwyg').summernote({
-	height: 500
-});
-
 // Delete prompt handler
 $('.deleteButton').on('click', function() {
   var reply = confirm('Are you sure you want to delete?');

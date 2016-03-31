@@ -42,36 +42,37 @@ class AdminController extends BaseController
         $toolbox = $this->container['toolbox'];
         $postMapper = $this->container['postMapper'];
         $sessionHandler = $this->container['sessionHandler'];
-        $body = $request->getParsedBody();
+        $markdown = $this->container->get('markdownParser');
 
         // Make blog post object
         $post = $postMapper->make();
 
         // Validate data (simple, add validation class later)
-        if (empty($body['title']) || empty($body['url'])) {
+        if ($request->getParsedBodyParam('title') === null || $request->getParsedBodyParam('url') === null) {
             // Save to session data for redisplay
-            $sessionHandler->setData(['postFormData' => $body]);
+            $sessionHandler->setData(['postFormData' => $request->getParsedBody()]);
             return $response->withRedirect($router->pathFor('editPost'));
         }
 
         // If this is a previously published post, use that publish date as default
-        $publishedDate = isset($body['published_date']) ? $body['published_date'] : '';
-        if ($body['button'] === 'publish' && empty($publishedDate)) {
+        $publishedDate = ($request->getParsedBodyParam('published_date')) ?: '';
+        if ($request->getParsedBodyParam('button') === 'publish' && empty($publishedDate)) {
             // Then default to today
             $date = new \DateTime();
             $publishedDate = $date->format('Y-m-d');
         }
 
         // Assign data
-        $post->id = $body['id'];
-        $post->title = $body['title'];
-        $post->url = $body['url']; // Should have been converted when title was edited in page
-        $post->url_locked = $body['url_locked'];
-        $post->meta_description = $body['meta_description'];
-        $post->content = $body['content'];
+        $post->id = $request->getParsedBodyParam('id');
+        $post->title = $request->getParsedBodyParam('title');
+        $post->url = $request->getParsedBodyParam('url'); // Should have been converted when title was edited in page
+        $post->url_locked = $request->getParsedBodyParam('url_locked');
+        $post->meta_description = $request->getParsedBodyParam('meta_description');
+        $post->content = $request->getParsedBodyParam('content');
+        $post->content_html = $markdown->text($request->getParsedBodyParam('content'));
 
         // Create post excerpt
-        $post->content_excerpt = $toolbox->truncateHtmlText($post->content);
+        $post->content_excerpt = $toolbox->truncateHtmlText($post->content_html);
 
         // Only set the publish date if not empty
         if (!empty($publishedDate)) {

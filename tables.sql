@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 26, 2016 at 03:23 PM
+-- Generation Time: Mar 29, 2016 at 10:22 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -23,13 +23,14 @@ CREATE TABLE IF NOT EXISTS `post` (
   `url_locked` enum('N','Y') NOT NULL DEFAULT 'N',
   `meta_description` varchar(160) DEFAULT NULL,
   `content` text,
+  `content_html` text,
   `content_excerpt` varchar(500) DEFAULT NULL,
   `published_date` date DEFAULT NULL,
   `created_by` int(11) NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL,
   `updated_by` int(11) NOT NULL DEFAULT '1',
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -49,4 +50,4 @@ ALTER TABLE `post`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=0;

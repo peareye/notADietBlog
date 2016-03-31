@@ -4,7 +4,8 @@
         "slim/twig-view": "^2.0",
         "monolog/monolog": "^1.17",
         "wolfmoritz/session": "^1.0",
-        "nette/mail": "^2.3"
+        "nette/mail": "^2.3",
+        "erusev/parsedown": "^1.6"
     },
     "autoload": {
       "psr-4": {
