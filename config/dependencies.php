@@ -102,3 +102,8 @@ $container['sitemapHandler'] = function ($c) {
 $container['markdownParser'] = function ($c) {
     return new Parsedown();
 };
+
+// Image handler
+$container['imageHandler'] = function ($c) {
+    return new Intervention\Image\ImageManager;
+};

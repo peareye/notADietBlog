@@ -44,6 +44,11 @@ $app->group("{$app->getContainer()->get('settings')['adminSegment']}", function 
         return (new Blog\Controllers\AdminController($this))->updateSitemap($request, $response, $args);
     })->setName('updateSitemap');
 
+    // Upload image
+    $this->post('/uploadimage', function ($request, $response, $args) {
+        return (new Blog\Controllers\ImageController($this))->uploadImage($request, $response, $args);
+    })->setName('uploadImage');
+
 })->add(function ($request, $response, $next) {
     // Authentication
     $security = $this->get('securityHandler');

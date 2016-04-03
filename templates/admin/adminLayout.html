@@ -10,29 +10,30 @@
       <a class="blog-nav-item" href="{{ pathFor('updateSitemap') }}">Update Sitemap</a>
       {% endblock %}
 
-      {% block body %}
-      	<span class="h2">Blog Posts</span> <a class="btn btn-success pull-right" href="{{ pathFor('editPost') }}" role="button">New Post</a>
-      	<hr>
-
-        {% for p in posts %}
-        <div>
-          <h3><a href="{{ pathFor('viewPost', {'url': p.url}) }}">{{ p.title }}</a></h3>
-          <a href="{{ pathFor('editPost', {'id': p.id}) }}">Edit</a> | <a href="{{ pathFor('deletePost', {'id': p.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a> | Published: {% if p.published_date %}{{ p.published_date|date('F j, Y') }}{% else %}<span class="label label-default">Not Published</span>{% endif %}
+      {% block afterBodyOpen %}
+      <div class="modal fade image-upload-modal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Upload Image</h4>
+            </div>
+            <div class="modal-body">
+              {% include 'admin/_uploadImageForm.html' %}
+            </div>
+          </div>
         </div>
-        <hr>
+      </div>
+      {% endblock %}
 
-        {% else %}
-
-        <h4>No posts found</h4>
-
-        {% endfor %}
+      {% block body %}
       {% endblock %}
 
       {% block sidebar %}
           <div class="sidebar-module">
             <h4>Tools</h4>
             <ol class="list-unstyled">
-              <li><a href="#">Photos</a></li>
+              <li><a href="#" data-toggle="modal" data-target=".image-upload-modal">Photos</a></li>
             </ol>
           </div>
       {% endblock %}

@@ -12,9 +12,6 @@ logs/*.log
 # Twig Cache
 twigcache/*
 
-# Vendor
-vendor/
-
 # Misc
 sitemap.xml
 *thumb*
