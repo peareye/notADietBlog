@@ -55,15 +55,11 @@ $config['email']['password'] = '';
 
 /**
  * File Uploads Config
- *
- * MimeType List => http://www.webmaster-toolkit.com/mime-types.shtml
  */
 $config['image']['file.path'] = ROOT_DIR . 'web/files/originals/';
 $config['image']['file.thumb.path'] = ROOT_DIR . 'web/files/thumbnails/';
 $config['image']['file.uri'] = 'files/originals/';
 $config['image']['file.thumb.uri'] = 'files/thumbnails/';
-$config['image']['file.mimetypes'] = ['image/jpeg', 'image/pjpeg', 'image/png']; // Be sure to update /Thumbs.php with any new allowed extensions.
-$config['image']['file.upload.max.size'] = '6M'; // Use "B", "K", M", or "G"
 
 /**
  * Pagination Options
