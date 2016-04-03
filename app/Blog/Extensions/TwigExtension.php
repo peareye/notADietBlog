@@ -48,13 +48,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function getGlobals()
     {
-        return ['setting' =>
-            [
-                'adminSegment' => $this->settings['adminSegment'],
-                'baseUrl' => $this->settings['baseUrl'],
-            ],
-            'currentUrl' => $this->uri,
-        ];
+        return ['setting' => $this->settings];
     }
 
     /**

@@ -17,17 +17,23 @@ $config['production'] = true;
 $config['baseUrl'] = '';
 
 /**
- * Blog User
+ * Blog Settings
  *
  * Keep it simple for now, just one user is all we need
  */
 $config['user']['user_id'] = 1;
 $config['user']['email'] = '';
+$config['user']['htmlTitle'] = '';
+$config['user']['blogTitle'] = '';
+$config['user']['blogSubTitle'] = '';
+$config['user']['defaultMetaDescription'] = '';
+$config['user']['sidebarAbout'] = '';
+// $config['user']['sidebarRelatedLinks'][] = ['name' = 'Twitter', 'url' = 'https://twitter.com'];
 
 /**
  * Admin Segment
  */
-$config['adminSegment'] = 'admin';
+$config['adminSegment'] = '/admin';
 
 /**
  * Database Settings
@@ -66,12 +72,3 @@ $config['image']['file.thumb.uri'] = 'files/thumbnails/';
  */
 $config['pagination']['rowsPerPage'] = 10;
 $config['pagination']['numberOfLinks'] = 2;
-
-/**
- * Social Authentication Options
- */
-$config['auth.facebook']['app_id'] = '';
-$config['auth.facebook']['app_secret'] = '';
-$config['auth.facebook']['default_graph_version'] = 'v2.0';
-$config['auth.google']['client_id'] = '';
-$config['auth.google']['client_secret'] = '';

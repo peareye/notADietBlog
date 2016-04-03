@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Thoughts on stuff from Wolfgang Moritz">
-    <meta name="author" content="Wolfgang Moritz">
+    <meta name="description" content="{{ metaDescription|default(setting.user.defaultMetaDescription) }}">
+    <meta name="author" content="{{ setting.user.blogTitle }}">
     <meta name="google-site-verification" content="ilKpSg25DPmF-rOHwP9c-3cbA408Y_Z_2or2NhPm4l4">
     <link rel="icon" href="{{ basePath() }}/favicon.ico">
-    <title>Wolfgang Moritz</title>
+    <title>{{ setting.user.htmlTitle }}</title>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="{{ basePath() }}/assets/css/ie10-viewport-bug.css" rel="stylesheet">
@@ -42,8 +42,8 @@
 
       <div class="blog-header">
         {% block blogheader %}
-        <h1 class="blog-title">Wolfgang Moritz</h1>
-        <p class="lead blog-description">Random bits of things.</p>
+        <h1 class="blog-title">{{ setting.user.blogTitle }}</h1>
+        <p class="lead blog-description">{{ setting.user.blogSubTitle }}</p>
         {% endblock %}
       </div>
 
@@ -57,7 +57,7 @@
           {% block sidebar %}
           <div class="sidebar-module sidebar-module-inset">
             <h4>About</h4>
-            <p>Random bits of things that interest me.</p>
+            <p>{{ setting.user.sidebarAbout }}</p>
           </div>
 
           <div class="sidebar-module">
@@ -69,14 +69,16 @@
             </ol>
           </div>
 
+          {% if setting.user.sidebarRelatedLinks %}
           <div class="sidebar-module">
             <h4>Elsewhere</h4>
             <ol class="list-unstyled">
-              <li><a href="https://github.com/wolfmoritz">GitHub</a></li>
-              <li><a href="https://twitter.com/wolfmoritz">Twitter</a></li>
-              <li><a href="https://www.linkedin.com/in/wolfgang-moritz-27ab833">LinkedIn</a></li>
+              {% for link in setting.user.sidebarRelatedLinks %}
+              <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+              {% endfor %}
             </ol>
           </div>
+          {% endif %}
           {% endblock %}
         </div><!-- /.blog-sidebar -->
 
