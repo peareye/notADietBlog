@@ -52,6 +52,7 @@
         </div><!-- /.blog-main -->
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          {% block sidebar %}
           <div class="sidebar-module sidebar-module-inset">
             <h4>About</h4>
             <p>Random bits of things that interest me.</p>
@@ -74,6 +75,7 @@
               <li><a href="https://www.linkedin.com/in/wolfgang-moritz-27ab833">LinkedIn</a></li>
             </ol>
           </div>
+          {% endblock %}
         </div><!-- /.blog-sidebar -->
 
       </div><!-- /.row -->

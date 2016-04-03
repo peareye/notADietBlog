@@ -5,13 +5,12 @@
   <meta name="robots" content="noindex, nofollow">
   {% endblock %}
 
-          {% block adminNavigation %}
-          <a class="blog-nav-item" href="{{ pathFor('adminDashboard') }}">Admin</a>
-          <a class="blog-nav-item" href="{{ pathFor('updateSitemap') }}">Update Sitemap</a>
-          {% endblock %}
+      {% block adminNavigation %}
+      <a class="blog-nav-item" href="{{ pathFor('adminDashboard') }}">Admin</a>
+      <a class="blog-nav-item" href="{{ pathFor('updateSitemap') }}">Update Sitemap</a>
+      {% endblock %}
 
       {% block body %}
-
       	<span class="h2">Blog Posts</span> <a class="btn btn-success pull-right" href="{{ pathFor('editPost') }}" role="button">New Post</a>
       	<hr>
 
@@ -27,6 +26,15 @@
         <h4>No posts found</h4>
 
         {% endfor %}
+      {% endblock %}
+
+      {% block sidebar %}
+          <div class="sidebar-module">
+            <h4>Tools</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">Photos</a></li>
+            </ol>
+          </div>
       {% endblock %}
 
       {% block footer %}
