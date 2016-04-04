@@ -1,7 +1,6 @@
 {
     "name": "wolfmoritz/blog",
     "description": "Really simple single-user themable blog.",
-    "type": "library",
     "license": "MIT",
     "homepage": "https://github.com/wolfmoritz/blog",
     "keywords": ["blog"],
