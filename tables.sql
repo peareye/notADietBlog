@@ -33,6 +33,19 @@ CREATE TABLE IF NOT EXISTS `post` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 --
+-- Table structure for table `session`
+--
+
+CREATE TABLE IF NOT EXISTS `session` (
+  `session_id` char(64) NOT NULL,
+  `data` text,
+  `user_agent` char(64) DEFAULT NULL,
+  `ip_address` varchar(46) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
+  PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
 -- Indexes for dumped tables
 --
 

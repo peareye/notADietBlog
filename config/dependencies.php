@@ -5,7 +5,9 @@ $container = $app->getContainer();
 
 // Twig templates
 $container['view'] = function ($c) {
-    $view = new Slim\Views\Twig(ROOT_DIR . 'templates', [
+    // Get theme name
+    $templatePath = ROOT_DIR . 'templates' . '/' . trim($c->get('settings')['theme'], '/');
+    $view = new Slim\Views\Twig($templatePath, [
         'cache' => ROOT_DIR . 'twigcache',
         'debug' => !$c->get('settings')['production'],
     ]);

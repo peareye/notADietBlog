@@ -48,7 +48,10 @@ class TwigExtension extends \Twig_Extension
      */
     public function getGlobals()
     {
-        return ['setting' => $this->settings];
+        return [
+            'setting' => $this->settings,
+            'theme' => $this->getThemeName(),
+        ];
     }
 
     /**
@@ -69,6 +72,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('baseUrl', array($this, 'baseUrl')),
             new \Twig_SimpleFunction('basePath', array($this, 'getBasePath')),
             new \Twig_SimpleFunction('getPostArchive', array($this, 'getPostArchiveNavigation')),
+            new \Twig_SimpleFunction('theme', array($this, 'getThemeName')),
         ];
     }
 
@@ -126,5 +130,16 @@ class TwigExtension extends \Twig_Extension
     {
         $postMapper = $this->container->get('postMapper');
         return $postMapper->getPosts();
+    }
+
+    /**
+     * Get Theme Name
+     *
+     * @param void
+     * @return string
+     */
+    public function getThemeName()
+    {
+        return ($this->settings('theme')) ?: 'default';
     }
 }
