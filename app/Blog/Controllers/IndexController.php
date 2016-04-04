@@ -52,6 +52,14 @@ class IndexController extends BaseController
      */
     public function submitMessage($request, $response, $args)
     {
+        // Have we caught a fly in our honey pot?
+        if ($request->getParsedBodyParam('altemail') !== '') {
+            // Redirect to thank you and stop there
+            $log = $this->container->get('logger');
+            $log->info('Contact honey pot caught a fly');
+            return $response->withRedirect($this->container->router->pathFor('thankYou'));
+        }
+
         // Get dependencies
         $params = $request->getParsedBody();
         $message = $this->container->get('mailMessage');
