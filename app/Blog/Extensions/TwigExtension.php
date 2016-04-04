@@ -140,6 +140,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function getThemeName()
     {
-        return ($this->settings('theme')) ?: 'default';
+        return ($this->settings['theme']) ?: 'default';
     }
 }

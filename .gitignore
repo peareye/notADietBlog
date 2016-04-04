@@ -5,7 +5,7 @@ web/files/
 logs/*.log
 twigcache/*
 web/temp/*
-
+vendor/*
 
 # Misc
 *.xml
