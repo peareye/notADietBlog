@@ -1,18 +1,12 @@
 # Things to ignore
 
-# Local configuration file
 config/config.local.php
-
-# Uploaded files
 web/files/
-
-# Log files
 logs/*.log
-
-# Twig Cache
 twigcache/*
+web/temp/*
+
 
 # Misc
-sitemap.xml
-*thumb*
 *.xml
+*thumb*
