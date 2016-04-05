@@ -1,5 +1,5 @@
 // Archive navigation
-$('.archive-navigation a').on('click', function(e) {
-	$(this).siblings('.'+$(this).attr('class')).slideToggle();
+$('.archive-navigation .archive-item').on('click', function(e) {
 	e.preventDefault();
+	$(this).siblings('.archive-'+$(this).data('archive')).slideToggle();
 });
