@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 29, 2016 at 10:22 PM
+-- Generation Time: Apr 04, 2016 at 08:00 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS `post` (
   `updated_date` datetime NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `session`
 --
@@ -41,8 +43,7 @@ CREATE TABLE IF NOT EXISTS `session` (
   `data` text,
   `user_agent` char(64) DEFAULT NULL,
   `ip_address` varchar(46) DEFAULT NULL,
-  `time_updated` int(11) DEFAULT NULL,
-  PRIMARY KEY (`session_id`)
+  `time_updated` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
@@ -53,7 +54,13 @@ CREATE TABLE IF NOT EXISTS `session` (
 -- Indexes for table `post`
 --
 ALTER TABLE `post`
- ADD PRIMARY KEY (`id`), ADD KEY `post_created_idx` (`created_date`), ADD KEY `post_published_idx` (`published_date`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `post_url_idx` (`url`), ADD KEY `post_published_idx` (`published_date`);
+
+--
+-- Indexes for table `session`
+--
+ALTER TABLE `session`
+ ADD PRIMARY KEY (`session_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables

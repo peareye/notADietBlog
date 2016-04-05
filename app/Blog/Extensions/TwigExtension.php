@@ -128,8 +128,18 @@ class TwigExtension extends \Twig_Extension
      */
     public function getPostArchiveNavigation()
     {
+        // Get dependency and all posts
         $postMapper = $this->container->get('postMapper');
-        return $postMapper->getPosts();
+        $posts = $postMapper->getPosts();
+
+        // Create array with posts nested by publish year and month
+        $nav = [];
+        foreach ($posts as $post) {
+            $time = strtotime($post->published_date);
+            $nav[date('Y', $time)][date('F', $time)][] = ['title' => $post->title, 'url' => $post->url];
+        }
+
+        return $nav;
     }
 
     /**
