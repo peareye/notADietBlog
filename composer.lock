@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "eb9dac0a1e4c45f18da218ea45877e26",
+    "hash": "d5cd4558792f36874968053bc072ca11",
     "content-hash": "00401cb183cbfc2548c73c47a8374f0e",
     "packages": [
         {
@@ -737,16 +737,16 @@
         },
         {
             "name": "wolfmoritz/session",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wolfmoritz/session.git",
-                "reference": "3abdcf82d91d42e62ecc27c70ddf47606db9d48a"
+                "reference": "3f19b35e2635fc20253b93d97136c4e0232d5a5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wolfmoritz/session/zipball/3abdcf82d91d42e62ecc27c70ddf47606db9d48a",
-                "reference": "3abdcf82d91d42e62ecc27c70ddf47606db9d48a",
+                "url": "https://api.github.com/repos/wolfmoritz/session/zipball/3f19b35e2635fc20253b93d97136c4e0232d5a5d",
+                "reference": "3f19b35e2635fc20253b93d97136c4e0232d5a5d",
                 "shasum": ""
             },
             "require": {
@@ -773,7 +773,7 @@
             "keywords": [
                 "session"
             ],
-            "time": "2015-02-16 00:26:33"
+            "time": "2016-04-06 04:29:48"
         }
     ],
     "packages-dev": [],
