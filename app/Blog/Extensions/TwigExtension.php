@@ -71,8 +71,10 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('pathFor', array($this, 'pathFor')),
             new \Twig_SimpleFunction('baseUrl', array($this, 'baseUrl')),
             new \Twig_SimpleFunction('basePath', array($this, 'getBasePath')),
+            new \Twig_SimpleFunction('inUrl', array($this, 'isInUrl')),
             new \Twig_SimpleFunction('getPostArchive', array($this, 'getPostArchiveNavigation')),
             new \Twig_SimpleFunction('theme', array($this, 'getThemeName')),
+            new \Twig_SimpleFunction('authenticated', array($this, 'authenticated')),
         ];
     }
 
@@ -124,6 +126,26 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
+     * In URL
+     *
+     * Checks if the supplied string is one of the URL segments
+     * @param string $segment URL segment to find
+     * @return boolean
+     */
+    public function isInUrl($segment = null)
+    {
+        // Verify we have a segment to find
+        if ($segment === null) {
+            return false;
+        }
+
+        // Clean segment of slashes
+        $segment = trim($segment, '/');
+
+        return in_array($segment, explode('/', $this->uri->getPath()));
+    }
+
+    /**
      * Get Post Archives
      */
     public function getPostArchiveNavigation()
@@ -151,5 +173,18 @@ class TwigExtension extends \Twig_Extension
     public function getThemeName()
     {
         return ($this->settings['theme']) ?: 'default';
+    }
+
+    /**
+     * Authenticated
+     *
+     * Is the user authenticated?
+     * @return boolean
+     */
+    public function authenticated()
+    {
+        $security = $this->container->securityHandler;
+
+        return $security->authenticated();
     }
 }

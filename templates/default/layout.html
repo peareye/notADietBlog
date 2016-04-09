@@ -29,9 +29,11 @@
     <div class="blog-masthead">
       <div class="container">
         <nav class="blog-nav">
-          <a class="blog-nav-item active" href="{{ pathFor('home') }}">Home</a>
-          {% block adminNavigation %}
-          {% endblock %}
+          <a class="blog-nav-item {% if not inUrl(setting.adminSegment) %}active{% endif %}" href="{{ pathFor('home') }}">Home</a>
+          {% if authenticated() %}
+          <a class="blog-nav-item {% if inUrl(setting.adminSegment) %}active{% endif %}" href="{{ pathFor('adminDashboard') }}">Admin</a>
+          <a class="blog-nav-item" href="{{ pathFor('updateSitemap') }}">Update Sitemap</a>
+          {% endif %}
         </nav>
       </div>
     </div>
@@ -42,7 +44,6 @@
         <h1 class="blog-title">{{ setting.user.blogTitle }}</h1>
         <p class="lead blog-description">{{ setting.user.blogSubTitle }}</p>
       </div>
-
 
       <div class="row">
         <div class="col-sm-8 blog-main">
@@ -73,9 +74,7 @@
           {% endif %}
           {% endblock %}
         </div><!-- /.blog-sidebar -->
-
       </div><!-- /.row -->
-
     </div><!-- /.container -->
 
     <footer class="blog-footer">
