@@ -166,29 +166,9 @@ h6, .h6 {
 }
 
 /*
- * Misc
- */
-.post-button-controls {
-  margin-bottom: 10px;
-}
-.publish-date li {
-  padding: 0 5px 0 5px;
-}
-.post-title-error {
-  color: #c9302c;
-}
-.post-title-ok {
-  color: #5cb85c;
-}
-
-/*
- * Markdown Code Format
+ * Syntax Highligher Anti-Wrap
  */
 .hljs {
   white-space: pre;
   word-wrap: normal;
-}
-
-textarea {
-  resize: vertical;
 }

@@ -4,10 +4,9 @@
   <h2>Edit Post</h2>
   <form action="{{ pathFor('savePost') }}" method="post" accept-charset="utf-8">
     <input type="hidden" name="id" value="{{ post.id }}">
-    <div class="post-button-controls">
+    <div class="form-group">
       <a href="{{ pathFor('adminDashboard') }}" class="btn btn-default">Cancel</a>
       <button type="submit" class="btn btn-default" name="button" value="save">Save{% if not post.published_date %} Draft{% endif %}</button>
-
       {% if post.published_date %}
       <a href="{{ pathFor('unpublishPost', {'id': post.id}) }}" class="btn btn-warning">Unpublish</a>
       {% else %}
@@ -34,18 +33,18 @@
         <input type="text" class="form-control" name="title" maxlength="60" autocomplete="off" value="{{ post.title }}" required>
         <span class="input-group-addon"><span class="post-title-status glyphicon {% if post.title %}glyphicon-ok post-title-ok{% else %}glyphicon-question-sign{% endif %}"></span></span>
       </div>
-      <p class="form-control-static post-url"><span class="glyphicon {% if post.url_locked|default('N') == 'N' %}glyphicon-unchecked{% else %}glyphicon-locked{% endif %}" title="Click to {% if post.url_locked == 'N' %}lock{% else %}unlock{% endif %} URL"></span> URL: <var>{{ post.url }}</var></p>
+      <p class="form-control-static post-url"><span class="glyphicon {% if post.url_locked|default('N') == 'N' %}glyphicon-unchecked{% else %}glyphicon-locked{% endif %}" title="Click to lock/unlock the URL"></span> URL: <var>{{ post.url }}</var></p>
       <input type="hidden" name="url" value="{{ post.url }}">
       <input type="hidden" name="url_locked" value="{{ post.url_locked|default('N') }}">
     </div>
 
     <div class="form-group">
-      <label for="post-title">Meta Description</label>
+      <label for="post-title">Meta Description</label> <i>May appear in search results</i>
       <input type="text" class="form-control" name="meta_description" maxlength="160" autocomplete="off" value="{{ post.meta_description }}" required>
     </div>
 
     <div class="form-group">
-      <label for="content">Content</label>
+      <label for="content">Post Content</label>
       <textarea class="form-control" rows="20" name="content">{{ post.content|raw }}</textarea>
     </div>
   </form>

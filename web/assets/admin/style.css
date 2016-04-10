@@ -11,6 +11,19 @@ body {
 }
 
 /*
+ * Misc
+ */
+.publish-date li {
+  padding: 0 5px 0 5px;
+}
+.post-title-error {
+  color: #c9302c;
+}
+.post-title-ok {
+  color: #5cb85c;
+}
+
+/*
  * Markdown Code Format
  */
 .hljs {
