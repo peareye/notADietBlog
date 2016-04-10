@@ -5,10 +5,10 @@ $container = $app->getContainer();
 
 // Twig templates
 $container['view'] = function ($c) {
-    // Get theme name
+    // Include theme name in first (default) path, the second path is for admin templates
     $templatePaths = [
-        ROOT_DIR . 'templates/admin',
         ROOT_DIR . 'templates/' . trim($c->get('settings')['theme'], '/'),
+        'admin' => ROOT_DIR . 'templates/admin',
     ];
 
     $view = new Slim\Views\Twig($templatePaths, [
