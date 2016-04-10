@@ -134,6 +134,24 @@ class AdminController extends BaseController
     }
 
     /**
+     * Preview Post
+     *
+     */
+    public function previewPost($request, $response, $args)
+    {
+        $postMapper = $this->container['postMapper'];
+        $post = $postMapper->getSinglePost($args['url'], false);
+
+        // Was anything found?
+        if (empty($post)) {
+            return $this->notFound($request, $response);
+        }
+
+        $this->container->view->render($response, 'post.html', ['post' => $post, 'metaDescription' => $post->meta_description]);
+
+    }
+
+    /**
      * Validate Unique URL
      *
      * @return JSON status

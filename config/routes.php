@@ -49,6 +49,11 @@ $app->group("{$app->getContainer()->get('settings')['adminSegment']}", function 
         return (new Blog\Controllers\ImageController($this))->uploadImage($request, $response, $args);
     })->setName('uploadImage');
 
+    // Preview unpublished post
+    $this->get('/previewpost/{url}', function ($request, $response, $args) {
+        return (new Blog\Controllers\AdminController($this))->previewPost($request, $response, $args);
+    })->setName('previewPost');
+
 })->add(function ($request, $response, $next) {
     // Authentication
     $security = $this->get('securityHandler');
