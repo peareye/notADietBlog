@@ -84,6 +84,11 @@ $app->get('/logintoken/{token:[a-zA-Z0-9]{64}}', function ($request, $response, 
     return (new Blog\Controllers\LoginController($this))->processLoginToken($request, $response, $args);
 })->setName('processLoginToken');
 
+// Logout
+$app->get('/logout/', function ($request, $response, $args) {
+    return (new Blog\Controllers\LoginController($this))->logout($request, $response, $args);
+})->setName('logout');
+
 // Sample HTML fragment for formatting hints
 $app->get('/sample', function ($request, $response, $args) {
     return $this->view->render($response, 'sample.html');

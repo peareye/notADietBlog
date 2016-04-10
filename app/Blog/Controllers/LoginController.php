@@ -87,4 +87,17 @@ class LoginController extends BaseController
         // Go to admin dashboard
         return $response->withRedirect($this->container->router->pathFor('adminDashboard'));
     }
+
+    /**
+     * Logout
+     *
+     * Destoys session
+     */
+    public function logout($request, $response, $args)
+    {
+        $session = $this->container->get('sessionHandler');
+        $session->destroy();
+
+        return $response->withRedirect($this->container->router->pathFor('home'));
+    }
 }
