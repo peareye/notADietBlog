@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="{{ basePath() }}/assets/{{ theme }}/img/favicon.ico">
+    <title>{{ setting.user.htmlTitle }}</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="{{ basePath() }}/assets/admin/ie10-viewport-bug.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css" rel="stylesheet" >
+    <link href="{{ basePath() }}/assets/admin/style.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">var basePath = '{{ basePath() }}';</script>
+    <script type="text/javascript">var adminSegment = '{{ setting.adminSegment }}';</script>
+  </head>
+
+  <body>
+      <div class="modal fade image-upload-modal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Upload Image</h4>
+            </div>
+            <div class="modal-body">
+              {% include '_uploadImageForm.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item {% if not inUrl(setting.adminSegment) %}active{% endif %}" href="{{ pathFor('home') }}">Home</a>
+          {% if authenticated() %}
+          <a class="blog-nav-item {% if inUrl(setting.adminSegment) %}active{% endif %}" href="{{ pathFor('adminDashboard') }}">Admin</a>
+          <a class="blog-nav-item" href="{{ pathFor('updateSitemap') }}">Update Sitemap</a>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
+
+   <div class="container">
+
+      <div class="blog-header">
+        <h1 class="blog-title">{{ setting.user.blogTitle }}</h1>
+        <p class="lead blog-description">{{ setting.user.blogSubTitle }}</p>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+        {% block body %}{% endblock %}
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module">
+            <h4>Tools</h4>
+            <ol class="list-unstyled">
+              <li><a href="#" data-toggle="modal" data-target=".image-upload-modal">Photos</a></li>
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+
+    <footer class="blog-footer">
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="{{ basePath() }}/assets/admin/ie10-viewport-bug.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
+    <script src="{{ basePath() }}/assets/admin/script.js"></script>
+    <script src="{{ basePath() }}/assets/admin/script.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+  </body>
+</html>

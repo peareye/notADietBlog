@@ -6,8 +6,12 @@ $container = $app->getContainer();
 // Twig templates
 $container['view'] = function ($c) {
     // Get theme name
-    $templatePath = ROOT_DIR . 'templates' . '/' . trim($c->get('settings')['theme'], '/');
-    $view = new Slim\Views\Twig($templatePath, [
+    $templatePaths = [
+        ROOT_DIR . 'templates/admin',
+        ROOT_DIR . 'templates/' . trim($c->get('settings')['theme'], '/'),
+    ];
+
+    $view = new Slim\Views\Twig($templatePaths, [
         'cache' => ROOT_DIR . 'twigcache',
         'debug' => !$c->get('settings')['production'],
     ]);

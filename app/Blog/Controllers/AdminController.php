@@ -14,7 +14,7 @@ class AdminController extends BaseController
         $postMapper = $this->container['postMapper'];
         $posts = $postMapper->getPosts(null, null, false);
 
-        $this->container->view->render($response, 'admin/dashboard.html', ['posts' => $posts]);
+        $this->container->view->render($response, 'dashboard.html', ['posts' => $posts]);
     }
 
     /**
@@ -30,7 +30,7 @@ class AdminController extends BaseController
 
         $post = $postMapper->findById($id);
 
-        $this->container->view->render($response, 'admin/editPost.html', ['post' => $post]);
+        $this->container->view->render($response, 'editPost.html', ['post' => $post]);
     }
 
     /**
