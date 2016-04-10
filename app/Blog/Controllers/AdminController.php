@@ -11,10 +11,23 @@ class AdminController extends BaseController
      */
     public function dashboard($request, $response, $args)
     {
+        // Get dependencies
         $postMapper = $this->container['postMapper'];
-        $posts = $postMapper->getPosts(null, null, false);
+        $pagination = $this->container->get('pagination');
 
-        $this->container->view->render($response, '@admin/dashboard.html', ['posts' => $posts]);
+        // Get the page number and setup pagination
+        $pageNumber = ($this->container->request->getParam('page')) ?: 1;
+        $pagination->setPagePath($this->container->router->pathFor('adminDashboard'));
+        $pagination->setCurrentPageNumber($pageNumber);
+
+        // Fetch posts
+        $posts = $postMapper->getPosts($pagination->getRowsPerPage(), $pagination->getOffset(), false);
+
+        // Get total row count and add extension
+        $pagination->setTotalRowsFound($postMapper->foundRows());
+        $this->container->view->addExtension($pagination);
+
+        return $this->container->view->render($response, '@admin/dashboard.html', ['posts' => $posts]);
     }
 
     /**
@@ -30,7 +43,7 @@ class AdminController extends BaseController
 
         $post = $postMapper->findById($id);
 
-        $this->container->view->render($response, '@admin/editPost.html', ['post' => $post]);
+        return $this->container->view->render($response, '@admin/editPost.html', ['post' => $post]);
     }
 
     /**
