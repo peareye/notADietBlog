@@ -7,6 +7,12 @@ namespace Blog\Controllers;
 class AdminController extends BaseController
 {
     /**
+     * Post Domain Object
+     * @var Blog\Models\DomainObjectAbstract
+     */
+    protected $post;
+
+    /**
      * Get Home Page
      */
     public function dashboard($request, $response, $args)
@@ -52,49 +58,23 @@ class AdminController extends BaseController
     public function savePost($request, $response, $args)
     {
         // Get dependencies
-        $toolbox = $this->container['toolbox'];
         $postMapper = $this->container['postMapper'];
-        $sessionHandler = $this->container['sessionHandler'];
-        $markdown = $this->container->get('markdownParser');
 
         // Make blog post object
-        $post = $postMapper->make();
+        $this->post = $postMapper->make();
 
-        // Validate data (simple, add validation class later)
-        if ($request->getParsedBodyParam('title') === null || $request->getParsedBodyParam('url') === null) {
-            // Save to session data for redisplay
-            $sessionHandler->setData(['postFormData' => $request->getParsedBody()]);
-            return $response->withRedirect($router->pathFor('editPost'));
+        // Process data
+        $this->processPostData($request, $response, $args);
+
+        // Was this to preview or save post?
+        if ($request->getParsedBodyParam('button') === 'preview') {
+            // Preview
+            return $this->previewPost($request, $response, $args);
+
+        } elseif ($request->getParsedBodyParam('button') === 'save') {
+            // Save
+            $postMapper->save($this->post);
         }
-
-        // If this is a previously published post, use that publish date as default
-        $publishedDate = ($request->getParsedBodyParam('published_date')) ?: '';
-        if ($request->getParsedBodyParam('button') === 'publish' && empty($publishedDate)) {
-            // Then default to today
-            $date = new \DateTime();
-            $publishedDate = $date->format('Y-m-d');
-        }
-
-        // Assign data
-        $post->id = $request->getParsedBodyParam('id');
-        $post->title = $request->getParsedBodyParam('title');
-        $post->url = $request->getParsedBodyParam('url'); // Should have been converted when title was edited in page
-        $post->url_locked = $request->getParsedBodyParam('url_locked');
-        $post->meta_description = $request->getParsedBodyParam('meta_description');
-        $post->content = $request->getParsedBodyParam('content');
-        $post->content_html = $markdown->text($request->getParsedBodyParam('content'));
-
-        // Create post excerpt
-        $post->content_excerpt = $toolbox->truncateHtmlText($post->content_html);
-
-        // Only set the publish date if not empty
-        if (!empty($publishedDate)) {
-            $post->published_date = $publishedDate;
-            $post->url_locked = 'Y';
-        }
-
-        // Save
-        $postMapper->save($post);
 
         // Display admin dashboard
         return $response->withRedirect($this->container->router->pathFor('adminDashboard'));
@@ -136,18 +116,25 @@ class AdminController extends BaseController
     /**
      * Preview Post
      *
+     * This is mapped to GET and POST routes
      */
     public function previewPost($request, $response, $args)
     {
-        $postMapper = $this->container['postMapper'];
-        $post = $postMapper->getSinglePost($args['url'], false);
+        // What kind of request?
+        if ($request->isGet()) {
+            // Fetch the requested post
+            $postMapper = $this->container['postMapper'];
+            $this->post = $postMapper->getSinglePost($args['url'], false);
+        }
 
-        // Was anything found?
-        if (empty($post)) {
+        // Otherwise this is being called from savePost() and $this->post is set
+
+        // Was anything found (for GET)?
+        if (empty($this->post)) {
             return $this->notFound($request, $response);
         }
 
-        $this->container->view->render($response, 'post.html', ['post' => $post, 'metaDescription' => $post->meta_description]);
+        $this->container->view->render($response, 'post.html', ['post' => $this->post, 'metaDescription' => $this->post->meta_description]);
 
     }
 
@@ -205,5 +192,53 @@ class AdminController extends BaseController
         $sitemap->make($pages);
 
         return $response->withRedirect($this->container->router->pathFor('adminDashboard'));
+    }
+
+    /**
+     * Process Post Post Data
+     *
+     * This gets the post data ready to save, or preview
+     */
+    protected function processPostData($request, $response, $args)
+    {
+        // Get dependencies
+        $toolbox = $this->container['toolbox'];
+        $sessionHandler = $this->container['sessionHandler'];
+        $markdown = $this->container->get('markdownParser');
+
+        // Validate data (simple, add validation class later)
+        if ($request->getParsedBodyParam('title') === null || $request->getParsedBodyParam('url') === null) {
+            // Save to session data for redisplay
+            $sessionHandler->setData(['postFormData' => $request->getParsedBody()]);
+            return $response->withRedirect($router->pathFor('editPost'));
+        }
+
+        // If this is a previously published post, use that publish date as default
+        $publishedDate = ($request->getParsedBodyParam('published_date')) ?: '';
+        if ($request->getParsedBodyParam('button') === 'publish' && empty($publishedDate)) {
+            // Then default to today
+            $date = new \DateTime();
+            $publishedDate = $date->format('Y-m-d');
+        }
+
+        // Assign data
+        $this->post->id = $request->getParsedBodyParam('id');
+        $this->post->title = $request->getParsedBodyParam('title');
+        $this->post->url = $request->getParsedBodyParam('url'); // Should have been converted when title was edited in page
+        $this->post->url_locked = $request->getParsedBodyParam('url_locked');
+        $this->post->meta_description = $request->getParsedBodyParam('meta_description');
+        $this->post->content = $request->getParsedBodyParam('content');
+        $this->post->content_html = $markdown->text($request->getParsedBodyParam('content'));
+
+        // Create post excerpt
+        $this->post->content_excerpt = $toolbox->truncateHtmlText($this->post->content_html);
+
+        // Only set the publish date if not empty
+        if (!empty($publishedDate)) {
+            $this->post->published_date = $publishedDate;
+            $this->post->url_locked = 'Y';
+        }
+
+        return;
     }
 }
