@@ -19,21 +19,14 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript">var basePath = '{{ basePath() }}';</script>
-    {% block head %}{% endblock %}
   </head>
 
   <body>
-    {% block afterBodyOpen %}
-    {% endblock %}
 
     <div class="blog-masthead">
       <div class="container">
         <nav class="blog-nav">
           <a class="blog-nav-item {% if not inUrl(setting.adminSegment) %}active{% endif %}" href="{{ pathFor('home') }}">Home</a>
-          {% if authenticated() %}
-          <a class="blog-nav-item {% if inUrl(setting.adminSegment) %}active{% endif %}" href="{{ pathFor('adminDashboard') }}">Admin</a>
-          <a class="blog-nav-item" href="{{ pathFor('updateSitemap') }}">Update Sitemap</a>
-          {% endif %}
         </nav>
       </div>
     </div>
@@ -51,7 +44,6 @@
         </div><!-- /.blog-main -->
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-          {% block sidebar %}
           <div class="sidebar-module sidebar-module-inset">
             <h4>About</h4>
             <p>{{ setting.user.sidebarAbout }}</p>
@@ -72,7 +64,6 @@
             </ol>
           </div>
           {% endif %}
-          {% endblock %}
         </div><!-- /.blog-sidebar -->
       </div><!-- /.row -->
     </div><!-- /.container -->
@@ -90,8 +81,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
     <script src="{{ basePath() }}/assets/{{ theme }}/js/script.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    {% block footer %}
-    {% endblock %}
 
   </body>
 </html>
