@@ -2,16 +2,42 @@
 
       {% block body %}
       	<h2>Blog Posts</h2>
-        {% for p in posts %}
+
         <div>
-          <h3><a href="{{ pathFor('previewPost', {'url': p.url}) }}" target="_blank" title="View {{ p.title }}">{{ p.title }}</a></h3>
-          <a href="{{ pathFor('editPost', {'id': p.id}) }}">Edit</a> | <a href="{{ pathFor('deletePost', {'id': p.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a> | Published: {% if p.published_date %}{{ p.published_date|date('F j, Y') }}{% else %}<span class="label label-warning">Not Published</span>{% endif %}
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#published" data-toggle="tab">Published</a></li>
+            <li role="presentation"><a href="#unpublished" data-toggle="tab">Unpublished</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="published">
+            {% for p in posts if p.published_date %}
+              {{ _self.postRow(p) }}
+            {% else %}
+            <h4>No posts found</h4>
+            {% endfor %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="unpublished">
+            {% for p in posts if not p.published_date %}
+              {{ _self.postRow(p) }}
+            {% else %}
+            <h4>No posts found</h4>
+            {% endfor %}
+            </div>
+          </div>
+
         </div>
-        <hr>
-        {% else %}
-        <h4>No posts found</h4>
-        {% endfor %}
 
         {{ pagination() }}
+
+        {% macro postRow(p) %}
+          <div>
+            <h3><a href="{{ pathFor('previewPost', {'url': p.url}) }}" target="_blank" title="View {{ p.title }}">{{ p.title }}</a></h3>
+            <a href="{{ pathFor('editPost', {'id': p.id}) }}">Edit</a> | <a href="{{ pathFor('deletePost', {'id': p.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a> | Published: {% if p.published_date %}{{ p.published_date|date('F j, Y') }}{% else %}<span class="label label-warning">Not Published</span>{% endif %}
+          </div>
+          <hr>
+        {% endmacro %}
 
       {% endblock %}
