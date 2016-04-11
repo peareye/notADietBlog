@@ -18,6 +18,7 @@
             {% else %}
             <h4>No posts found</h4>
             {% endfor %}
+            {{ pagination() }}
             </div>
             <div role="tabpanel" class="tab-pane" id="unpublished">
             {% for p in posts if not p.published_date %}
@@ -29,8 +30,6 @@
           </div>
 
         </div>
-
-        {{ pagination() }}
 
         {% macro postRow(p) %}
           <div>
