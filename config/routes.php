@@ -109,11 +109,6 @@ $app->get('/thank-you', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->contactThankYou($request, $response, $args);
 })->setName('thankYou');
 
-// Search
-$app->get('/search', function ($request, $response, $args) {
-    return (new Blog\Controllers\IndexController($this))->searchLocations($request, $response, $args);
-})->setName('searchLocations');
-
 // View post
 $app->get('/post/{url}', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->viewPost($request, $response, $args);
