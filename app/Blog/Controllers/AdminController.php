@@ -71,7 +71,7 @@ class AdminController extends BaseController
             // Preview
             return $this->previewPost($request, $response, $args);
 
-        } elseif ($request->getParsedBodyParam('button') === 'save') {
+        } else {
             // Save
             $postMapper->save($this->post);
         }
