@@ -34,7 +34,7 @@
         <input type="text" class="form-control" name="title" maxlength="60" autocomplete="off" value="{{ post.title }}" required>
         <span class="input-group-addon"><span class="post-title-status glyphicon {% if post.title %}glyphicon-ok post-title-ok{% else %}glyphicon-question-sign{% endif %}"></span></span>
       </div>
-      <p class="form-control-static post-url"><span class="glyphicon {% if post.url_locked|default('N') == 'N' %}glyphicon-unchecked{% else %}glyphicon-locked{% endif %}" title="Click to lock/unlock the URL"></span> URL: <var>{{ post.url }}</var></p>
+      <p class="form-control-static post-url"><span class="glyphicon {% if post.url_locked|default('N') == 'N' %}glyphicon-unchecked{% else %}glyphicon-lock{% endif %}" title="Click to lock/unlock the URL"></span> URL: <var>{{ post.url }}</var></p>
       <input type="hidden" name="url" value="{{ post.url }}">
       <input type="hidden" name="url_locked" value="{{ post.url_locked|default('N') }}">
     </div>
