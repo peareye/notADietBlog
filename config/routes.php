@@ -10,7 +10,7 @@
 $app->group("{$app->getContainer()->get('settings')['adminSegment']}", function () {
 
     // Validate unique post URL (Ajax request)
-    $this->post('/api/validateurl', function ($request, $response, $args) {
+    $this->post('/validateurl', function ($request, $response, $args) {
         return (new Blog\Controllers\AdminController($this))->validateUniqueUrl($request, $response, $args);
     });
 
@@ -53,6 +53,11 @@ $app->group("{$app->getContainer()->get('settings')['adminSegment']}", function 
     $this->get('/previewpost/{url}', function ($request, $response, $args) {
         return (new Blog\Controllers\AdminController($this))->previewPost($request, $response, $args);
     })->setName('previewPost');
+
+    // Load images into gallery (Ajax)
+    $this->get('/loadimages', function ($request, $response, $args) {
+        return (new Blog\Controllers\ImageController($this))->loadImages($request, $response, $args);
+    })->setName('loadImages');
 
 })->add(function ($request, $response, $next) {
     // Authentication

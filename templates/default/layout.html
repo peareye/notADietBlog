@@ -82,5 +82,15 @@
     <script src="{{ basePath() }}/assets/{{ theme }}/js/script.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
+    {% if not setting.production %}
+    <script type="text/javascript">
+      // Fix image links to work on localhost
+      $('.blog-main img').attr('src', function (i, src) {
+        if (src.match(/http/)) {return};
+        return '{{ basePath() }}' + src;
+      });
+    </script>
+    {% endif %}
+
   </body>
 </html>

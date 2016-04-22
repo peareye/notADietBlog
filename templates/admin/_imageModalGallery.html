@@ -1,0 +1,18 @@
+
+<div class="row">
+	{% for i in images %}
+	  <div class="col-sm-6 col-md-4">
+	    <div class="thumbnail">
+	      <img src="{{ basePath() }}/{{ setting.image.fileUri }}{{ i }}">
+	      <div class="caption">
+	        <p>Height <input class="width" value="250"> x Width <input class="height" value="150"></p>
+	        <p><input class="gallery-image-path" value="/{{ setting.image.fileThumbUri }}250x150/{{ i }}"></p>
+	      </div>
+	    </div>
+	 </div>
+	 {% else %}
+	 <div class="col-md-12">
+	 	<h3>No images found</h3>
+	 </div>
+ 	{% endfor %}
+</div>

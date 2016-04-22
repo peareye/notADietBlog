@@ -26,3 +26,12 @@
 textarea {
   resize: vertical;
 }
+
+.gallery-image-path {
+	width: 100%;
+}
+.thumbnail .caption .height,
+.thumbnail .caption .width {
+	width: 40px;
+	text-align: center;
+}

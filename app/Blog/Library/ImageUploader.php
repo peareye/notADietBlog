@@ -5,69 +5,32 @@
  */
 namespace Blog\Library;
 
+use \Exception;
+
 class ImageUploader
 {
-    // The record id for the image directory path
-    protected $recordId;
+    // Uploded files object
+    protected $uploadedFiles;
 
-    // Path to root directory of original image uploads
-    protected $originalImageFilePathRoot;
+    // Path to root of image uploads
+    protected $uploadFilePathRoot;
 
     // Path to custom directory
-    protected $originalImageFilePath;
+    protected $uploadFilePath;
 
-    // Final subdirectory for images
-    protected $endDirectory = 'files/';
-
-    // Filename to save as
+    // Filename to save
     public $imageFileName;
-
-    // Allowed file types
-    protected $allowedMimeTypes = [];
-
-    // Max upload file size
-    protected $maxUploadFileSize;
-
-    // Storage delegate for codeguy/upload
-    protected $uploadStorage;
-
-    // Logging
-    private $log;
-
-    // Messages
-    protected $messages = [];
 
     /**
      * Constructor
-     */
-    public function __construct(array $config, $log)
-    {
-        $this->originalImageFilePathRoot = $config['file.path'];
-        $this->allowedMimeTypes = $config['file.mimetypes'];
-        $this->maxUploadFileSize = $config['file.upload.max.size'];
-        $this->log = $log;
-    }
-
-    /**
-     * Initialize
      *
-     * Initial class
-     * @param int, the record ID, used to determine subdirectory
+     * @param array $uploadedfiles Array of Slim\Http\UploadedFile objects
+     * @param array $config Array of configuration items
      */
-    public function initialize($recordId)
+    public function __construct(array $uploadedFiles, array $config)
     {
-        if (!is_numeric($recordId)) {
-            $this->log->error('Non-numeric record ID supplied to ImageHandler');
-            throw new \Exception('Non-numeric record ID supplied to ImageHandler');
-        }
-
-        $this->recordId = $recordId;
-
-        // Make the upload image directory
-        $this->makeImagePath();
-
-        // Get file storage delegate
-        $this->uploadStorage = new \Upload\Storage\FileSystem($this->originalImageFilePath);
+        $this->uploadedFiles = $uploadedFiles;
+        $this->uploadFilePathRoot = $config['filePath'];
     }
 
     /**
@@ -78,19 +41,18 @@ class ImageUploader
     protected function makeImagePath()
     {
         // Create image path, nesting folders by splitting the record ID
-        $path = $this->originalImageFilePathRoot . chunk_split($this->recordId, 3, '/') . $this->endDirectory;
+        $this->uploadFilePath = $this->uploadFilePathRoot . substr($this->imageFileName, 0, 2);
 
         // Create the path if the directory does not exist
-        if (!is_dir($path)) {
+        if (!is_dir($this->uploadFilePath)) {
             try {
-                mkdir($path, 0775, true);
-            } catch (\Exception $e) {
-                $this->log->error('Failed to create image directory path: ' . $path);
-                throw new \Exception('Failed to create image directory path');
+                mkdir($this->uploadFilePath, 0775, true);
+            } catch (Exception $e) {
+                throw new Exception('Failed to create image directory path');
             }
         }
 
-        $this->originalImageFilePath = $path;
+        return;
     }
 
     /**
@@ -102,46 +64,44 @@ class ImageUploader
      */
     public function upload($imageKeyName)
     {
-        // Prepare to upload
-        $file = new \Upload\File($imageKeyName, $this->uploadStorage);
+        if (empty($this->uploadedFiles[$imageKeyName])) {
+            throw new Exception('Upload image key not found in uploadedFiles');
+        }
 
-        // Set new file name
-        $file->setName(uniqid());
-        $this->imageFileName = $file->getNameWithExtension();
+        $file = $this->uploadedFiles[$imageKeyName];
 
-        // Validate upload
-        $file->addValidations([
-            // MimeType List => http://www.webmaster-toolkit.com/mime-types.shtml
-            new \Upload\Validation\Mimetype($this->allowedMimeTypes),
-
-            // Ensure file is no larger than allowed size
-            new \Upload\Validation\Size($this->maxUploadFileSize),
-        ]);
-
-        // Try to upload file
-        try {
-            $file->upload();
-        } catch (\Exception $e) {
-            // Log errors
-            $this->messages = $file->getErrors();
-            $this->log->error('File upload errors: ' . print_r($this->messages, true));
-            unset($file);
-
+        if ($file->getError() !== UPLOAD_ERR_OK) {
             return false;
         }
 
-        // Reset
+        // Get file name and extension
+        $uploadFileName = $file->getClientFilename();
+        $ext = strtolower(pathinfo($uploadFileName, PATHINFO_EXTENSION));
+
+        // Generate new file name
+        $this->newFilename($uploadFileName);
+
+        // Attempt to create new directory based on filename
+        $this->makeImagePath();
+
+        // Save to new directory
+        $file->moveTo("{$this->uploadFilePath}/{$this->imageFileName}.{$ext}");
+
+        // Unset this file
         unset($file);
+
         return true;
     }
 
     /**
-     * Get Error Messages
+     * Make Filename
      *
-     * Returns array of error messages
+     * Generates new filename
+     * @param string $oldName Current filename
+     * @return string
      */
-    public function getMessages()
+    protected function newFilename($oldName)
     {
-        return $this->messages;
+        $this->imageFileName = uniqid(mt_rand());
     }
 }

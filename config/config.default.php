@@ -69,10 +69,10 @@ $config['email']['password'] = '';
 /**
  * File Uploads Config
  */
-$config['image']['file.path'] = ROOT_DIR . 'web/files/originals/';
-$config['image']['file.thumb.path'] = ROOT_DIR . 'web/files/thumbnails/';
-$config['image']['file.uri'] = 'files/originals/';
-$config['image']['file.thumb.uri'] = 'files/thumbnails/';
+$config['image']['filePath'] = ROOT_DIR . 'web/files/originals/';
+$config['image']['fileThumbPath'] = ROOT_DIR . 'web/files/thumbs/';
+$config['image']['fileUri'] = 'files/originals/';
+$config['image']['fileThumbUri'] = 'files/thumbs/';
 
 /**
  * Pagination Options

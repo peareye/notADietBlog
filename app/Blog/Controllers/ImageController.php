@@ -4,6 +4,10 @@
  */
 namespace Blog\Controllers;
 
+use \FilesystemIterator;
+use \RecursiveDirectoryIterator;
+use \RecursiveIteratorIterator;
+
 class ImageController extends BaseController
 {
     /**
@@ -11,13 +15,43 @@ class ImageController extends BaseController
      */
     public function uploadImage($request, $response, $args)
     {
-        $image = $this->container->get('imageHandler');
-        $path = $this->container->get('settings')['image']['file.path'];
-        $newFileName =
+        $image = $this->container->get('imageUploader');
+        $status = $image->upload('new-image');
 
-        $newImage = $image->make($_FILES['new-image']['tmp_name']);
-        $newImage->save(ROOT_DIR . 'web/files/originals/someimage.jpg');
+        // Set the response type
+        $r = $response->withHeader('Content-Type', 'application/json');
 
-        echo "DONE";
+        return $r->write(json_encode(["status" => "$status"]));
+    }
+
+    /**
+     * Load Images
+     *
+     * Sends over HTML structure of images to browse
+     */
+    public function loadImages($request, $response, $args)
+    {
+        // Get images directory
+        $imageDirectory = $this->container['settings']['image']['filePath'];
+
+        // Traverse directory and get all objects to iterate over
+        $paths = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(
+                $imageDirectory,
+                FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS));
+
+        // Loop over directory
+        $images = [];
+        foreach ($paths as $pathName => $fileInfo) {
+            // Skip iteration if not a file, or if is a hidden system file
+            if (!$fileInfo->isFile() || $fileInfo->getExtension() === 'DS_Store' || $fileInfo->getExtension() === 'gitkeep') {
+                continue;
+            }
+
+            // Assign image paths
+            $images[] = str_replace($imageDirectory, '', $fileInfo->getPathname());
+        }
+
+        return $this->container->view->render($response, '@admin/_imageModalGallery.html', ['images' => $images]);
     }
 }

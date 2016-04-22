@@ -42,14 +42,16 @@ class NotFound extends \Slim\Handlers\NotFound
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        // Log request
+        // Get request URL
         $path = $request->getUri()->getPath();
-        $this->logger->info("Not Found (404): {$request->getMethod()} {$path}");
 
         // If request is for a file or image then just return and do no more
         if (preg_match('/^.*\.(jpg|jpeg|png|gif)$/i', $path)) {
-            return;
+            return $response->withStatus(404);
         }
+
+        // Log request
+        $this->logger->info("Not Found (404): {$request->getMethod()} {$path}");
 
         // Return status 404 and template
         return parent::__invoke($request, $response);

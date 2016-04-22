@@ -10,7 +10,7 @@ $('input[name="title"]').on('focusout', function() {
 		return;
 	}
 	$.ajax({
-		url: basePath + adminSegment + '/api/validateurl',
+		url: basePath + adminSegment + '/validateurl',
 		method: 'POST',
 		data: {title: $(this).val()},
 		success: function(r) {
@@ -23,7 +23,7 @@ $('input[name="title"]').on('focusout', function() {
 			}
 		},
 		error: function(r) {
-			console.log('nope!'+r)
+			console.log('Validate URL failed')
 		}
 	});
 });
@@ -38,4 +38,63 @@ $('.post-url span.glyphicon').on('click', function(me) {
 		$('input[name="url_locked"]').val('N');
 		$(this).addClass('glyphicon-unchecked').removeClass('glyphicon-lock');
 	}
+});
+
+// Load gallery images on modal open
+$('#image-gallery-modal').on('show.bs.modal', function (e) {
+	$.ajax({
+		url: basePath + adminSegment + '/loadimages',
+		method: 'GET',
+		success: function(r) {
+			$('#image-gallery-modal .modal-body').html(r);
+			// Autofocus gallery input field
+			$('input').on('click', function() {
+				$(this).select();
+			});
+		},
+		error: function(r) {
+			console.log('Load gallery images failed')
+		}
+	});
+});
+
+// Validate image size before up load
+$('#imageUploadForm input[name="new-image"]').bind('change', function() {
+	if (this.files[0].size > 4000000) {
+		alert('The file size is greater than 4mb');
+	};
+});
+
+// Upload image
+$('#imageUploadForm').submit(function(e) {
+	$.ajax({
+		url: basePath + adminSegment + '/uploadimage',
+		method: 'POST',
+		processData: false,
+		contentType:false,
+		data:  new FormData(this),
+		success: function(r) {
+			$('#image-upload-modal').modal('hide')
+			$('#imageUploadForm').find('input').val('');
+		},
+		error: function(r) {
+			console.log('Upload image failed')
+		}
+	});
+
+	return false;
+});
+
+// Modify thumbnail link width
+$('.thumbPathModal').on('keyup', '.width', function() {
+	var width = $(this).val();
+	var $link = $(this).closest('.caption').find('.gallery-image-path');
+	$link.val($link.val().replace(/(.*)thumbs\/\d*x(.*)/, '$1thumbs/'+width+'x$2'));
+});
+
+// // Modify thumbnail link height
+$('#image-gallery-modal').on('keyup', '.height', function() {
+	var height = $(this).val();
+	var $link = $(this).closest('.caption').find('.gallery-image-path');
+	$link.val($link.val().replace(/(.*)thumbs\/(\d*)x\d*\/(.*)/, '$1thumbs/$2x'+height+'/$3'));
 });

@@ -110,6 +110,11 @@ $container['markdownParser'] = function ($c) {
 };
 
 // Image handler
-$container['imageHandler'] = function ($c) {
-    return new Intervention\Image\ImageManager;
+$container['imageUploader'] = function ($c) {
+    return new Blog\Library\ImageUploader($c['request']->getUploadedFiles(), $c['settings']['image']);
+};
+
+// Image manipulation
+$container['imageManipulator'] = function ($c) {
+    return new Intervention\Image\ImageManager();
 };
