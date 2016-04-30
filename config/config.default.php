@@ -73,8 +73,8 @@ $config['email']['password'] = '';
  */
 $config['image']['filePath'] = ROOT_DIR . 'web/media/';
 $config['image']['fileThumbPath'] = ROOT_DIR . 'web/media/';
-$config['image']['fileUri'] = 'files/media/';
-$config['image']['fileThumbUri'] = 'files/media/';
+$config['image']['fileUri'] = 'media/';
+$config['image']['fileThumbUri'] = 'media/';
 
 /**
  * Pagination Options
