@@ -1,8 +1,11 @@
 
-	    <div class="thumbnail">
-	      <img src="{{ basePath() }}/{{ setting.image.fileUri }}{{ i }}">
-	      <div class="caption">
-	        <p>Height <input class="width" value="250"> x Width <input class="height" value="150"></p>
-	        <p><input class="gallery-image-path" value="/{{ setting.image.fileThumbUri }}250x150/{{ i }}"></p>
-	      </div>
-	    </div>
+    <div class="thumbnail">
+    	{% set img, width = imageSize(i), 350 %}
+    	{% set height = (width / img.aspect)|round %}
+      <img src="{{ basePath() }}/{{ setting.image.fileUri }}{{ i }}">
+      <div class="caption">
+      	<input type="hidden" class="aspect" name="aspect" value="{{ img.aspect }}">
+        <p>Width <input class="width dim" value="{{ width }}"> x Height <input class="height dim" value="{{ height }}"></p>
+        <p><input class="gallery-image-path" value="/{{ setting.image.fileThumbUri }}{{ width }}x{{ height}}/{{ i }}"></p>
+      </div>
+    </div>

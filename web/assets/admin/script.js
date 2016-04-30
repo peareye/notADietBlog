@@ -55,7 +55,7 @@ $('#image-gallery-modal').on('show.bs.modal', function (e) {
 });
 
 // Add focus to thumbnail path input
-$('body .modal').on('click', '.gallery-image-path', function() {
+$('body .modal').on('click', '.thumbnail input', function() {
 	$(this).select();
 });
 
@@ -99,16 +99,29 @@ $('#imageUploadForm').submit(function(e) {
 	return false;
 });
 
-// Modify thumbnail link width
-$('.thumbPathModal').on('keyup', '.width', function() {
-	var width = $(this).val();
-	var $link = $(this).closest('.caption').find('.gallery-image-path');
-	$link.val($link.val().replace(/(.*)thumbs\/\d*x(.*)/, '$1thumbs/'+width+'x$2'));
-});
+// Modify thumbnail url width & height in modal
+$('.thumbPathModal').on('focus', '.dim', function() {
+	var $thumbCaption = $(this).closest('.caption');
+	var aspect = parseFloat($thumbCaption.find('.aspect').val());
+	var width = parseInt($thumbCaption.find('.width').val());
+	var height = parseInt($thumbCaption.find('.height').val());
+	var $link = $thumbCaption.find('.gallery-image-path');
 
-// // Modify thumbnail link height
-$('#image-gallery-modal').on('keyup', '.height', function() {
-	var height = $(this).val();
-	var $link = $(this).closest('.caption').find('.gallery-image-path');
-	$link.val($link.val().replace(/(.*)thumbs\/(\d*)x\d*\/(.*)/, '$1thumbs/$2x'+height+'/$3'));
+	$(this).on('keyup', function() {
+		if($(this).hasClass('width')) {
+			width = parseInt($(this).val()) || width;
+			height = parseInt(width / aspect) || height;
+			$thumbCaption.find('.height').val(height);
+		} else if ($(this).hasClass('height')) {
+			width = parseInt(height * aspect) || width;
+			height = parseInt($(this).val()) || height;
+			$thumbCaption.find('.width').val(width);
+		}
+
+		if (isNaN(width) || isNaN(height)) {
+			return;
+		};
+
+		$link.val($link.val().replace(/(.*)thumbs\/(\d*x\d*)\/(.*)/, '$1thumbs/'+width+'x'+height+'/$3'));
+	});
 });

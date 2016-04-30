@@ -75,6 +75,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('getPostArchive', array($this, 'getPostArchiveNavigation')),
             new \Twig_SimpleFunction('theme', array($this, 'getThemeName')),
             new \Twig_SimpleFunction('authenticated', array($this, 'authenticated')),
+            new \Twig_SimpleFunction('imageSize', array($this, 'getImageSize')),
         ];
     }
 
@@ -186,5 +187,23 @@ class TwigExtension extends \Twig_Extension
         $security = $this->container->securityHandler;
 
         return $security->authenticated();
+    }
+
+    /**
+     * Get Image Size
+     *
+     * @param string $path Path to image
+     * @return array "width", "height"
+     */
+    public function getImageSize($imagePath)
+    {
+        $filePath = $this->settings['image']['filePath'];
+        $size = getimagesize($filePath . $imagePath);
+
+        if (!$size || $size[1] === 0) {
+            return null;
+        }
+
+        return ['width' => $size[0], 'height' => $size[1], 'aspect' => round($size[0] / $size[1], 4)];
     }
 }
