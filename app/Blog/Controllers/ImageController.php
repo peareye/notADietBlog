@@ -17,11 +17,17 @@ class ImageController extends BaseController
     {
         $image = $this->container->get('imageUploader');
         $status = $image->upload('new-image');
+        $source = '';
 
         // Set the response type
         $r = $response->withHeader('Content-Type', 'application/json');
 
-        return $r->write(json_encode(["status" => "$status"]));
+        // If successful, include thumbnail link and source
+        if ($status) {
+            $source = $this->container->view->fetch('@admin/_thumbWithLink.html', ['i' => $image->getUploadedFileUri()]);
+        }
+
+        return $r->write(json_encode(["status" => "$status", "source" => "$source"]));
     }
 
     /**

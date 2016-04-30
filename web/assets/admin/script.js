@@ -47,10 +47,6 @@ $('#image-gallery-modal').on('show.bs.modal', function (e) {
 		method: 'GET',
 		success: function(r) {
 			$('#image-gallery-modal .modal-body').html(r);
-			// Autofocus gallery input field
-			$('input').on('click', function() {
-				$(this).select();
-			});
 		},
 		error: function(r) {
 			console.log('Load gallery images failed')
@@ -58,11 +54,24 @@ $('#image-gallery-modal').on('show.bs.modal', function (e) {
 	});
 });
 
+// Add focus to thumbnail path input
+$('body .modal').on('click', '.gallery-image-path', function() {
+	$(this).select();
+});
+
 // Validate image size before up load
+var url = window.URL || window.webkitURL;
 $('#imageUploadForm input[name="new-image"]').bind('change', function() {
-	if (this.files[0].size > 4000000) {
-		alert('The file size is greater than 4mb');
-	};
+    var image, file;
+    if ((file = this.files[0])) {
+        var image = new Image();
+        image.onload = function() {
+			if (image.width > 3074 || image.height > 3074) {
+				alert('The file size is greater than 3074 x 3074');
+			}
+	     }
+        image.src = url.createObjectURL(file);
+    }
 });
 
 // Upload image
@@ -74,8 +83,13 @@ $('#imageUploadForm').submit(function(e) {
 		contentType:false,
 		data:  new FormData(this),
 		success: function(r) {
-			$('#image-upload-modal').modal('hide')
-			$('#imageUploadForm').find('input').val('');
+			if (r.status == 1) {
+				$('#image-upload-modal .modal-body').append(r.source);
+				$('#image-upload-modal').on('hidden.bs.modal', function() {
+					$(this).find('input').val('');
+					$(this).find('.thumbnail').remove();
+				});
+			};
 		},
 		error: function(r) {
 			console.log('Upload image failed')

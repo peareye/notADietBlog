@@ -18,6 +18,9 @@ class ImageUploader
     // Path to custom directory
     protected $uploadFilePath;
 
+    // Relative URI to uploaded image
+    protected $relativeFileUri = '';
+
     // Filename to save
     public $imageFileName;
 
@@ -31,28 +34,6 @@ class ImageUploader
     {
         $this->uploadedFiles = $uploadedFiles;
         $this->uploadFilePathRoot = $config['filePath'];
-    }
-
-    /**
-     * Create Directory Path
-     *
-     * Defines the custom directory path based on the record ID
-     */
-    protected function makeImagePath()
-    {
-        // Create image path, nesting folders by splitting the record ID
-        $this->uploadFilePath = $this->uploadFilePathRoot . substr($this->imageFileName, 0, 2);
-
-        // Create the path if the directory does not exist
-        if (!is_dir($this->uploadFilePath)) {
-            try {
-                mkdir($this->uploadFilePath, 0775, true);
-            } catch (Exception $e) {
-                throw new Exception('Failed to create image directory path');
-            }
-        }
-
-        return;
     }
 
     /**
@@ -84,13 +65,51 @@ class ImageUploader
         // Attempt to create new directory based on filename
         $this->makeImagePath();
 
+        // Add the extension to the filename, and form new file URI
+        $this->imageFileName .= ".{$ext}";
+        $this->relativeFileUri .= $this->imageFileName;
+
         // Save to new directory
-        $file->moveTo("{$this->uploadFilePath}/{$this->imageFileName}.{$ext}");
+        $file->moveTo("{$this->uploadFilePath}/{$this->imageFileName}");
 
         // Unset this file
         unset($file);
 
         return true;
+    }
+
+    /**
+     * Uploaded File URI
+     *
+     * @return string
+     */
+    public function getUploadedFileUri()
+    {
+        return $this->relativeFileUri;
+    }
+
+    /**
+     * Create Directory Path
+     *
+     * Defines the custom directory path based on the record ID
+     */
+    protected function makeImagePath()
+    {
+        // Create image path, nesting folders by splitting the record ID
+        $subFolder = substr($this->imageFileName, 0, 2);
+        $this->relativeFileUri .= $subFolder . '/';
+        $this->uploadFilePath = $this->uploadFilePathRoot . $subFolder;
+
+        // Create the path if the directory does not exist
+        if (!is_dir($this->uploadFilePath)) {
+            try {
+                mkdir($this->uploadFilePath, 0775, true);
+            } catch (Exception $e) {
+                throw new Exception('Failed to create image directory path');
+            }
+        }
+
+        return;
     }
 
     /**
