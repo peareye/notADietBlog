@@ -1,11 +1,11 @@
 # Things to ignore
 
 config/config.local.php
-web/files/
+web/media/
 logs/*.log
-twigcache/*
-web/temp/*
-#vendor/*
+twigcache/
+web/temp/
+#vendor/
 
 # Misc
 *.xml

@@ -68,11 +68,13 @@ $config['email']['password'] = '';
 
 /**
  * File Uploads Config
+ *
+ * Including trailing slash
  */
-$config['image']['filePath'] = ROOT_DIR . 'web/files/originals/';
-$config['image']['fileThumbPath'] = ROOT_DIR . 'web/files/thumbs/';
-$config['image']['fileUri'] = 'files/originals/';
-$config['image']['fileThumbUri'] = 'files/thumbs/';
+$config['image']['filePath'] = ROOT_DIR . 'web/media/';
+$config['image']['fileThumbPath'] = ROOT_DIR . 'web/media/';
+$config['image']['fileUri'] = 'files/media/';
+$config['image']['fileThumbUri'] = 'files/media/';
 
 /**
  * Pagination Options
