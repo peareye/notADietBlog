@@ -1,6 +1,6 @@
 <?php
 /**
- * Image Upload Controller
+ * File Upload Controller
  */
 namespace Blog\Controllers;
 
@@ -8,14 +8,14 @@ use \FilesystemIterator;
 use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
 
-class ImageController extends BaseController
+class FileController extends BaseController
 {
     /**
      * Upload Image
      */
-    public function uploadImage($request, $response, $args)
+    public function uploadFile($request, $response, $args)
     {
-        $image = $this->container->get('imageUploader');
+        $image = $this->container->get('fileUploader');
         $status = $image->upload('new-image');
         $source = '';
 
@@ -35,10 +35,10 @@ class ImageController extends BaseController
      *
      * Sends over HTML structure of images to browse
      */
-    public function loadImages($request, $response, $args)
+    public function loadFiles($request, $response, $args)
     {
         // Get images directory
-        $imageDirectory = $this->container['settings']['image']['filePath'];
+        $imageDirectory = $this->container['settings']['file']['filePath'];
 
         // Traverse directory and get all objects to iterate over
         $paths = new RecursiveIteratorIterator(

@@ -109,9 +109,9 @@ $container['markdownParser'] = function ($c) {
     return new Parsedown();
 };
 
-// Image handler
-$container['imageUploader'] = function ($c) {
-    return new Blog\Library\ImageUploader($c['request']->getUploadedFiles(), $c['settings']['image']);
+// File uploader
+$container['fileUploader'] = function ($c) {
+    return new Blog\Library\FileUploader($c['request']->getUploadedFiles(), $c['settings']['file']);
 };
 
 // Image manipulation

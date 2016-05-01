@@ -197,7 +197,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function getImageSize($imagePath)
     {
-        $filePath = $this->settings['image']['filePath'];
+        $filePath = $this->settings['file']['filePath'];
         $size = getimagesize($filePath . $imagePath);
 
         if (!$size || $size[1] === 0) {

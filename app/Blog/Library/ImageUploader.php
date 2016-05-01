@@ -1,13 +1,13 @@
 <?php
 /**
- * Image Uploader Class
+ * File Uploader Class
  *
  */
 namespace Blog\Library;
 
 use \Exception;
 
-class ImageUploader
+class FileUploader
 {
     // Uploded files object
     protected $uploadedFiles;
@@ -15,14 +15,14 @@ class ImageUploader
     // Path to root of image uploads
     protected $uploadFilePathRoot;
 
-    // Path to custom directory
+    // Path to filename based custom directory
     protected $uploadFilePath;
 
     // Relative URI to uploaded image
-    protected $relativeFileUri = '';
+    protected $fileUri = '';
 
     // Filename to save
-    public $imageFileName;
+    public $fileName;
 
     /**
      * Constructor
@@ -62,15 +62,15 @@ class ImageUploader
         // Generate new file name
         $this->newFilename($uploadFileName);
 
-        // Attempt to create new directory based on filename
+        // Create new directory based on filename
         $this->makeImagePath();
 
         // Add the extension to the filename, and form new file URI
-        $this->imageFileName .= ".{$ext}";
-        $this->relativeFileUri .= $this->imageFileName;
+        $this->fileName .= ".{$ext}";
+        $this->fileUri .= $this->fileName;
 
         // Save to new directory
-        $file->moveTo("{$this->uploadFilePath}/{$this->imageFileName}");
+        $file->moveTo("{$this->uploadFilePath}/{$this->fileName}");
 
         // Unset this file
         unset($file);
@@ -85,7 +85,7 @@ class ImageUploader
      */
     public function getUploadedFileUri()
     {
-        return $this->relativeFileUri;
+        return $this->fileUri;
     }
 
     /**
@@ -95,9 +95,9 @@ class ImageUploader
      */
     protected function makeImagePath()
     {
-        // Create image path, nesting folders by splitting the record ID
-        $subFolder = substr($this->imageFileName, 0, 2);
-        $this->relativeFileUri .= $subFolder . '/';
+        // Create file subfolder  path
+        $subFolder = substr($this->fileName, 0, 2);
+        $this->fileUri = $subFolder . '/';
         $this->uploadFilePath = $this->uploadFilePathRoot . $subFolder;
 
         // Create the path if the directory does not exist
@@ -117,10 +117,10 @@ class ImageUploader
      *
      * Generates new filename
      * @param string $oldName Current filename
-     * @return string
+     * @return void
      */
     protected function newFilename($oldName)
     {
-        $this->imageFileName = uniqid(mt_rand());
+        $this->fileName = md5($oldName . microtime(true));
     }
 }

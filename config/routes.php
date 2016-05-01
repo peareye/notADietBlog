@@ -44,19 +44,19 @@ $app->group("{$app->getContainer()->get('settings')['adminSegment']}", function 
         return (new Blog\Controllers\AdminController($this))->updateSitemap($request, $response, $args);
     })->setName('updateSitemap');
 
-    // Upload image
-    $this->post('/uploadimage', function ($request, $response, $args) {
-        return (new Blog\Controllers\ImageController($this))->uploadImage($request, $response, $args);
-    })->setName('uploadImage');
+    // Upload file
+    $this->post('/uploadfile', function ($request, $response, $args) {
+        return (new Blog\Controllers\FileController($this))->uploadFile($request, $response, $args);
+    })->setName('uploadFile');
 
     // Preview unpublished post
     $this->get('/previewpost/{url}', function ($request, $response, $args) {
         return (new Blog\Controllers\AdminController($this))->previewPost($request, $response, $args);
     })->setName('previewPost');
 
-    // Load images into gallery (Ajax)
-    $this->get('/loadimages', function ($request, $response, $args) {
-        return (new Blog\Controllers\ImageController($this))->loadImages($request, $response, $args);
+    // Load files into gallery (Ajax)
+    $this->get('/loadfiles', function ($request, $response, $args) {
+        return (new Blog\Controllers\FileController($this))->loadFiles($request, $response, $args);
     })->setName('loadImages');
 
 })->add(function ($request, $response, $next) {

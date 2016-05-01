@@ -43,7 +43,7 @@ $('.post-url span.glyphicon').on('click', function(me) {
 // Load gallery images on modal open
 $('#image-gallery-modal').on('show.bs.modal', function (e) {
 	$.ajax({
-		url: basePath + adminSegment + '/loadimages',
+		url: basePath + adminSegment + '/loadfiles',
 		method: 'GET',
 		success: function(r) {
 			$('#image-gallery-modal .modal-body').html(r);
@@ -77,7 +77,7 @@ $('#imageUploadForm input[name="new-image"]').bind('change', function() {
 // Upload image
 $('#imageUploadForm').submit(function(e) {
 	$.ajax({
-		url: basePath + adminSegment + '/uploadimage',
+		url: basePath + adminSegment + '/uploadfile',
 		method: 'POST',
 		processData: false,
 		contentType:false,
@@ -122,6 +122,6 @@ $('.thumbPathModal').on('focus', '.dim', function() {
 			return;
 		};
 
-		$link.val($link.val().replace(/(.*)thumbs\/(\d*x\d*)\/(.*)/, '$1thumbs/'+width+'x'+height+'/$3'));
+		$link.val($link.val().replace(/media\/(\d*x\d*)\/(.*)/, 'media/'+width+'x'+height+'/$2'));
 	});
 });
