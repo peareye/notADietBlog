@@ -5,7 +5,10 @@
       <img src="{{ basePath() }}/{{ setting.file.fileUri }}{{ i }}">
       <div class="caption">
       	<input type="hidden" class="aspect" name="aspect" value="{{ img.aspect }}">
-        <p>Width <input class="width dim" value="{{ width }}"> x Height <input class="height dim" value="{{ height }}"></p>
-        <p><input class="gallery-image-path" value="/{{ setting.file.fileThumbUri }}{{ width }}x{{ height}}/{{ i }}"></p>
+		<h5>Original Size {{ img.width }} x {{ img.height }}</h5>
+		<p><input class="gallery-image-path" value="/{{ setting.file.fileUri }}{{ i }}"></p>
+
+		<h5>Small Size <input class="width dim" value="{{ width }}"> x <input class="height dim" value="{{ height }}"></h5>
+    	<p><input class="gallery-image-path thumbUri" value="/{{ setting.file.fileThumbUri }}{{ width }}x{{ height}}/{{ i }}"></p>
       </div>
     </div>

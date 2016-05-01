@@ -105,7 +105,7 @@ $('.thumbPathModal').on('focus', '.dim', function() {
 	var aspect = parseFloat($thumbCaption.find('.aspect').val());
 	var width = parseInt($thumbCaption.find('.width').val());
 	var height = parseInt($thumbCaption.find('.height').val());
-	var $link = $thumbCaption.find('.gallery-image-path');
+	var $link = $thumbCaption.find('.thumbUri');
 
 	$(this).on('keyup', function() {
 		if($(this).hasClass('width')) {

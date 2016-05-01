@@ -193,7 +193,7 @@ class TwigExtension extends \Twig_Extension
      * Get Image Size
      *
      * @param string $path Path to image
-     * @return array "width", "height"
+     * @return array "width", "height", "aspect"
      */
     public function getImageSize($imagePath)
     {
