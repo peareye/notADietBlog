@@ -7,9 +7,6 @@
  * If a thumbnail is not found the web/.htacces passes the request to
  * this script which then makes the new thumbnail on the fly. The next time the same thumbnail is
  * requested, the web server can return the existing thumbnail.
- *
- * Thumbnail URI requests must be of this form:
- * /files/thumbs/fi/filename/WxH/filename.jpg
  */
 
 // Set encoding
@@ -46,7 +43,7 @@ $thumbPath = $config['image']['fileThumbUri'];
 $app->get("/$thumbPath{dims}/{im}/{imageName}", function ($request, $response, $args) {
 
     // Get paths
-    $imageConfig = $this->get('settings')['image'];
+    $imageConfig = $this->get('settings')['file'];
     $originalImagePathRoot = $imageConfig['filePath'];
     $thumbImagePathRoot = $imageConfig['fileThumbPath'];
 
