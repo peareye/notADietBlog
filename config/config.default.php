@@ -71,10 +71,10 @@ $config['email']['password'] = '';
  *
  * Including trailing slash
  */
-$config['file']['filePath'] = ROOT_DIR . 'web/media/';
-$config['file']['fileThumbPath'] = ROOT_DIR . 'web/media/';
-$config['file']['fileUri'] = 'media/';
-$config['file']['fileThumbUri'] = 'media/';
+$config['file']['filePath'] = ROOT_DIR . 'web/media/large/';
+$config['file']['fileThumbPath'] = ROOT_DIR . 'web/media/small/';
+$config['file']['fileUri'] = 'media/large/';
+$config['file']['fileThumbUri'] = 'media/small/';
 
 /**
  * Pagination Options
