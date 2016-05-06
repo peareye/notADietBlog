@@ -122,6 +122,6 @@ $('.thumbPathModal').on('focus', '.dim', function() {
 			return;
 		};
 
-		$link.val($link.val().replace(/media\/(\d*x\d*)\/(.*)/, 'media/'+width+'x'+height+'/$2'));
+		$link.val($link.val().replace(/media\/small\/(\d*x\d*)\/(.*)/, 'media/small/'+width+'x'+height+'/$2'));
 	});
 });
