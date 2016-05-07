@@ -13,7 +13,7 @@ RewriteEngine On
 
 # If a thumbnail is not found then invoke thumbnail maker
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule media/small/.*\.(jpe?g|png) thumb.php [L,NC]
+RewriteRule .*\.(jpe?g|png) thumb.php [L,NC]
 
 # Final check to see if the user is attempting to access a valid file,
 # such as an image or css document, if this isn't true this sends the
@@ -24,17 +24,16 @@ RewriteRule ^(.*)$ index.php/$1 [L]
 
 # Caching
 <IfModule mod_expires.c>
-    #ExpiresActive On
-    ##ExpiresDefault "access plus 1 seconds"
-    #ExpiresByType image/x-icon "access plus 1 year"
-    #ExpiresByType image/jpeg "access plus 1 year"
-    #ExpiresByType image/png "access plus 1 year"
-    #ExpiresByType image/gif "access plus 1 year"
+    ExpiresActive On
+    ExpiresDefault "access plus 1 seconds"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
     #ExpiresByType text/css "access plus 60 minutes"
     #ExpiresByType text/javascript "access plus 60 minutes"
     #ExpiresByType application/x-javascript "access plus 60 minutes"
-    ##ExpiresByType text/html "access plus 60 seconds"
-    ##ExpiresByType application/xhtml+xml "access plus 600 seconds"
+    #ExpiresByType text/html "access plus 60 seconds"
 </IfModule>
 
 <ifModule mod_headers.c>
