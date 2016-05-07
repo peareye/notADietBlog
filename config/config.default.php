@@ -40,7 +40,7 @@ $config['user']['sidebarAbout'] = '';
 /**
  * Routes
  */
-$config['route']['adminSegment'] = '/admin';
+$config['route']['adminSegment'] = 'admin';
 $config['route']['wordPressCategories'] = [];
 
 /**

@@ -7,7 +7,7 @@
 // Private routes
 //
 
-$app->group("{$app->getContainer()->get('settings')['route']['adminSegment']}", function () {
+$app->group("/{$app->getContainer()->get('settings')['route']['adminSegment']}", function () {
 
     // Validate unique post URL (Ajax request)
     $this->post('/validateurl', function ($request, $response, $args) {
