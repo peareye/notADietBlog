@@ -7,7 +7,7 @@
 // Private routes
 //
 
-$app->group("{$app->getContainer()->get('settings')['adminSegment']}", function () {
+$app->group("{$app->getContainer()->get('settings')['route']['adminSegment']}", function () {
 
     // Validate unique post URL (Ajax request)
     $this->post('/validateurl', function ($request, $response, $args) {
@@ -118,6 +118,19 @@ $app->get('/thank-you', function ($request, $response, $args) {
 $app->get('/post/{url}', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->viewPost($request, $response, $args);
 })->setName('viewPost');
+
+// Catch old WordPress routes and 301 redirect
+$app->get('/{category}/{url}', function ($request, $response, $args) {
+    // Get defined categories and try to match
+    $wPCategories = $this->get('settings')['route']['wordPressCategories'];
+    if (in_array($args['category'], $wPCategories)) {
+        return $response->withRedirect($this->router->pathFor('viewPost', ['url' => $args['url']]), 301);
+    }
+
+    // Category not matched
+    $notFound = $this->get('notFoundHandler');
+    return $notFound($request, $response);
+});
 
 // Home page (last route, the default)
 $app->get('/', function ($request, $response, $args) {

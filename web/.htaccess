@@ -13,7 +13,7 @@ RewriteEngine On
 
 # If a thumbnail is not found then invoke thumbnail maker
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule media/.*\.(jpe?g|png) thumb.php [L,NC]
+RewriteRule media/small/.*\.(jpe?g|png) thumb.php [L,NC]
 
 # Final check to see if the user is attempting to access a valid file,
 # such as an image or css document, if this isn't true this sends the

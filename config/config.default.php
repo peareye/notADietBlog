@@ -38,9 +38,10 @@ $config['user']['sidebarAbout'] = '';
 // $config['user']['sidebarRelatedLinks'][] = ['name' = 'Twitter', 'url' = 'https://twitter.com'];
 
 /**
- * Admin Segment
+ * Routes
  */
-$config['adminSegment'] = '/admin';
+$config['route']['adminSegment'] = '/admin';
+$config['route']['wordPressCategories'] = [];
 
 /**
  * Database Settings
