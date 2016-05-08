@@ -14,14 +14,14 @@
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="new">
             {% for c in comments if c.approved == 'N' %}
-              {{ _self.commentRow(c) }}
+              {{ _self.commentRow(c, 'Y') }}
             {% else %}
             <h4>No new comments</h4>
             {% endfor %}
             </div>
             <div role="tabpanel" class="tab-pane" id="all">
-            {% for c in comments if not c.approved == 'Y' %}
-              {{ _self.commentRow(c) }}
+            {% for c in comments if c.approved == 'Y' %}
+              {{ _self.commentRow(c, 'N') }}
             {% else %}
             <h4>No comments found</h4>
             {% endfor %}
@@ -30,12 +30,12 @@
 
         </div>
 
-        {% macro commentRow(c) %}
+        {% macro commentRow(c, s) %}
           <div class="media">
             <div class="media-body">
               <h4 class="media-heading">{{ c.name }} {{ c.email }}, {{ c.title }}, {{ c.created_date|date('F j, Y') }}</h4>
               <p>{{ c.comment }}</p>
-              <p><a href="{{ pathFor('changeCommentStatus',{'commentId': c.id, 'newStatus': 'Y'}) }}">Approve</a> | <a href="{{ pathFor('deleteComment', {'commentId': c.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a></p>
+              <p><a href="{{ pathFor('changeCommentStatus',{'commentId': c.id, 'newStatus': s}) }}">{% if s == 'Y' %}Approve{% else %}Disapprove{% endif %}</a> | <a href="{{ pathFor('deleteComment', {'commentId': c.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a></p>
             </div>
           </div>
           <hr>
