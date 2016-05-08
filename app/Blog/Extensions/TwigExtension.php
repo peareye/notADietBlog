@@ -77,6 +77,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('authenticated', array($this, 'authenticated')),
             new \Twig_SimpleFunction('imageSize', array($this, 'getImageSize')),
             new \Twig_SimpleFunction('postComments', array($this, 'getPostComments')),
+            new \Twig_SimpleFunction('newCommentCount', array($this, 'getNewCommentCount')),
         ];
     }
 
@@ -221,5 +222,17 @@ class TwigExtension extends \Twig_Extension
         $commentMapper = $this->container->get('commentMapper');
 
         return $commentMapper->getPostComments($postId);
+    }
+
+    /**
+     * Get New Comment Count
+     *
+     * @return int
+     */
+    public function getNewCommentCount()
+    {
+        $commentMapper = $this->container->get('commentMapper');
+
+        return $commentMapper->getNewCommentCount();
     }
 }

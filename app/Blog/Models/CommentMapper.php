@@ -39,4 +39,20 @@ class CommentMapper extends DataMapperAbstract
 
         return $this->find();
     }
+
+    /**
+     * Get New Comment Count
+     *
+     * @return int
+     */
+    public function getNewCommentCount()
+    {
+        $this->sql = 'select count(*) comments from comment where approved = \'N\'';
+
+        $this->execute();
+        $result = $this->statement->fetch();
+        $this->clear();
+
+        return ($result->comments !== 0) ? $result->comments : null;
+    }
 }
