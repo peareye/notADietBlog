@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `created_by` int(11) NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL,
   `updated_by` int(11) NOT NULL DEFAULT '1',
-  `updated_date` datetime NOT NULL
+  `updated_date` datetime NOT NULL,
+  KEY `post_approved_idx` (`approved`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 --
