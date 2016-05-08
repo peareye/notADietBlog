@@ -7,6 +7,20 @@ namespace Blog\Controllers;
 class CommentController extends BaseController
 {
     /**
+     * Show Comments
+     */
+    public function showAll($request, $response, $args)
+    {
+        // Get dependencies
+        $commentMapper = $this->container['commentMapper'];
+
+        // Get all comments, approved or not
+        $comments = $commentMapper->getAllComments();
+
+        return $this->container->view->render($response, '@admin/comments.html', ['comments' => $comments]);
+    }
+
+    /**
      * Save Comment
      *
      * Using Ajax-y
@@ -41,10 +55,34 @@ class CommentController extends BaseController
     }
 
     /**
-     * Contact Thank You
+     * Change Comment Status
      */
-    public function contactThankYou($request, $response, $args)
+    public function changeCommentStatus($request, $response, $args)
     {
-        return $this->container->view->render($response, 'thankYou.html');
+        // Get dependencies
+        $commentMapper = $this->container['commentMapper'];
+        $comment = $commentMapper->make();
+
+        // Set value and save
+        $comment->id = $args['commentId'];
+        $comment->approved = $args['newStatus'];
+        $commentMapper->save($comment);
+
+        return $response->withRedirect($this->container->router->pathFor('comments'));
+    }
+
+    /**
+     * Delete Comment
+     */
+    public function deleteComment($request, $response, $args)
+    {
+        // Get dependencies
+        $commentMapper = $this->container['commentMapper'];
+        $comment = $commentMapper->make();
+
+        $comment->id = $args['commentId'];
+        $commentMapper->delete($comment);
+
+        return $response->withRedirect($this->container->router->pathFor('comments'));
     }
 }

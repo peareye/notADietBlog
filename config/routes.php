@@ -59,6 +59,21 @@ $app->group("/{$app->getContainer()->get('settings')['route']['adminSegment']}",
         return (new Blog\Controllers\FileController($this))->loadFiles($request, $response, $args);
     })->setName('loadImages');
 
+    // Show comments
+    $this->get('/comments', function ($request, $response, $args) {
+        return (new Blog\Controllers\CommentController($this))->showAll($request, $response, $args);
+    })->setName('comments');
+
+    // Change comment status
+    $this->get('/commentstatus/{commentId}/{newStatus}', function ($request, $response, $args) {
+        return (new Blog\Controllers\CommentController($this))->changeCommentStatus($request, $response, $args);
+    })->setName('changeCommentStatus');
+
+    // Delete comment
+    $this->get('/deletecomment/{commentId}', function ($request, $response, $args) {
+        return (new Blog\Controllers\CommentController($this))->deleteComment($request, $response, $args);
+    })->setName('deleteComment');
+
 })->add(function ($request, $response, $next) {
     // Authentication
     $security = $this->get('securityHandler');

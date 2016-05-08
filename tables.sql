@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `post` (
 --
 
 CREATE TABLE IF NOT EXISTS `comment` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `reply_id` int(11) NOT NULL DEFAULT '0',
   `post_id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,

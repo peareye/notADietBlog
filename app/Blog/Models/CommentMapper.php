@@ -10,43 +10,33 @@ class CommentMapper extends DataMapperAbstract
     protected $tableAlias = 'c';
     protected $modifyColumns = array('reply_id', 'post_id', 'name', 'email', 'comment', 'approved');
     protected $domainObjectClass = 'Comment';
-    protected $defaultSelect = 'select * from comment';
+    protected $defaultSelect = 'select c.*, p.title, p.url from comment c join post p on c.post_id = p.id where 1=1';
 
     /**
      * Get Comments by Post ID
      *
      * @param int $postId Post record ID
-     * @param bool $approvedOnly Only get approved comments - defaults to true
      * @return array
      */
-    public function getComments($postId = null, $approvedOnly = true)
+    public function getPostComments($postId)
     {
-        $this->sql = $this->defaultSelect . ' where 1=1';
-
-        if ($postId !== null) {
-            $this->sql .= ' and post_id = ?';
-            $this->bindValues[] = $postId;
-        }
-
-        if ($approvedOnly) {
-            $this->sql .= ' and approved = \'Y\'';
-        }
-
-        // Add order by
-        $this->sql .= ' order by post_id, created_date desc';
+        $this->sql = $this->defaultSelect . ' and post_id = ? and approved = \'Y\' order by c.post_id, c.created_date desc';
+        $this->bindValues[] = $postId;
 
         return $this->find();
     }
 
     /**
-     * Change Comment Status
+     * Get All Comments
      *
-     * @param int $commentId
-     * @param str $status Y or N, defaults to Y
+     * For moderation, joins to post table to get post title
+     * @param int $postId Post record ID
+     * @return array
      */
-    public function commentStatus($commentId, $status = 'Y')
+    public function getAllComments()
     {
+        $this->sql = $this->defaultSelect . ' order by c.post_id, c.created_date desc';
 
+        return $this->find();
     }
-
 }

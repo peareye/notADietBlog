@@ -64,6 +64,7 @@
           <ul class="nav navbar-nav">
             <li {% if not inUrl('editpost') %}class="active"{% endif %}><a href="{{ pathFor('adminDashboard') }}">Admin Home</a></li>
             <li {% if inUrl('editpost') %}class="active"{% endif %}><a href="{{ pathFor('editPost') }}">New Post</a></li>
+            <li {% if inUrl('comments') %}class="active"{% endif %}><a href="{{ pathFor('comments') }}">Comments</a></li>
             <li><a data-toggle="modal" href="#" data-target="#image-upload-modal">Upload Image</a></li>
             <li><a data-toggle="modal" href="#" data-target="#image-gallery-modal">Image Gallery</a></li>
             <li><a href="{{ pathFor('updateSitemap') }}">Update Sitemap</a></li>
