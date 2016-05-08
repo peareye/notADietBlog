@@ -62,7 +62,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li {% if not inUrl('editpost') %}class="active"{% endif %}><a href="{{ pathFor('adminDashboard') }}">Admin Home</a></li>
+            <li {% if inUrl('dashboard') %}class="active"{% endif %}><a href="{{ pathFor('adminDashboard') }}">Admin Home</a></li>
             <li {% if inUrl('editpost') %}class="active"{% endif %}><a href="{{ pathFor('editPost') }}">New Post</a></li>
             <li {% if inUrl('comments') %}class="active"{% endif %}><a href="{{ pathFor('comments') }}">Comments <span class="label label-default">{{ newCommentCount() }}</span></a></li>
             <li><a data-toggle="modal" href="#" data-target="#image-upload-modal">Upload Image</a></li>
