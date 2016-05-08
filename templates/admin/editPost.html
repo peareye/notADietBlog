@@ -1,7 +1,7 @@
 {% extends '@admin/layout.html' %}
 
 {% block body %}
-  <h2>Edit Post</h2>
+  <h2>Edit Post {% if post.id %}#{% endif %}{{ post.id }}</h2>
   <form action="{{ pathFor('savePost') }}" method="post" accept-charset="utf-8">
     <input type="hidden" name="id" value="{{ post.id }}">
     <div class="form-group">
@@ -26,6 +26,24 @@
       <a href="{{ pathFor('deletePost', {'id': post.id}) }}" class="btn btn-danger deleteButton">Delete Post</a>
       {% endif %}
       <button type="submit" class="btn btn-info" name="button" value="preview" title="Preview without saving" onclick="$('form').attr('target', '_blank');">Preview Post</button>
+    </div>
+
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="page" {{ checked(post.page) }}>
+          Page (Does not appear in archive or feed.)
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Template</label>
+      <select class="form-control" name="template">
+        {% for t in post.allTemplates %}
+        <option {% if t == post.template %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
     </div>
 
     <div class="form-group">

@@ -4,6 +4,8 @@
  */
 namespace Blog\Controllers;
 
+use \Exception;
+
 class AdminController extends BaseController
 {
     /**
@@ -27,7 +29,7 @@ class AdminController extends BaseController
         $pagination->setCurrentPageNumber($pageNumber);
 
         // Fetch posts
-        $posts = $postMapper->getPosts($pagination->getRowsPerPage(), $pagination->getOffset(), false);
+        $posts = $postMapper->getPosts($pagination->getRowsPerPage(), $pagination->getOffset(), false, false);
 
         // Get total row count and add extension
         $pagination->setTotalRowsFound($postMapper->foundRows());
@@ -47,7 +49,13 @@ class AdminController extends BaseController
         // Was an ID supplied?
         $id = isset($args['id']) ? $args['id'] : null;
 
-        $post = $postMapper->findById($id);
+        if (null === $post = $postMapper->findById($id)) {
+            $post = $postMapper->make();
+        }
+
+        // Get available templates and set default if non was selected
+        $post->allTemplates = $this->getThemeTemplates();
+        $post->template = (!$post->template) ? 'post.html' : $post->template;
 
         return $this->container->view->render($response, '@admin/editPost.html', ['post' => $post]);
     }
@@ -226,9 +234,11 @@ class AdminController extends BaseController
         $this->post->title = $request->getParsedBodyParam('title');
         $this->post->url = $request->getParsedBodyParam('url'); // Should have been converted when title was edited in page
         $this->post->url_locked = $request->getParsedBodyParam('url_locked');
+        $this->post->page = ($request->getParsedBodyParam('page')) ? 'Y' : 'N';
         $this->post->meta_description = $request->getParsedBodyParam('meta_description');
         $this->post->content = $request->getParsedBodyParam('content');
         $this->post->content_html = $markdown->text($request->getParsedBodyParam('content'));
+        $this->post->template = $request->getParsedBodyParam('template');
 
         // Create post excerpt
         $this->post->content_excerpt = $toolbox->truncateHtmlText($this->post->content_html);
@@ -240,5 +250,38 @@ class AdminController extends BaseController
         }
 
         return;
+    }
+
+    /**
+     * Get Templates
+     *
+     * Find available theme templates
+     * @return array
+     */
+    protected function getThemeTemplates()
+    {
+        // Get a list of page templates to select
+        // Exclude the post.html which we'll add back as the first default element
+        $templatesDir = ROOT_DIR . 'templates/' . $this->container->get('settings')['theme'];
+        if (false === $files = array_diff(scandir($templatesDir), array('.', '..', 'post.html'))) {
+            throw new Exception('There are no page templates to select.');
+        }
+
+        // Remove any files starting with an underscore
+        $files = array_filter($files, function ($value) {return strpos($value, '_') === false;});
+
+        // Strip off '.html' extension from files
+        // $files = array_map(function ($value) {return preg_replace('/\.html/i', '', $value);}, $files);
+
+        // If there are no templates to use, raise an error
+        if (count($files) == 0) {
+            throw new Exception('There are no template files to select.');
+        }
+
+        // Set default "post.html" template as first option, and alpha sort the rest
+        sort($files);
+        array_unshift($files, 'post.html');
+
+        return $files;
     }
 }

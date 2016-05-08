@@ -8,7 +8,7 @@ class PostMapper extends DataMapperAbstract
 {
     protected $table = 'post';
     protected $tableAlias = 'p';
-    protected $modifyColumns = array('title', 'url', 'url_locked', 'meta_description', 'content', 'content_html', 'content_excerpt', 'published_date');
+    protected $modifyColumns = array('title', 'url', 'url_locked', 'page', 'meta_description', 'content', 'content_html', 'content_excerpt', 'published_date', 'template');
     protected $domainObjectClass = 'Post';
     protected $defaultSelect = 'select SQL_CALC_FOUND_ROWS p.* from post p';
 
@@ -17,17 +17,23 @@ class PostMapper extends DataMapperAbstract
      *
      * Define limit and offset to limit result set.
      * Returns an array of Domain Objects (one for each record)
+     * Note: Excludes rows marked as Pages by default
      * @param int $limit Limit
      * @param int $offset Offset
      * @param bool $publishedPostsOnly Only get published posts - defaults to true
+     * @param bool $postsOnly Only get posts, not pages
      * @return array
      */
-    public function getPosts($limit = null, $offset = null, $publishedPostsOnly = true)
+    public function getPosts($limit = null, $offset = null, $publishedPostsOnly = true, $postsOnly = true)
     {
-        $this->sql = $this->defaultSelect;
+        $this->sql = $this->defaultSelect . ' where 1=1 ';
 
         if ($publishedPostsOnly) {
-            $this->sql .= ' where p.published_date <= curdate()';
+            $this->sql .= ' and p.published_date <= curdate()';
+        }
+
+        if ($postsOnly) {
+            $this->sql .= ' and page = \'N\'';
         }
 
         // Add order by
@@ -108,5 +114,18 @@ class PostMapper extends DataMapperAbstract
         }
 
         return true;
+    }
+
+    /**
+     * Get Pages
+     *
+     * Get all post records marked as a page
+     * @return array
+     */
+    public function getPages()
+    {
+        $this->sql = $this->defaultSelect . ' where p.page = \'Y\' and p.published_date <= curdate()';
+
+        return $this->find();
     }
 }

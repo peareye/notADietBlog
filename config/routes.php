@@ -129,6 +129,11 @@ $app->get('/post/{url}', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->viewPost($request, $response, $args);
 })->setName('viewPost');
 
+// View page
+$app->get('/{url}', function ($request, $response, $args) {
+    return (new Blog\Controllers\IndexController($this))->viewPost($request, $response, $args);
+})->setName('viewPage');
+
 // Catch old WordPress routes and 301 redirect
 $app->get('/{category}/{url}', function ($request, $response, $args) {
     // Get defined categories and try to match

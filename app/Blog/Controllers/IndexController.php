@@ -44,7 +44,10 @@ class IndexController extends BaseController
             return $this->notFound($request, $response);
         }
 
-        $this->container->view->render($response, 'post.html', ['post' => $post, 'metaDescription' => $post->meta_description]);
+        // Make sure we have a template set
+        $template = (!$post->template) ? 'post.html' : $post->template;
+
+        $this->container->view->render($response, $template, ['post' => $post, 'metaDescription' => $post->meta_description]);
     }
 
     /**

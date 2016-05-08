@@ -78,6 +78,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('imageSize', array($this, 'getImageSize')),
             new \Twig_SimpleFunction('postComments', array($this, 'getPostComments')),
             new \Twig_SimpleFunction('newCommentCount', array($this, 'getNewCommentCount')),
+            new \Twig_SimpleFunction('checked', array($this, 'checked')),
+            new \Twig_SimpleFunction('pages', array($this, 'getPages')),
         ];
     }
 
@@ -231,8 +233,33 @@ class TwigExtension extends \Twig_Extension
      */
     public function getNewCommentCount()
     {
-        $commentMapper = $this->container->get('commentMapper');
+        $commentMapper = $this->container['commentMapper'];
 
         return $commentMapper->getNewCommentCount();
+    }
+
+    /**
+     * Set Checkbox
+     *
+     * If the supplied value is truthy, 1, or 'Y' returns the checked string
+     * @param mixed $value
+     * @return string
+     */
+    public function checked($value = 0)
+    {
+        return ($value == 1 || $value == 'Y') ? 'checked="checked"' : '';
+    }
+
+    /**
+     * Get All Pages
+     *
+     * Gets all posts marked as a page for navigation
+     * @return array
+     */
+    public function getPages()
+    {
+        $pageMapper = $this->container['postMapper'];
+
+        return $pageMapper->getPages();
     }
 }
