@@ -1,0 +1,14 @@
+{# Post Comments - Use in post.html as we need the post.id #}
+
+<div class="row">
+	<div class="col-lg-12">
+	{% for c in postComments(post.id) %}
+	<div class="media">
+		<div class="media-body">
+		    <h4 class="media-heading">{{ c.name }} <small>{{ c.created_date|date('F j, Y') }}</small></h4>
+		    {{ c.comment }}
+		  </div>
+	</div>
+	{% endfor %}
+	</div>
+</div>

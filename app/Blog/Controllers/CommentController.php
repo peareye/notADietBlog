@@ -31,12 +31,15 @@ class CommentController extends BaseController
         $commentMapper = $this->container['commentMapper'];
         $comment = $commentMapper->make();
 
+        // Set the response type and render thank you view
+        $r = $response->withHeader('Content-Type', 'application/json');
+        $source = $this->container->view->fetch('_thankYou.html');
+
         // Check honeypot for spammers
         if (!empty($request->getParsedBodyParam('altemail'))) {
-            // something...
+            // Just return and say nothing
+            return $r->write(json_encode(["status" => "1", "source" => "$source"]));
         }
-
-        // Valid email?
 
         // Save comment
         $comment->reply_id = $request->getParsedBodyParam('reply_id');
@@ -45,10 +48,6 @@ class CommentController extends BaseController
         $comment->email = $request->getParsedBodyParam('email');
         $comment->comment = $request->getParsedBodyParam('comment');
         $commentMapper->save($comment);
-
-        // Set the response type and render thank you view
-        $r = $response->withHeader('Content-Type', 'application/json');
-        $source = $this->container->view->fetch('_thankYou.html');
 
         // Return
         return $r->write(json_encode(["status" => "1", "source" => "$source"]));

@@ -76,6 +76,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('theme', array($this, 'getThemeName')),
             new \Twig_SimpleFunction('authenticated', array($this, 'authenticated')),
             new \Twig_SimpleFunction('imageSize', array($this, 'getImageSize')),
+            new \Twig_SimpleFunction('postComments', array($this, 'getPostComments')),
         ];
     }
 
@@ -205,5 +206,20 @@ class TwigExtension extends \Twig_Extension
         }
 
         return ['width' => $size[0], 'height' => $size[1], 'aspect' => round($size[0] / $size[1], 4)];
+    }
+
+    /**
+     * Get Post Comments
+     *
+     * Returns approved comments by post ID
+     * @param int $postId
+     * @return array
+     */
+    public function getPostComments($postId)
+    {
+        // Get dependencies and comments
+        $commentMapper = $this->container->get('commentMapper');
+
+        return $commentMapper->getPostComments($postId);
     }
 }
