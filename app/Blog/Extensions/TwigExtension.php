@@ -144,6 +144,11 @@ class TwigExtension extends \Twig_Extension
             return false;
         }
 
+        // If just a slash is provided, meaning 'home' then return true
+        if ($segment === '/' && $this->uri->getPath() === '/') {
+            return true;
+        }
+
         // Clean segment of slashes
         $segment = trim($segment, '/');
 
