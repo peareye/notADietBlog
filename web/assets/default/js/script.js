@@ -15,8 +15,8 @@ $('#commentForm').submit(function(e) {
 		success: function(r) {
 			console.log(r)
 			if (r.status == 1) {
-				$('#commentForm').fadeOut('fast', function() {
-					$(this).parent('.blog-post').append(r.source).fadeIn('fast');
+				$('#commentForm').parent('.blog-post').fadeOut('fast', function() {
+					$(this).replaceWith(r.source).fadeIn('fast');
 				});
 			};
 		},
