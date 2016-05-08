@@ -35,6 +35,24 @@ CREATE TABLE IF NOT EXISTS `post` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `comment`
+--
+
+CREATE TABLE IF NOT EXISTS `comment` (
+  `id` int(11) NOT NULL,
+  `reply_id` int(11) NOT NULL DEFAULT '0',
+  `post_id` int(11) NOT NULL,
+  `name` varchar(60) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `comment` text,
+  `approved` enum('N','Y') NOT NULL DEFAULT 'N',
+  `created_by` int(11) NOT NULL DEFAULT '1',
+  `created_date` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL DEFAULT '1',
+  `updated_date` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
+
+--
 -- Table structure for table `session`
 --
 

@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Blog\\Controllers\\AdminController' => $baseDir . '/app/Blog/Controllers/AdminController.php',
     'Blog\\Controllers\\BaseController' => $baseDir . '/app/Blog/Controllers/BaseController.php',
+    'Blog\\Controllers\\CommentController' => $baseDir . '/app/Blog/Controllers/CommentController.php',
     'Blog\\Controllers\\FileController' => $baseDir . '/app/Blog/Controllers/FileController.php',
     'Blog\\Controllers\\IndexController' => $baseDir . '/app/Blog/Controllers/IndexController.php',
     'Blog\\Controllers\\LoginController' => $baseDir . '/app/Blog/Controllers/LoginController.php',
@@ -20,6 +21,8 @@ return array(
     'Blog\\Library\\SitemapHandler' => $baseDir . '/app/Blog/Library/SitemapHandler.php',
     'Blog\\Library\\Thumbnailer' => $baseDir . '/app/Blog/Library/Thumbnailer.php',
     'Blog\\Library\\Toolbox' => $baseDir . '/app/Blog/Library/Toolbox.php',
+    'Blog\\Models\\Comment' => $baseDir . '/app/Blog/Models/Comment.php',
+    'Blog\\Models\\CommentMapper' => $baseDir . '/app/Blog/Models/CommentMapper.php',
     'Blog\\Models\\DataMapperAbstract' => $baseDir . '/app/Blog/Models/DataMapperAbstract.php',
     'Blog\\Models\\DomainObjectAbstract' => $baseDir . '/app/Blog/Models/DomainObjectAbstract.php',
     'Blog\\Models\\Post' => $baseDir . '/app/Blog/Models/Post.php',

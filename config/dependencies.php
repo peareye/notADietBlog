@@ -80,6 +80,11 @@ $container['postMapper'] = $container->factory(function ($c) {
     return new Blog\Models\PostMapper($c['database'], $c['logger'], ['user_id' => 1]);
 });
 
+// Comment Data Mapper
+$container['commentMapper'] = $container->factory(function ($c) {
+    return new Blog\Models\CommentMapper($c['database'], $c['logger'], ['user_id' => 1]);
+});
+
 // Mail message
 $container['mailMessage'] = $container->factory(function ($c) {
     return new Nette\Mail\Message;

@@ -104,15 +104,10 @@ $app->get('/sample', function ($request, $response, $args) {
     return $this->view->render($response, 'sample.html');
 });
 
-// Submit contact message
-$app->post('/sendmessage', function ($request, $response, $args) {
-    return (new Blog\Controllers\IndexController($this))->submitMessage($request, $response, $args);
-})->setName('contactSubmit');
-
-// Contact thank you page
-$app->get('/thank-you', function ($request, $response, $args) {
-    return (new Blog\Controllers\IndexController($this))->contactThankYou($request, $response, $args);
-})->setName('thankYou');
+// Submit comment
+$app->post('/savecomment', function ($request, $response, $args) {
+    return (new Blog\Controllers\CommentController($this))->save($request, $response, $args);
+})->setName('commentSubmit');
 
 // View post
 $app->get('/post/{url}', function ($request, $response, $args) {
