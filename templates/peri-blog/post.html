@@ -1,0 +1,28 @@
+{% extends 'layout.html' %} {% block body %}
+
+<div class="blog-post">
+    <h2 class="blog-post-title">{{ post.title }}</h2>
+    <p class="blog-post-meta">{{ post.published_date|date('F j, Y') }}</p>
+    <div class="blog-post-body">{{ post.content_html|raw }}</div>
+</div>
+<!-- /.blog-post -->
+<nav>
+  <ul class="pager">
+    <li><a href="#">Previous Post</a></li>
+    <li><a href="#">Next Post</a></li>
+  </ul>
+</nav>
+<br>
+<br>
+
+
+<div class="blog-post">
+    <h2>Leave me a Comment</h2> {% include '_commentForm.html' %}
+
+</div>
+<div class="">
+    <h2>Comments</h2>
+    <p>Be the first to comment!</p> 
+    {% include '_postComments.html' %}
+</div>
+{% endblock %}

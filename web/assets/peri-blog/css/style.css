@@ -1,0 +1,54 @@
+@charset "utf-8";
+/* CSS Document */
+
+html {
+    height: 100%;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizelegibility;
+    font-family: 'Vollkorn', serif;
+    font-size: 18px;
+    color: #555;
+    /* controls sticky footer */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* end sticky footer control */  
+}
+img {
+    width: 100%;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Lato', sans-serif;
+}
+#main {
+    /* Used for sticky footer. The main section will take up all the available free space
+      on the page that is not taken up by the footer. */
+    flex: 1 0 auto;
+}
+footer {
+    /* Use for sticky footer. The footer will take up as much vertical space as it needs and not a pixel more. */
+    font-family: 'Lato', sans-serif;
+    flex: 0 0 auto;
+    background: #336699;
+    color: #eee;
+    padding: 2.5rem 0 10rem 0;
+}
+footer a {
+    color: #ffffff;
+}
+footer a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.required {
+    color: red;
+}

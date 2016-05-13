@@ -1,0 +1,38 @@
+{# Contact Form Include #}
+
+  <form  class="form-horizontal" action="{{ pathFor('commentSubmit') }}" class="form-horizontal"  id="commentForm" method="post" accept-charset="utf-8">
+  	<input type="hidden" name="post_id" value="{{ post.id }}">
+     
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Name <small class="required">*</small></label>
+        <div class="col-sm-10">
+        <input type="text" class="form-control" name="name" placeholder="Name" required autocomplete="off">
+		</div>
+      </div>
+      
+      <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Email <small class="required">*</small></label>
+        <div class="col-sm-10">
+         <input type="email" class="form-control" name="email" placeholder="Email" required autocomplete="off">
+
+        </div>
+             </div>
+      
+      <div class="form-group hidden control-label">
+        <label for="altemail" class="hidden">Alternate Email address</label>
+        <input type="email" class="form-control hidden" name="altemail" placeholder="Email" autocomplete="off">
+      </div>
+      
+      <div class="form-group">
+        <label for="comment" class="col-sm-2 control-label">Message <small class="required">*</small></label>
+        <div class="col-sm-10">
+         <textarea class="form-control" name="comment" rows="5" required></textarea>
+        </div>
+       
+      </div>
+      
+      <button type="submit" class="btn btn-default">Submit</button>
+      <br><br>
+  <p class="required"><small>* required</small></p>
+  </form>
+  
