@@ -41,6 +41,12 @@ class CommentController extends BaseController
             return $r->write(json_encode(["status" => "1", "source" => "$source"]));
         }
 
+        // Verify we have required fields
+        if (!$request->getParsedBodyParam('name') || !$request->getParsedBodyParam('email') || !$request->getParsedBodyParam('comment')) {
+            // Return error
+            return $r->write(json_encode(["status" => "1", "source" => "<p class=\"bg-danger\">Error</p>"]));
+        }
+
         // Save comment
         $comment->reply_id = $request->getParsedBodyParam('reply_id');
         $comment->post_id = $request->getParsedBodyParam('post_id');
@@ -48,6 +54,10 @@ class CommentController extends BaseController
         $comment->email = $request->getParsedBodyParam('email');
         $comment->comment = $request->getParsedBodyParam('comment');
         $commentMapper->save($comment);
+
+        // Email admin with new comment and post title
+        $comment->post_title = $request->getParsedBodyParam('post_title');
+        $this->sendNewCommentEmail($comment);
 
         // Return
         return $r->write(json_encode(["status" => "1", "source" => "$source"]));
@@ -83,5 +93,27 @@ class CommentController extends BaseController
         $commentMapper->delete($comment);
 
         return $response->withRedirect($this->container->router->pathFor('comments'));
+    }
+
+    /**
+     * Send New Comment Email
+     */
+    protected function sendNewCommentEmail($comment)
+    {
+        // Get dependencies
+        $message = $this->container->get('mailMessage');
+        $mailer = $this->container->get('sendMailMessage');
+        $config = $this->container->get('settings');
+
+        // Create message
+        $message->setFrom("My Blog <{$config['email']['username']}>")
+            ->addTo($config['user']['email'])
+            ->setSubject('A new comment on your blog is awaiting approval')
+            ->setBody("Name: {$comment->name}\nEmail: {$comment->email}\nPost Title: {$comment->post_title}\n\n{$comment->comment}");
+
+        // Send
+        $mailer->send($message);
+
+        return;
     }
 }
