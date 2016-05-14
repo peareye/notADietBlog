@@ -2,6 +2,7 @@
 
   <form action="{{ pathFor('commentSubmit') }}" id="commentForm" method="post" accept-charset="utf-8">
   	<input type="hidden" name="post_id" value="{{ post.id }}">
+    <input type="hidden" name="post_title" value="{{ post.title }}">
       <div class="form-group">
         <label>Your name (required)</label>
         <input type="text" class="form-control" name="name" placeholder="Name" required autocomplete="off">
