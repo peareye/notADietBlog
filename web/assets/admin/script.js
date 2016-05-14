@@ -84,8 +84,13 @@ $('#imageUploadForm').submit(function(e) {
 		data:  new FormData(this),
 		success: function(r) {
 			if (r.status == 1) {
-				$('#image-upload-modal .modal-body').append(r.source);
+				$('#image-upload-modal .modal-body').slideUp(function() {
+					$(this).find('form').hide();
+					$(this).append(r.source).slideDown();
+				});
+				// Reset on hide
 				$('#image-upload-modal').on('hidden.bs.modal', function() {
+					$(this).find('form').show();
 					$(this).find('input').val('');
 					$(this).find('.thumbnail').remove();
 				});
