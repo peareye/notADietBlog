@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `created_date` datetime NOT NULL,
   `updated_by` int(11) NOT NULL DEFAULT '1',
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `post` (
 `id` int(11) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `created_date` datetime NOT NULL,
   `updated_by` int(11) NOT NULL DEFAULT '1',
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1020 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `session` (
   `session_id` char(64) NOT NULL,
@@ -44,7 +44,9 @@ CREATE TABLE IF NOT EXISTS `session` (
 
 
 ALTER TABLE `comment`
- ADD PRIMARY KEY (`id`), ADD KEY `post_approved_idx` (`approved`);
+ ADD PRIMARY KEY (`id`), ADD KEY `post_approved_idx` (`approved`),
+ ADD KEY `post_id_idx` (`post_id`),
+ ADD CONSTRAINT `comment_post_id_fk1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `post`
  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `post_url_idx` (`url`), ADD KEY `post_published_idx` (`published_date`), ADD KEY `post_page_idx` (`page`);
