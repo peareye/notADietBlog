@@ -58,7 +58,7 @@ $config['session']['cookieName'] = ''; // Name of the cookie
 $config['session']['checkIpAddress'] = true;
 $config['session']['checkUserAgent'] = true;
 $config['session']['salt'] = ''; // Salt key to hash
-$config['session']['secondsUntilExpiration'] = 7200; // 180 days (60*60*24*180)
+$config['session']['secondsUntilExpiration'] = 7200;
 
 /**
  * Email Connection
