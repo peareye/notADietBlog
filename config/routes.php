@@ -134,7 +134,7 @@ $app->get('/{url}', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->viewPost($request, $response, $args);
 })->setName('viewPage');
 
-// Catch old WordPress routes and 301 redirect
+// Catch old WordPress category routes and 301 redirect
 $app->get('/{category}/{url}', function ($request, $response, $args) {
     // Get defined categories and try to match
     $wPCategories = $this->get('settings')['route']['wordPressCategories'];
@@ -145,6 +145,11 @@ $app->get('/{category}/{url}', function ($request, $response, $args) {
     // Category not matched
     $notFound = $this->get('notFoundHandler');
     return $notFound($request, $response);
+});
+
+// Catch old WordPress date routes and 301 redirect
+$app->get('/{yyyy:[0-9]{4}}/{mm:[0-9]{2}}/{dd:[0-9]{2}}/{url}', function ($request, $response, $args) {
+    return $response->withRedirect($this->router->pathFor('viewPost', ['url' => $args['url']]), 301);
 });
 
 // Home page (last route, the default)
