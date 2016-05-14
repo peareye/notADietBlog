@@ -153,11 +153,13 @@ select
 (select url
 from post
 where published_date is not null
+and page = 'N'
 and published_date < (select published_date from post where {$whereClause})
 order by published_date desc, title asc limit 1) priorPost,
 (select url
 from post
 where published_date is not null
+and page = 'N'
 and published_date > (select published_date from post where {$whereClause})
 order by published_date asc, title asc limit 1) nextPost";
 
