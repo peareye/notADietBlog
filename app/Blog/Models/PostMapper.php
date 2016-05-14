@@ -38,9 +38,9 @@ class PostMapper extends DataMapperAbstract
 
         // Add order by
         if ($publishedPostsOnly) {
-            $this->sql .= ' order by p.published_date desc';
+            $this->sql .= ' order by p.published_date desc, title asc';
         } else {
-            $this->sql .= ' order by p.published_date is null desc, p.published_date desc';
+            $this->sql .= ' order by p.published_date is null desc, p.published_date desc, title asc';
         }
 
         if ($limit) {
@@ -127,5 +127,49 @@ class PostMapper extends DataMapperAbstract
         $this->sql = $this->defaultSelect . ' where p.page = \'Y\' and p.published_date <= curdate()';
 
         return $this->find();
+    }
+
+    /**
+     * Get Prior and Next Posts
+     *
+     * For use in navigation buttons, returns the post published before and after the current one
+     * @param mixed $currentPost URL (string) or post ID (int)
+     * @return array
+     */
+    public function getPriorAndNextPosts($currentPost)
+    {
+        // Determine what kind of post identifier was supplied
+        if (is_string($currentPost)) {
+            // We have a post URL slug, so bind a string
+            $whereClause = ' url = ?';
+        } else if (is_numeric($currentPost)) {
+            // We have a post ID, so bind an integer
+            $whereClause = ' id = ?';
+        }
+
+        // SQL to get the prior and next posts
+        $this->sql = "
+select
+(select url
+from post
+where published_date is not null
+and published_date < (select published_date from post where {$whereClause})
+order by published_date desc, title asc limit 1) priorPost,
+(select url
+from post
+where published_date is not null
+and published_date > (select published_date from post where {$whereClause})
+order by published_date asc, title asc limit 1) nextPost";
+
+        // Assign the bind variables
+        $this->bindValues[] = $currentPost;
+        $this->bindValues[] = $currentPost;
+
+        // And run
+        $this->execute();
+        $result = $this->statement->fetch();
+        $this->clear();
+
+        return $result;
     }
 }

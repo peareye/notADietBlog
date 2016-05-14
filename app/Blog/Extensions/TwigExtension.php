@@ -80,6 +80,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('newCommentCount', array($this, 'getNewCommentCount')),
             new \Twig_SimpleFunction('checked', array($this, 'checked')),
             new \Twig_SimpleFunction('pages', array($this, 'getPages')),
+            new \Twig_SimpleFunction('nextPost', array($this, 'getPriorAndNextPosts')),
+            new \Twig_SimpleFunction('priorPost', array($this, 'getPriorPost')),
         ];
     }
 
@@ -266,5 +268,48 @@ class TwigExtension extends \Twig_Extension
         $pageMapper = $this->container['postMapper'];
 
         return $pageMapper->getPages();
+    }
+
+    /**
+     * Get Prior and Next Posts
+     *
+     * Get the post before and after the current post
+     * @param mixed $currentPost Post URL or ID
+     * @param string $which 'prior' or 'next'
+     * @return string
+     */
+    public function getPriorAndNextPosts($currentPost, $which = 'next')
+    {
+        // Using a static to cache the result
+        static $adjoiningPosts = [];
+
+        // Fetch if not yet set
+        if (!$adjoiningPosts) {
+            $pageMapper = $this->container['postMapper'];
+            $posts = $pageMapper->getPriorAndNextPosts($currentPost);
+
+            // Assign return values
+            $adjoiningPosts['prior'] = isset($posts->priorPost) ? $posts->priorPost : null;
+            $adjoiningPosts['next'] = isset($posts->nextPost) ? $posts->nextPost : null;
+        }
+
+        // Return the desired value, but only return URL string if a post URL exists
+        if ($adjoiningPosts[$which] !== null) {
+            return $this->container->router->pathFor('viewPost', ['url' => $adjoiningPosts[$which]]);
+        }
+
+        return null;
+    }
+
+    /**
+     * Get Prior Post
+     *
+     * Wrapper to call $this->getPriorAndNextPosts() for prior value
+     * @param mixed $currentPost Post URL or ID
+     * @return string
+     */
+    public function getPriorPost($currentPost)
+    {
+        return $this->getPriorAndNextPosts($currentPost, 'prior');
     }
 }
