@@ -83,12 +83,7 @@ class PostMapper extends DataMapperAbstract
             $this->sql .= ' and p.published_date <= curdate()';
         }
 
-        // Execute the query
-        $this->execute();
-        $result = $this->statement->fetch();
-        $this->clear();
-
-        return $result;
+        return $this->findRow();
     }
 
     /**
@@ -167,11 +162,51 @@ order by published_date asc, title asc limit 1) nextPost";
         $this->bindValues[] = $currentPost;
         $this->bindValues[] = $currentPost;
 
-        // And run
-        $this->execute();
-        $result = $this->statement->fetch();
-        $this->clear();
+        return $this->findRow();
+    }
 
-        return $result;
+    /**
+     * Search Posts
+     *
+     * Uses MySQL fulltext index
+     * @param string $terms Search terms
+     * @param int $limit Limit
+     * @param int $offset Offset
+     * @param bool $publishedPostsOnly Only get published posts - defaults to true
+     * @param bool $postsOnly Only get posts, not pages
+     * @return mixed
+     */
+    public function search($terms, $limit = null, $offset = null, $publishedPostsOnly = true, $postsOnly = true)
+    {
+        // Build search statement
+        $this->sql = $this->defaultSelect . ' where match(`content`) against (?)';
+        $this->bindValues[] = $terms;
+
+        if ($publishedPostsOnly) {
+            $this->sql .= ' and p.published_date <= curdate()';
+        }
+
+        if ($postsOnly) {
+            $this->sql .= ' and page = \'N\'';
+        }
+
+        // Add order by
+        if ($publishedPostsOnly) {
+            $this->sql .= ' order by p.published_date desc, title asc';
+        } else {
+            $this->sql .= ' order by p.published_date is null desc, p.published_date desc, title asc';
+        }
+
+        if ($limit) {
+            $this->sql .= " limit ?";
+            $this->bindValues[] = $limit;
+        }
+
+        if ($offset) {
+            $this->sql .= " offset ?";
+            $this->bindValues[] = $offset;
+        }
+
+        return $this->find();
     }
 }

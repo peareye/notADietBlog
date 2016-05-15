@@ -9,7 +9,7 @@ class PaginationExtension extends \Twig_Extension
     protected $environment;
     protected $pageUrl;
     public $useQueryString = true;
-    public $queryStringParam = 'page';
+    public $queryStringPageParam = 'page';
     protected $currentPageNumber;
     protected $rowsPerPage;
     protected $numberOfLinks;
@@ -61,12 +61,23 @@ class PaginationExtension extends \Twig_Extension
      *
      * The application will determine the schema, domain, and use this path to set URL
      * @param string, path to resource
+     * @param array $params Associative array for us in query strings
      */
-    public function setPagePath($pagePath)
+    public function setPagePath($pagePath, array $params = [])
     {
         // Are we using query strings?
         if ($this->useQueryString) {
-            $this->pageUrl = $pagePath . '?' . $this->queryStringParam . '=';
+
+            // Create rest of query string
+            $qs = '';
+            foreach ($params as $key => $value) {
+                $qs .= "{$key}={$value}&";
+            }
+
+            // Remove trailing &, we will add it back
+            $qs = rtrim($qs, '&');
+
+            $this->pageUrl = "{$pagePath}?{$qs}&{$this->queryStringPageParam}=";
         } else {
             $this->pageUrl = $pagePath . '/';
         }
