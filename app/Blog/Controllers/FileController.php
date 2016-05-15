@@ -92,24 +92,25 @@ class FileController extends BaseController
         $filename = pathinfo($fileToDelete);
 
         // Find and delete small versions by traversing small files directory
-        $smallPaths = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator(
-                $fileSmallDirectory . $filename['dirname'],
-                FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS));
+        if (is_dir($fileSmallDirectory . $filename['dirname'])) {
+            $smallPaths = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(
+                    $fileSmallDirectory . $filename['dirname'],
+                    FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS));
 
-        // Loop over directory
-        foreach ($smallPaths as $pathName => $fileInfo) {
-            // Skip iteration if not a file, or if is a hidden system file
-            if (!$fileInfo->isFile() || $fileInfo->getExtension() === 'DS_Store' || $fileInfo->getExtension() === 'gitkeep') {
-                continue;
-            }
+            // Loop over directory
+            foreach ($smallPaths as $pathName => $fileInfo) {
+                // Skip iteration if not a file, or if is a hidden system file
+                if (!$fileInfo->isFile() || $fileInfo->getExtension() === 'DS_Store' || $fileInfo->getExtension() === 'gitkeep') {
+                    continue;
+                }
 
-            $smallFile = $fileInfo->getPathname();
-            if (pathinfo($smallFile)['basename'] === $filename['basename']) {
-                $status = unlink($smallFile);
+                $smallFile = $fileInfo->getPathname();
+                if (pathinfo($smallFile)['basename'] === $filename['basename']) {
+                    $status = unlink($smallFile);
+                }
             }
         }
-
         return $r->write(json_encode(["status" => "$status"]));
     }
 }
