@@ -284,4 +284,34 @@ class AdminController extends BaseController
 
         return $files;
     }
+
+    /**
+     * Search Posts and Pages
+     */
+    public function search($request, $response, $args)
+    {
+        // Get dependencies
+        $postMapper = $this->container->get('postMapper');
+        $pagination = $this->container->get('pagination');
+
+        // If no search term was provided, go home
+        if (!$terms = $this->container->request->getParam('terms')) {
+            // Redirect to admin home
+            return $response->withRedirect($this->container->router->pathFor('adminDashboard'));
+        }
+
+        // Get the page number and setup pagination
+        $pageNumber = ($this->container->request->getParam('page')) ?: 1;
+        $pagination->setPagePath($this->container->router->pathFor('adminSearch'), ['terms' => $terms]);
+        $pagination->setCurrentPageNumber($pageNumber);
+
+        $posts = $postMapper->search($terms, $pagination->getRowsPerPage(), $pagination->getOffset(), false, false);
+
+        // Get total row count and add extension
+        $pagination->setTotalRowsFound($postMapper->foundRows());
+        $this->container->view->addExtension($pagination);
+
+        // Render view
+        return $this->container->view->render($response, '@admin/dashboard.html', ['posts' => $posts, 'search' => $terms]);
+    }
 }
