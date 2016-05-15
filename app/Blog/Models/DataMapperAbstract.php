@@ -166,6 +166,27 @@ abstract class DataMapperAbstract
     }
 
     /**
+     * Find Single Record
+     *
+     * Use if the SQL is expecting one row
+     * @return array
+     */
+    public function findRow()
+    {
+        // If no SQL was provided, return null
+        if ($this->sql) {
+            return null;
+        }
+
+        // Execute the query
+        $this->execute();
+        $result = $this->statement->fetch();
+        $this->clear();
+
+        return $result;
+    }
+
+    /**
      * Get all table rows
      *
      * Returns an array of Domain Objects (one for each record)

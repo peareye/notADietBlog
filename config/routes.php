@@ -114,10 +114,10 @@ $app->get('/logout/', function ($request, $response, $args) {
     return (new Blog\Controllers\LoginController($this))->logout($request, $response, $args);
 })->setName('logout');
 
-// Sample HTML fragment for formatting hints
-$app->get('/sample', function ($request, $response, $args) {
-    return $this->view->render($response, 'sample.html');
-});
+// Search site
+$app->get('/search', function ($request, $response, $args) {
+    return (new Blog\Controllers\IndexController($this))->search($request, $response, $args);
+})->setName('search');
 
 // Submit comment
 $app->post('/savecomment', function ($request, $response, $args) {

@@ -49,7 +49,8 @@ ALTER TABLE `comment`
  ADD CONSTRAINT `comment_post_id_fk1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `post`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `post_url_idx` (`url`), ADD KEY `post_published_idx` (`published_date`), ADD KEY `post_page_idx` (`page`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `post_url_idx` (`url`), ADD KEY `post_published_idx` (`published_date`), ADD KEY `post_page_idx` (`page`),
+ ADD FULLTEXT (`content`);
 
 ALTER TABLE `session`
  ADD PRIMARY KEY (`session_id`);
