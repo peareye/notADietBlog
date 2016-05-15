@@ -1,5 +1,5 @@
 // Delete prompt handler
-$('.deleteButton').on('click', function() {
+$('body').on('click', '.deleteButton', function() {
   var reply = confirm('Are you sure you want to delete?');
   return reply;
 });
