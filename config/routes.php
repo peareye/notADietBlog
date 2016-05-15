@@ -74,6 +74,11 @@ $app->group("/{$app->getContainer()->get('settings')['route']['adminSegment']}",
         return (new Blog\Controllers\CommentController($this))->deleteComment($request, $response, $args);
     })->setName('deleteComment');
 
+    // Search posts and pages
+    $this->get('/search', function ($request, $response, $args) {
+        return (new Blog\Controllers\AdminController($this))->search($request, $response, $args);
+    })->setName('adminSearch');
+
 })->add(function ($request, $response, $next) {
     // Authentication
     $security = $this->get('securityHandler');

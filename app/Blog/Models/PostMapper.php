@@ -179,7 +179,7 @@ order by published_date asc, title asc limit 1) nextPost";
     public function search($terms, $limit = null, $offset = null, $publishedPostsOnly = true, $postsOnly = true)
     {
         // Build search statement
-        $this->sql = $this->defaultSelect . ' where match(`content`) against (?)';
+        $this->sql = $this->defaultSelect . ' where match(`title`, `content`) against (?)';
         $this->bindValues[] = $terms;
 
         if ($publishedPostsOnly) {
