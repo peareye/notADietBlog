@@ -74,10 +74,7 @@ class PaginationExtension extends \Twig_Extension
                 $qs .= "{$key}={$value}&";
             }
 
-            // Remove trailing &, we will add it back
-            $qs = rtrim($qs, '&');
-
-            $this->pageUrl = "{$pagePath}?{$qs}&{$this->queryStringPageParam}=";
+            $this->pageUrl = "{$pagePath}?{$qs}{$this->queryStringPageParam}=";
         } else {
             $this->pageUrl = $pagePath . '/';
         }
