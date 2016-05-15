@@ -49,6 +49,11 @@ $app->group("/{$app->getContainer()->get('settings')['route']['adminSegment']}",
         return (new Blog\Controllers\FileController($this))->uploadFile($request, $response, $args);
     })->setName('uploadFile');
 
+    // Delete uploaded file
+    $this->post('/deletefile', function ($request, $response, $args) {
+        return (new Blog\Controllers\FileController($this))->deleteFile($request, $response, $args);
+    })->setName('deleteFile');
+
     // Preview unpublished post
     $this->get('/previewpost/{url}', function ($request, $response, $args) {
         return (new Blog\Controllers\AdminController($this))->previewPost($request, $response, $args);

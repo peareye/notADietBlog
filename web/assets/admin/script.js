@@ -74,7 +74,7 @@ $('#imageUploadForm input[name="new-image"]').bind('change', function() {
     }
 });
 
-// Upload image
+// Upload file
 $('#imageUploadForm').submit(function(e) {
 	$.ajax({
 		url: basePath + '/' + adminSegment + '/uploadfile',
@@ -97,7 +97,7 @@ $('#imageUploadForm').submit(function(e) {
 			};
 		},
 		error: function(r) {
-			console.log('Upload image failed')
+			console.log('Upload file failed')
 		}
 	});
 
@@ -129,4 +129,27 @@ $('.thumbPathModal').on('focus', '.dim', function() {
 
 		$link.val($link.val().replace(/(\d*x\d*)\/(.*)/, width+'x'+height+'/$2'));
 	});
+});
+
+// Delete file
+$('body').on('submit', '.image-delete', function(e) {
+	$thisThumb = $(this).closest('.thumb-gallery');
+	$.ajax({
+		url: basePath + '/' + adminSegment + '/deletefile',
+		method: 'POST',
+		processData: false,
+		contentType:false,
+		data:  new FormData(this),
+		success: function(r) {
+			if (r.status == 1) {
+				// Remove thumbnail from display
+				$thisThumb.remove();
+			}
+		},
+		error: function(r) {
+			console.log('Delete file failed')
+		}
+	});
+
+	return false;
 });

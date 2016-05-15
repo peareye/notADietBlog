@@ -35,3 +35,15 @@ textarea {
 	width: 40px;
 	text-align: center;
 }
+.thumb-gallery {
+  position: relative;
+}
+.image-delete {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  display: none;
+}
+.thumb-gallery:hover .image-delete {
+  display: block;
+}
