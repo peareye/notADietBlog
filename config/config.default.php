@@ -31,6 +31,7 @@ $config['baseUrl'] = '';
 $config['user']['user_id'] = 1;
 $config['user']['email'] = '';
 $config['user']['htmlTitle'] = '';
+$config['user']['htmlAdminTitle'] = '';
 $config['user']['blogTitle'] = '';
 $config['user']['blogSubTitle'] = '';
 $config['user']['defaultMetaDescription'] = '';
