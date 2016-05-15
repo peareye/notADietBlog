@@ -45,8 +45,8 @@ footer {
     flex: 0 0 auto;
     background: #335566;
     color: #eee;
-    padding: 2.5rem 0 10rem 0; /* adjust if necessary */   
-    margin-top: 1rem; /* adjust if necessary */   
+    padding: 2.5rem 0 10rem 0; /* adjust if necessary */
+    margin-top: 1rem; /* adjust if necessary */
 }
 
 footer h5 {
@@ -111,7 +111,7 @@ form {
 /* Custom, iPhone Retina */
 @media only screen and (max-width: 479px) {
     body {
-       
+
     }
 
 }
@@ -119,14 +119,14 @@ form {
 /* Extra Small Devices, Phones */
 @media only screen and (min-width: 480px) {
     body {
-       
+
     }
 }
 
 /* Small Devices, Tablets */
 @media only screen and (min-width: 768px) {
     body {
-     
+
     }
     .navbar {
         border-radius: 0 !important;
@@ -136,14 +136,14 @@ form {
 /* Medium Devices, Desktops */
 @media only screen and (min-width: 992px) {
     body {
-       
+
     }
 }
 
 /* Large Devices, Wide Screens */
 @media only screen and (min-width: 1200px) {
     body {
-       
+
     }
     .jumbotron {
         padding-top: 30rem;
@@ -152,3 +152,24 @@ form {
         width: 970px;
     }
 }
+
+
+/* misc */
+.comment-body {
+    overflow: hidden;
+    position: relative;
+}
+.comment-read-more {
+    width: 100%;
+    height: 30px;
+    bottom: 0;
+    left: 0;
+    padding-left: 10px;
+    opacity: .95;
+    color: blue;
+    background-color: #fff;
+    position: absolute;
+}
+.comment-read-more:hover {
+    cursor: pointer;
+};

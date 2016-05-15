@@ -5,8 +5,8 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{ c.name }}&nbsp;&nbsp;<small class="">{{ c.created_date|date('F j, Y') }}</small></h3>
             </div>
-            <div class="panel-body">
-                {{ c.comment }}t
+            <div class="panel-body comment-body">
+                {{ c.comment }}
             </div>
         </div>
         {% else %}
@@ -14,3 +14,5 @@
         {% endfor %}
     </div>
 </div>
+
+<div class="comment-read-more" style="display:none;"><small>Read more...</small></div>

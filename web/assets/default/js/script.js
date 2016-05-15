@@ -28,3 +28,23 @@ $('#commentForm').submit(function(e) {
 
 	return false;
 });
+
+// Apply read more modal on long comments
+// Weird: http://stackoverflow.com/a/16861927/452133
+// Need to wait to get height, although this script is in the footer
+$(window).load(function() {
+	var commentMaxHeight = 150; // Desired eight
+	var commentReadMoreDiv = $('.comment-read-more')[0];
+	$('.comment-body').each(function(i) {
+		var commentHeight = $(this).outerHeight();
+		$(this).data('height', commentHeight);
+		if (commentHeight >= commentMaxHeight) {
+			$(this).css('height', commentMaxHeight).append(commentReadMoreDiv).find('.comment-read-more').show();
+		};
+	});
+
+	// Expand comment
+	$('body').on('click', '.comment-read-more', function() {
+		$(this).hide().parent('.comment-body').animate({'height':  $(this).parent('.comment-body').data('height')});
+	});
+});
