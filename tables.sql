@@ -47,7 +47,7 @@ ALTER TABLE `comment`
  ADD PRIMARY KEY (`id`), ADD KEY `post_approved_idx` (`approved`), ADD KEY `post_id_idx` (`post_id`);
 
 ALTER TABLE `post`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `post_url_idx` (`url`), ADD KEY `post_published_idx` (`published_date`), ADD KEY `post_page_idx` (`page`), ADD FULLTEXT KEY `content` (`content`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `post_url_idx` (`url`), ADD KEY `post_published_idx` (`published_date`), ADD KEY `post_page_idx` (`page`), ADD FULLTEXT KEY `post_fulltext_idx` (`title`, `content`);
 
 ALTER TABLE `session`
  ADD PRIMARY KEY (`session_id`);
