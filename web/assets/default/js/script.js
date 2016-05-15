@@ -28,3 +28,17 @@ $('#commentForm').submit(function(e) {
 
 	return false;
 });
+
+// Apply read more modal on long comments
+var $commentReadMore = $('.comment-read-more')[0];
+var commentMaxHeight = parseInt($('.comment-body').css('max-height')) - 30;
+$('.comment-body').each(function(i) {
+	if ($(this).height() >= commentMaxHeight) {
+		$(this).append($commentReadMore).find('.comment-read-more').show();
+	};
+});
+
+// Expand comment
+$('body').on('click', '.comment-read-more', function() {
+	$(this).hide().parent('.comment-body').css('max-height', 'none');
+});
