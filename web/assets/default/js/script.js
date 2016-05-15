@@ -34,12 +34,12 @@ $('#commentForm').submit(function(e) {
 // Need to wait to get height, although this script is in the footer
 $(window).load(function() {
 	var commentMaxHeight = 150; // Desired eight
-	var commentReadMoreDiv = $('.comment-read-more')[0];
+	var $commentReadMoreDiv = $('.comment-read-more');
 	$('.comment-body').each(function(i) {
 		var commentHeight = $(this).outerHeight();
 		$(this).data('height', commentHeight);
 		if (commentHeight >= commentMaxHeight) {
-			$(this).css('height', commentMaxHeight).append(commentReadMoreDiv).find('.comment-read-more').show();
+			$(this).css('height', commentMaxHeight).append($commentReadMoreDiv.clone().show());
 		};
 	});
 
