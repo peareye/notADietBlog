@@ -30,15 +30,21 @@ $('#commentForm').submit(function(e) {
 });
 
 // Apply read more modal on long comments
-var $commentReadMore = $('.comment-read-more')[0];
-var commentMaxHeight = parseInt($('.comment-body').css('max-height')) - 30;
-$('.comment-body').each(function(i) {
-	if ($(this).height() >= commentMaxHeight) {
-		$(this).append($commentReadMore).find('.comment-read-more').show();
-	};
-});
+// Weird: http://stackoverflow.com/a/16861927/452133
+// Need to wait to get height, although this script is in the footer
+$(window).load(function() {
+	var commentMaxHeight = 150; // Desired eight
+	var commentReadMoreDiv = $('.comment-read-more')[0];
+	$('.comment-body').each(function(i) {
+		var commentHeight = $(this).outerHeight();
+		$(this).data('height', commentHeight);
+		if (commentHeight >= commentMaxHeight) {
+			$(this).css('height', commentMaxHeight).append(commentReadMoreDiv).find('.comment-read-more').show();
+		};
+	});
 
-// Expand comment
-$('body').on('click', '.comment-read-more', function() {
-	$(this).hide().parent('.comment-body').css('max-height', 'none');
+	// Expand comment
+	$('body').on('click', '.comment-read-more', function() {
+		$(this).hide().parent('.comment-body').animate({'height':  $(this).parent('.comment-body').data('height')});
+	});
 });
