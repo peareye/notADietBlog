@@ -174,7 +174,7 @@ abstract class DataMapperAbstract
     public function findRow()
     {
         // If no SQL was provided, return null
-        if ($this->sql) {
+        if (!$this->sql) {
             return null;
         }
 

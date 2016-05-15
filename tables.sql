@@ -44,13 +44,10 @@ CREATE TABLE IF NOT EXISTS `session` (
 
 
 ALTER TABLE `comment`
- ADD PRIMARY KEY (`id`), ADD KEY `post_approved_idx` (`approved`),
- ADD KEY `post_id_idx` (`post_id`),
- ADD CONSTRAINT `comment_post_id_fk1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE;
+ ADD PRIMARY KEY (`id`), ADD KEY `post_approved_idx` (`approved`), ADD KEY `post_id_idx` (`post_id`);
 
 ALTER TABLE `post`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `post_url_idx` (`url`), ADD KEY `post_published_idx` (`published_date`), ADD KEY `post_page_idx` (`page`),
- ADD FULLTEXT (`content`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `post_url_idx` (`url`), ADD KEY `post_published_idx` (`published_date`), ADD KEY `post_page_idx` (`page`), ADD FULLTEXT KEY `content` (`content`);
 
 ALTER TABLE `session`
  ADD PRIMARY KEY (`session_id`);
@@ -59,4 +56,8 @@ ALTER TABLE `session`
 ALTER TABLE `comment`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=0;
 ALTER TABLE `post`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=0;SET FOREIGN_KEY_CHECKS=1;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=0;
+
+ALTER TABLE `comment`
+ADD CONSTRAINT `comment_post_id_fk1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
