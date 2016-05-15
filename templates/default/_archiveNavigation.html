@@ -1,10 +1,10 @@
 {# Archive Navigation Links #}
 
-<ul class="archive-navigation">
+<ul class="archive-navigation list-unstyled small">
 {% for year, nav in getPostArchive() %}
 	<li>
 		<a href="#" class="archive-item" data-archive="{{ year }}">{{ year }}</a>
-		<ul class="archive-{{ year }}" style="display:none;">
+		<ul class="archive-{{ year }} list-unstyled" style="display:none;">
 			{% for month, link in nav %}
 			<li>
 				<a href="#" class="archive-item" data-archive="{{ year }}-{{ month }}">{{ month }}</a>

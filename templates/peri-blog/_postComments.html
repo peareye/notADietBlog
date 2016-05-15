@@ -1,19 +1,16 @@
-<hr>
-{# Post Comments - Use in post.html as we need the post.id #}
 <div class="row">
-<div class="col-xs-11 col-xs-offset1">
-{% for c in postComments(post.id) %}
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{ c.name }} <small>{{ c.created_date|date('F j, Y') }}</small></h3>
-  </div>
-  <div class="panel-body">
-    {{ c.comment }}t
-  </div>
-</div>
-{% endfor %}
-
-
-</div>
-
+    <div class="col-xs-11 col-xs-offset1">
+        {% for c in postComments(post.id) %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ c.name }}&nbsp;&nbsp;<small class="">{{ c.created_date|date('F j, Y') }}</small></h3>
+            </div>
+            <div class="panel-body">
+                {{ c.comment }}t
+            </div>
+        </div>
+        {% else %}
+        <p>Be the first to comment!</p>
+        {% endfor %}
+    </div>
 </div>
