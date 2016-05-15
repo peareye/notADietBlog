@@ -14,7 +14,7 @@
           <div>
             <h3><a href="{{ pathFor('previewPost', {'url': p.url}) }}" target="_blank" title="View {{ p.title }}">{{ p.title }}</a></h3>
             ID: {{ p.id }} | <a href="{{ pathFor('editPost', {'id': p.id}) }}">Edit</a> | <a href="{{ pathFor('deletePost', {'id': p.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a> | Published: {% if p.published_date %}{{ p.published_date|date('F j, Y') }}{% else %}<span class="label label-warning">Not Published</span>{% endif %}
-            {% if p.page == 'Y' %} | <span class="label label-warning">Page</span>{% endif %}
+            {% if p.page == 'Y' %} | <span class="label label-info">Page</span>{% endif %}
           </div>
           <hr>
         {% else %}
