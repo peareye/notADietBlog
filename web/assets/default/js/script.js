@@ -49,9 +49,9 @@ $(window).load(function() {
 	$('body').on('click', '.comment-read-more', function() {
 		var $commentBody = $(this).parent('.comment-body');
 		if ($commentBody.data('status') == 'closed') {
-			$commentBody.animate({'height': $commentBody.data('height')}).data('status', 'open').find('.comment-read-more small').html("Read less...");
+			$commentBody.animate({'height': $commentBody.data('height')}).data('status', 'open').find('.comment-read-more h6').html("Read less...");
 		} else {
-			$commentBody.animate({'height': commentMaxHeight}).data('status', 'closed').find('.comment-read-more small').html("Read more...");
+			$commentBody.animate({'height': commentMaxHeight}).data('status', 'closed').find('.comment-read-more h6').html("Read more...");
 		}
 	});
 });
