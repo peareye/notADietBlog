@@ -31,9 +31,7 @@ h5,
 h6 {
     font-family: 'Lato', sans-serif;
 }
-.jumbotron h1, .jumbotron h2 {
-    text-shadow: 1px 1px 10px #000;
-}
+
 #main {
     /* Used for sticky footer. The main section will take up all the available free space on the page that is not taken up by the footer. */
     flex: 1 0 auto;
@@ -63,17 +61,21 @@ footer a:hover {
 }
 
 .jumbotron {
-    padding-top: 20rem;
-    padding-bottom: 1rem;
-    margin-bottom: 0;
-    background-color: #335566;
-    color: #fff;
-    background-image: url('../../../media/small/08/999x750/0869b768f1afba63e8cb4bb3186618a0.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
+/*    padding-top: 20rem;*/
+/*    padding-bottom: 1rem;*/
+/*    margin-bottom: 0;*/
+/*    background-color: #335566;*/
+/*    color: #fff;*/
+/*    background-image: url('../../../media/small/08/999x750/0869b768f1afba63e8cb4bb3186618a0.jpg');*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: center center;*/
+/*    background-size: cover;*/
 }
+/* NOTE: if you use a jumbotron background image you will need to also uncomment the padding in the xl media query */
 
+.jumbotron h1, .jumbotron h2 {
+/*    text-shadow: 1px 1px 10px #000;*/
+}
 .required {
     color: red;
 }
@@ -87,15 +89,11 @@ footer a:hover {
 p:first-of-type {
     margin-top: 2rem;
 }
-
+/* Next and Previous Pagination */
 .pager {
     font-family: 'Lato', sans-serif;
     font-size: 16px;
-}
-/* Pagination */
-
-.pager {
-    margin-bottom: 60px;
+      margin-bottom: 60px;
     text-align: left;
 }
 
@@ -104,7 +102,7 @@ form {
     font-size: 16px;
 }
 
-/* misc */
+/* Post Comments */
 .comment-body {
     overflow: hidden;
     position: relative;
@@ -125,12 +123,7 @@ form {
     opacity: 1.0;
     color: #333;
 }
-.gradient {
-  
-}
-.comment-read-more:before {
 
-  }
 .comment-read-more:hover {
     cursor: pointer;
 }
@@ -180,7 +173,7 @@ form {
 
     }
     .jumbotron {
-        padding-top: 30rem;
+/*        padding-top: 30rem;*//*NOTE: Uncomment out this line if you are using a background image in the jumbotron */
     }
     .container {
         width: 970px;
