@@ -33,18 +33,25 @@ $('#commentForm').submit(function(e) {
 // Weird: http://stackoverflow.com/a/16861927/452133
 // Need to wait to get height, although this script is in the footer
 $(window).load(function() {
-	var commentMaxHeight = 150; // Desired eight
+	var commentMaxHeight = 150; // Desired max height
 	var $commentReadMoreDiv = $('.comment-read-more');
+	var readMoreHeight = $('.comment-read-more').outerHeight();
+
 	$('.comment-body').each(function(i) {
 		var commentHeight = $(this).outerHeight();
-		$(this).data('height', commentHeight);
 		if (commentHeight >= commentMaxHeight) {
-			$(this).css('height', commentMaxHeight).append($commentReadMoreDiv.clone().show());
+			$(this).data({'height': commentHeight + readMoreHeight, 'status': 'closed'})
+			.css('height', commentMaxHeight).append($commentReadMoreDiv.clone().show());
 		};
 	});
 
 	// Expand comment
 	$('body').on('click', '.comment-read-more', function() {
-		$(this).hide().parent('.comment-body').animate({'height':  $(this).parent('.comment-body').data('height')});
+		var $commentBody = $(this).parent('.comment-body');
+		if ($commentBody.data('status') == 'closed') {
+			$commentBody.animate({'height': $commentBody.data('height')}).data('status', 'open').find('.comment-read-more small').html("Read less...");
+		} else {
+			$commentBody.animate({'height': commentMaxHeight}).data('status', 'closed').find('.comment-read-more small').html("Read more...");
+		}
 	});
 });
