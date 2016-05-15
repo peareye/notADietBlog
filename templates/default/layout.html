@@ -118,11 +118,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="{{ basePath() }}/assets/{{ theme }}/js/ie10-viewport-bug.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
     <script src="{{ basePath() }}/assets/{{ theme }}/js/script.js"></script>
-    <script>
-        hljs.initHighlightingOnLoad();
-    </script> {% if not setting.production %}
+  {% if not setting.production %}
     <script type="text/javascript">
    
         $('.blog-main img').attr('src', function (i, src) { if (src.match(/http/)) { return }; return '{{ basePath() }}' + src; });
