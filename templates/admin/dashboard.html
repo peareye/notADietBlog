@@ -1,25 +1,22 @@
-{% extends '@admin/layout.html' %}
+{% extends '@admin/layout.html' %} {% block body %}
+<h2>Blog Posts</h2>
 
-      {% block body %}
-      	<h2>Blog Posts</h2>
+<form accept-charset="utf-8" action="{{ pathFor('adminSearch')}}" method="get" class="form-inline">
+    <div class="form-group">
+        <input type="text" name="terms" class="form-control" value="{{ search }}" autocomplete="off" placeholder="Search..." autocomplete="off">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
 
-        <form accept-charset="utf-8" action="{{ pathFor('adminSearch')}}" method="get" class="form-inline">
-          <div class="form-group">
-            <input type="text" name="terms" class="form-control" value="{{ search }}" autocomplete="off" placeholder="Search..." autocomplete="off">
-          </div>
-          <button type="submit" class="btn btn-default">Search</button>
-        </form>
+{% for p in posts %}
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3><a href="{{ pathFor('previewPost', {'url': p.url}) }}" target="_blank" title="View {{ p.title }}">{{ p.title }}</a></h3>
+    </div>
+    <div class="panel-body">
+     ID: {{ p.id }} | <a href="{{ pathFor('editPost', {'id': p.id}) }}">Edit</a> | <a href="{{ pathFor('deletePost', {'id': p.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a> | Published: {% if p.published_date %}{{ p.published_date|date('F j, Y') }}{% else %}<span class="label label-warning">Not Published</span>{% endif %} {% if p.page == 'Y' %} | <span class="label label-info">Page</span>{% endif %}   
+    </div>
+</div>
+<hr> {% else %}
+<h4>No posts found</h4> {% endfor %} {{ pagination() }} {% endblock %}
 
-        {% for p in posts %}
-          <div>
-            <h3><a href="{{ pathFor('previewPost', {'url': p.url}) }}" target="_blank" title="View {{ p.title }}">{{ p.title }}</a></h3>
-            ID: {{ p.id }} | <a href="{{ pathFor('editPost', {'id': p.id}) }}">Edit</a> | <a href="{{ pathFor('deletePost', {'id': p.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a> | Published: {% if p.published_date %}{{ p.published_date|date('F j, Y') }}{% else %}<span class="label label-warning">Not Published</span>{% endif %}
-            {% if p.page == 'Y' %} | <span class="label label-info">Page</span>{% endif %}
-          </div>
-          <hr>
-        {% else %}
-        <h4>No posts found</h4>
-        {% endfor %}
-        {{ pagination() }}
-
-      {% endblock %}

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,72 +18,68 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript">
-      var basePath = '{{ basePath() }}', adminSegment = '{{ setting.route.adminSegment }}', thumbUri = '{{ setting.file.fileThumbUri }}';
+        var basePath = '{{ basePath() }}',
+            adminSegment = '{{ setting.route.adminSegment }}',
+            thumbUri = '{{ setting.file.fileThumbUri }}';
     </script>
-  </head>
+</head>
 
-  <body>
+<body>
     <div class="modal fade thumbPathModal" id="image-upload-modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Upload Image</h4>
-          </div>
-          <div class="modal-body">
-            {% include '@admin/_uploadImageForm.html' %}
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Image</h4>
+                </div>
+                <div class="modal-body">
+                    {% include '@admin/_uploadImageForm.html' %}
+                </div>
+            </div>
         </div>
-      </div>
-    </div><!-- /.modal -->
+    </div>
+    <!-- /.modal -->
 
     <div class="modal fade thumbPathModal" id="image-gallery-modal" tabindex="-1">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Image Gallery</h4>
-          </div>
-          <div class="modal-body">
-          </div>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Image Gallery</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
         </div>
-      </div>
-    </div><!-- /.modal -->
+    </div>
+    <!-- /.modal -->
 
-    <nav class="navbar navbar-default navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{{ pathFor('home') }}" target="_blank" title="View Blog">{{ setting.user.blogTitle }}</a>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12" style="rgba(51,122,183, 0.8);">
+                <a href="{{ pathFor('home') }}" target="_blank" title="View Blog"><h1>{{ setting.user.blogTitle }}</h1></a>
+            </div>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li {% if inUrl('dashboard') %}class="active"{% endif %}><a href="{{ pathFor('adminDashboard') }}">Admin Home</a></li>
-            <li {% if inUrl('editpost') %}class="active"{% endif %}><a href="{{ pathFor('editPost') }}">New Post</a></li>
-            <li {% if inUrl('comments') %}class="active"{% endif %}><a href="{{ pathFor('comments') }}">Comments <span class="label label-default">{{ newCommentCount() }}</span></a></li>
-            <li><a data-toggle="modal" href="#" data-target="#image-upload-modal">Upload Image</a></li>
-            <li><a data-toggle="modal" href="#" data-target="#image-gallery-modal">Image Gallery</a></li>
-            <li><a href="{{ pathFor('updateSitemap') }}">Update Sitemap</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ pathFor('logout') }}">Logout</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+        <div class="row">
 
-   <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
-        {% block body %}{% endblock %}
-        </div><!-- /.blog-main -->
-      </div><!-- /.row -->
-    </div><!-- /.container -->
+            <div class="col-md-2 side-bar">
+                <ul class="list-group u-m-t-2">
+                    <li class="list-group-item {% if inUrl( 'dashboard') %} active{% endif %}"><a href="{{ pathFor('adminDashboard') }}">Admin Home</a></li>
+                    <li class="list-group-item {% if inUrl( 'editpost') %}active{% endif %}"><a href="{{ pathFor('editPost') }}">New Post</a></li>
+                    <li class="list-group-item {% if inUrl( 'comments') %}active{% endif %}"><a href="{{ pathFor('comments') }}">Comments <span class="label label-default">{{ newCommentCount() }}</span></a></li>
+                    <li class="list-group-item"><a data-toggle="modal" href="#" data-target="#image-upload-modal">Upload Image</a></li>
+                    <li class="list-group-item"><a data-toggle="modal" href="#" data-target="#image-gallery-modal">Image Gallery</a></li>
+                    <li class="list-group-item"><a href="{{ pathFor('updateSitemap') }}">Update Sitemap</a></li>
+                    <li class="list-group-item"><a href="{{ pathFor('logout') }}">Logout</a></li>
+                </ul>
+            </div>
+            <div class="col-md-10">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -90,7 +87,12 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
     <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="{{ basePath() }}/assets/admin/script.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>var simplemde = new SimpleMDE();</script>
-  </body>
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script>
+        var simplemde = new SimpleMDE();
+    </script>
+</body>
+
 </html>

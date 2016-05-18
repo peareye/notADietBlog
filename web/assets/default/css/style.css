@@ -61,6 +61,7 @@ footer a:hover {
 }
 
 .jumbotron {
+/*
     padding-top: 20rem;
     padding-bottom: 1rem;
     margin-bottom: 0;
@@ -70,11 +71,12 @@ footer a:hover {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
+*/
 }
 /* NOTE: if you use a jumbotron background image you will need to also uncomment the padding in the xl media query */
 
 .jumbotron h1, .jumbotron h2 {
-    text-shadow: 1px 1px 10px #000;
+/*    text-shadow: 1px 1px 10px #000;*/
 }
 .required {
     color: red;
