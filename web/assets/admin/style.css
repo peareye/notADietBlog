@@ -1,15 +1,10 @@
 /* main layout style */
-.flex-wrapper{
-    display: flex;
-    flex-flow: row nowrap;
-}
+
 /* Left Nav styling */
 .list-group>.active a{
     color: #fff;   
 }
-.side-bar{
-    
-}
+
 /*
  * Misc
  */
@@ -22,6 +17,7 @@
 .post-title-ok {
   color: #5cb85c;
 }
+/* Utilities */
 .u-m-t-1{
     margin-top: 1rem;
 }
