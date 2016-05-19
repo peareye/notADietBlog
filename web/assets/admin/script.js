@@ -153,3 +153,9 @@ $('body').on('submit', '.image-delete', function(e) {
 
 	return false;
 });
+
+// Open post preview in new window
+$('.previewPost').on('click', function() {
+	$('form').attr('target', '_blank');
+	setTimeout(function() { $('form').attr('target', '_self'); }, 500);
+});
