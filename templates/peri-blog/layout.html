@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,19 +37,17 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="{% if inUrl('/') %}active{% endif %}"><a href="{{ pathFor('home') }}">Home <span class="sr-only">(current)</span></a></li>
-<!--
+                        
                         <li class="{% if inUrl('about') %}active{% endif %}"><a href="{{ pathFor('viewPage',{'url':'about'}) }}">About Me</a></li>
                         <li class="{% if inUrl('digital') %}active{% endif %}"><a href="{{ pathFor('viewPage',{'url':'digital'}) }}">Digital Arts</a></li>
-                        <li><a href="http://localhost/blog336/letmein">Let Me In</a></li>
--->
-                        <!-- Remove the above link for production-->
                     </ul>
-    <form accept-charset="utf-8" action="{{ pathFor('search')}}" method="get" class="navbar-form navbar-right">
+                    <form accept-charset="utf-8" action="{{ pathFor('search')}}" method="get" class="navbar-form navbar-right">
                         <div class="form-group" style="display:inline;">
                             <div class="input-group">
-     <input type="text" name="terms" class="form-control" value="{{ search }}" autocomplete="off" placeholder="Search this site..." id="searchInput" autocomplete="off">
+                                <input type="text" name="terms" class="form-control" value="{{ search }}" autocomplete="off" placeholder="Search this site..." id="searchInput">
                                 <span class="input-group-btn">
-                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
+                                </button>
                                 </span>
                             </div>
                         </div>
@@ -63,10 +62,10 @@
 
         <div class="jumbotron">
 
-                <div class="container">
-                    <h1 class="blog-title">{{ setting.user.blogTitle }}</h1>
-                    <h2 class="">{{ setting.user.blogSubTitle }}</h2>
-                </div>
+            <div class="container">
+                <h1 class="blog-title">{{ setting.user.blogTitle }}</h1>
+                <h2 class="">{{ setting.user.blogSubTitle }}</h2>
+            </div>
 
         </div>
         <div class="container">
@@ -92,7 +91,7 @@
                         <ul class="list-unstyled small">
                             <li>{{ setting.user.sidebarAbout }}</li>
                         </ul>
-                        
+
                     </div>
                 </div>
                 <!-- end col-sm-4 -->
@@ -109,21 +108,28 @@
                     </div> {% endif %} </div>
                 <!-- end col-sm-2 -->
                 <div class="col-sm-3">
-                   <h6>&nbsp;</h6>
-                   <ul class="list-unstyled small"><li>Copyright &copy; {{ now|date('Y') }}<br>{{ setting.user.blogTitle }}</li></ul>
-                  
+                    <h6>&nbsp;</h6>
+                    <ul class="list-unstyled small">
+                        <li>Copyright &copy; {{ now|date('Y') }}
+                            <br>{{ setting.user.blogTitle }}</li>
+                    </ul>
+
+                </div>
+                <!-- end row -->
             </div>
-            <!-- end row -->
-        </div>
-        <!-- end container -->
+            <!-- end container -->
     </footer>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="{{ basePath() }}/assets/{{ theme }}/js/script.js"></script>
     {% if not setting.production %}
     <script type="text/javascript">
-
-        $('.blog-main img').attr('src', function (i, src) { if (src.match(/http/)) { return }; return '{{ basePath() }}' + src; });
+        $('.blog-main img').attr('src', function (i, src) {
+            if (src.match(/http/)) {
+                return
+            };
+            return '{{ basePath() }}' + src;
+        });
     </script> {% endif %} </body>
 
 </html>

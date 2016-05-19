@@ -66,7 +66,7 @@ footer a:hover {
     margin-bottom: 0;
     background-color: #335566;
     color: #fff;
-    background-image: url('../../../media/large/98/98609e223a8197dc3ece904c8fff5fd0.jpg');
+    background-image: url('../../../media/large/0a/0af178fd7b9564a461a8be7d75fccc28.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -79,8 +79,10 @@ footer a:hover {
 .required {
     color: red;
 }
-
-.navbar {
+.navbar{
+    margin-bottom: 0;
+}
+nav, .navbar-link {
     font-family: 'Lato', sans-serif;
     font-size: 16px;
     margin-bottom: 0;
