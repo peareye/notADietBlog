@@ -61,22 +61,22 @@ footer a:hover {
 }
 
 .jumbotron {
-/*
+
     padding-top: 20rem;
     padding-bottom: 1rem;
     margin-bottom: 0;
     background-color: #335566;
     color: #fff;
-    background-image: url('../../../media/large/98/98609e223a8197dc3ece904c8fff5fd0.jpg');
+    background-image: url('../beach.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-*/
+
 }
 /* NOTE: if you use a jumbotron background image you will need to also uncomment the padding in the xl media query */
 
 .jumbotron h1, .jumbotron h2 {
-/*    text-shadow: 1px 1px 10px #000;*/
+    text-shadow: 1px 1px 10px #000;
 }
 .required {
     color: red;
