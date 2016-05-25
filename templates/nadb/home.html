@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+      {% block body %}
+        {% for p in posts %}
+          <div class="blog-post">
+            <h2 class="blog-post-title"><a href="{{ pathFor('viewPost', {'url': p.url}) }}">{{ p.title }}</a></h2>
+            <p class="blog-post-meta">{{ p.published_date|date('F j, Y') }}</p>
+            <p>{{ p.content_excerpt }}&hellip;</p>
+          </div><!-- /.blog-post -->
+        <hr>
+
+        {% else %}
+          <h2 class="blog-post-title">No Posts Found</h2>
+        {% endfor %}
+
+        {{ pagination() }}
+
+      {% endblock %}
