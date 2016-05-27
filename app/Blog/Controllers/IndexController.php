@@ -80,4 +80,15 @@ class IndexController extends BaseController
         // Render view
         return $this->container->view->render($response, 'home.html', ['posts' => $posts, 'search' => $terms]);
     }
+
+    /**
+     * Contact Me Form
+     *
+     * Renders contact me form
+     */
+    public function contact($request, $response, $args)
+    {
+        // Render view
+        return $this->container->view->render($response, 'contact.html', ['title' => 'Contact Form']);
+    }
 }
