@@ -37,6 +37,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="{% if inUrl('/') %}active{% endif %}"><a href="{{ pathFor('home') }}">Home <span class="sr-only">(current)</span></a></li>
+                        <li class="{% if inUrl('contact') %}active{% endif %}"><a href="{{ pathFor('contactForm') }}" title="Contact Me">Contact</a></li>
                         <!--
                         <li class="{% if inUrl('about') %}active{% endif %}"><a href="{{ pathFor('viewPage',{'url':'about'}) }}">About Me</a></li>
                         <li class="{% if inUrl('digital') %}active{% endif %}"><a href="{{ pathFor('viewPage',{'url':'digital'}) }}">Digital Arts</a></li>

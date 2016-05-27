@@ -4,6 +4,8 @@
  */
 namespace Blog\Controllers;
 
+use Blog\Models\Comment;
+
 class CommentController extends BaseController
 {
     /**
@@ -47,17 +49,24 @@ class CommentController extends BaseController
             return $r->write(json_encode(["status" => "1", "source" => "<p class=\"bg-danger\">Error</p>"]));
         }
 
-        // Save comment
+        // Create comment
         $comment->reply_id = $request->getParsedBodyParam('reply_id');
         $comment->post_id = $request->getParsedBodyParam('post_id');
         $comment->name = $request->getParsedBodyParam('name');
         $comment->email = $request->getParsedBodyParam('email');
         $comment->comment = $request->getParsedBodyParam('comment');
-        $commentMapper->save($comment);
+
+        // Save comment, or send contact me
+        if (is_numeric($comment->post_id)) {
+            $commentMapper->save($comment);
+            $subject = 'A new comment on your blog is awaiting approval';
+        } else {
+            $subject = 'Blog contact message';
+        }
 
         // Email admin with new comment and post title
         $comment->post_title = $request->getParsedBodyParam('post_title');
-        $this->sendNewCommentEmail($comment);
+        $this->sendNewCommentEmail($comment, $subject);
 
         // Return
         return $r->write(json_encode(["status" => "1", "source" => "$source"]));
@@ -97,8 +106,13 @@ class CommentController extends BaseController
 
     /**
      * Send New Comment Email
+     *
+     * Sends comment or contact email
+     * @param Blog\Models\Comment $comment
+     * @param string $subject
+     * @return void
      */
-    protected function sendNewCommentEmail($comment)
+    protected function sendNewCommentEmail(Comment $comment, $subject = '')
     {
         // Get dependencies
         $message = $this->container->get('mailMessage');
@@ -108,7 +122,7 @@ class CommentController extends BaseController
         // Create message
         $message->setFrom("My Blog <{$config['email']['username']}>")
             ->addTo($config['user']['email'])
-            ->setSubject('A new comment on your blog is awaiting approval')
+            ->setSubject($subject)
             ->setBody("Name: {$comment->name}\nEmail: {$comment->email}\nPost Title: {$comment->post_title}\n\n{$comment->comment}");
 
         // Send
