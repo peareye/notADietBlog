@@ -147,7 +147,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         // If just a slash is provided, meaning 'home' then return true
-        if ($segment === '/' && $this->uri->getPath() === '/') {
+        if ($segment === '/' && ($this->uri->getPath() === '/' || empty($this->uri->getPath()))) {
             return true;
         }
 
