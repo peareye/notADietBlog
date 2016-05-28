@@ -135,7 +135,7 @@ $app->post('/savecomment', function ($request, $response, $args) {
 })->setName('commentSubmit');
 
 // Contact form
-$app->get('/contact', function ($request, $response, $args) {
+$app->get('/contact[-{me}]', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->contact($request, $response, $args);
 })->setName('contactForm');
 
