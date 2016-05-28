@@ -59,3 +59,8 @@ textarea {
 .thumb-gallery:hover .image-delete {
   display: block;
 }
+
+#admin-img-gallery{
+    display: flex;
+    flex-flow: row wrap;
+}
