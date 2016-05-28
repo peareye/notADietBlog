@@ -6,8 +6,8 @@ $('.archive-navigation .archive-item').on('click', function(e) {
 
 // Submit comment
 $('#commentForm').submit(function(e) {
-	$(this).find('button').addClass('disabled');
-	$.ajax({
+    $(this).find('button').addClass('disabled').html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Submitting...');
+    $.ajax({
 		url: basePath + '/savecomment',
 		method: 'POST',
 		processData: false,
