@@ -139,22 +139,24 @@ class TwigExtension extends \Twig_Extension
      * @param string $segment URL segment to find
      * @return boolean
      */
-    public function isInUrl($segment = null)
+    public function isInUrl($segmentToTest = null)
     {
         // Verify we have a segment to find
-        if ($segment === null) {
+        if ($segmentToTest === null) {
             return false;
         }
 
-        // If just a slash is provided, meaning 'home' then return true
-        if ($segment === '/' && $this->uri->getPath() === '/') {
+        // If just a slash is provided, meaning 'home', then evaluate
+        if ($segmentToTest === '/' && ($this->uri->getPath() === '/' || empty($this->uri->getPath()))) {
             return true;
+        } else if ($segmentToTest === '/' && !empty($this->uri->getPath())) {
+            return false;
         }
 
         // Clean segment of slashes
-        $segment = trim($segment, '/');
+        $segmentToTest = trim($segmentToTest, '/');
 
-        return in_array($segment, explode('/', $this->uri->getPath()));
+        return in_array($segmentToTest, explode('/', $this->uri->getPath()));
     }
 
     /**

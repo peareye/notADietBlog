@@ -134,6 +134,11 @@ $app->post('/savecomment', function ($request, $response, $args) {
     return (new Blog\Controllers\CommentController($this))->save($request, $response, $args);
 })->setName('commentSubmit');
 
+// Contact form
+$app->get('/contact[-{me}]', function ($request, $response, $args) {
+    return (new Blog\Controllers\IndexController($this))->contact($request, $response, $args);
+})->setName('contactForm');
+
 // View post
 $app->get('/post/{url}', function ($request, $response, $args) {
     return (new Blog\Controllers\IndexController($this))->viewPost($request, $response, $args);
