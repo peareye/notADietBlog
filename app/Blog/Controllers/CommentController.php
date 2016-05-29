@@ -52,6 +52,7 @@ class CommentController extends BaseController
         // Create comment
         $comment->reply_id = $request->getParsedBodyParam('reply_id');
         $comment->post_id = $request->getParsedBodyParam('post_id');
+        $comment->reply_id = $request->getParsedBodyParam('reply_id');
         $comment->name = $request->getParsedBodyParam('name');
         $comment->email = $request->getParsedBodyParam('email');
         $comment->comment = $request->getParsedBodyParam('comment');

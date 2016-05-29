@@ -223,7 +223,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Get Post Comments
      *
-     * Returns approved comments by post ID
+     * Returns approved comments in a nested array
      * @param int $postId
      * @return array
      */
@@ -231,8 +231,37 @@ class TwigExtension extends \Twig_Extension
     {
         // Get dependencies and comments
         $commentMapper = $this->container->get('commentMapper');
+        $comments = $commentMapper->getPostComments($postId);
 
-        return $commentMapper->getPostComments($postId);
+        // If no comment were found, stop here
+        if (empty($comments)) {
+            return false;
+        }
+
+        // Reindex array by comment ID
+        $indexedComments = [];
+        foreach ($comments as $row) {
+            $indexedComments[$row->id] = $row;
+        }
+
+        $nestedComments = [];
+        foreach ($indexedComments as &$c) {
+            if ($c->reply_id === 0) {
+                // Top level comment so put it in the root
+                $nestedComments[] = &$c;
+            } else {
+                if (isset($indexedComments[$c->reply_id])) {
+                    // If the parent ID exists in the comments array add it to the 'replies' property of the parent
+                    if (!isset($indexedComments[$c->reply_id]->replies)) {
+                        $indexedComments[$c->reply_id]->replies = [];
+                    }
+
+                    $indexedComments[$c->reply_id]->replies[] = &$c;
+                }
+            }
+        }
+
+        return $nestedComments;
     }
 
     /**

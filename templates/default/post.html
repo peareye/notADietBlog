@@ -18,14 +18,15 @@
   </ul>
 </nav>
 <hr>
-<div class="blog-post">
-    <h2>Leave me a Comment</h2>
-    {% include '_commentForm.html' %}
+<div id="post-comments">
+    <div class="blog-post">
+        <h2>Leave me a Comment</h2>
+        {% include '_commentForm.html' %}
+    </div>
+    <hr>
+    <div class="">
+        <h2>Comments</h2>
+        {% include '_postComments.html' %}
+    </div>
 </div>
-<hr>
-<div class="">
-    <h2>Comments</h2>
-    {% include '_postComments.html' %}
-</div>
-
 {% endblock %}

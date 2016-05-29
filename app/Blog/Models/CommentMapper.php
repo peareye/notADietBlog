@@ -20,7 +20,7 @@ class CommentMapper extends DataMapperAbstract
      */
     public function getPostComments($postId)
     {
-        $this->sql = $this->defaultSelect . ' and post_id = ? and approved = \'Y\' order by c.post_id, c.created_date desc';
+        $this->sql = $this->defaultSelect . ' and post_id = ? and approved = \'Y\' order by c.post_id, c.created_date';
         $this->bindValues[] = $postId;
 
         return $this->find();

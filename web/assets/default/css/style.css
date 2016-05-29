@@ -105,7 +105,7 @@ form {
 }
 
 /* Post Comments */
-.comment-body {
+/*.comment-body {
     overflow: hidden;
     position: relative;
 }
@@ -133,6 +133,7 @@ form {
     font-weight: bold;
     color: blue;
 }
+*/
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
