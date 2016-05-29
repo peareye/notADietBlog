@@ -55,4 +55,22 @@ class CommentMapper extends DataMapperAbstract
 
         return ($result->comments !== 0) ? $result->comments : null;
     }
+
+    /**
+     * Get Comment Count by Post ID
+     *
+     * @param int $postId Post record ID
+     * @return int
+     */
+    public function getCommentCountByPostId($postId)
+    {
+        $this->sql = 'select count(*) comments from comment where approved = \'Y\' and post_id = ?';
+        $this->bindValues[] = $postId;
+
+        $this->execute();
+        $result = $this->statement->fetch();
+        $this->clear();
+
+        return ($result->comments !== 0) ? $result->comments : null;
+    }
 }

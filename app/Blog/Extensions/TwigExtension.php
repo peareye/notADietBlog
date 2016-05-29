@@ -82,6 +82,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('pages', array($this, 'getPages')),
             new \Twig_SimpleFunction('nextPost', array($this, 'getPriorAndNextPosts')),
             new \Twig_SimpleFunction('priorPost', array($this, 'getPriorPost')),
+            new \Twig_SimpleFunction('postCommentCount', array($this, 'getCommentCountByPostId')),
         ];
     }
 
@@ -262,6 +263,27 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $nestedComments;
+    }
+
+    /**
+     * Get Comment Count by Post ID
+     *
+     * @param int $postId Post record ID
+     * @return int
+     */
+    public function getCommentCountByPostId($postId)
+    {
+        static $postCommentCount = [];
+
+        // Return cached value if we have it
+        if (isset($postCommentCount[$postId])) {
+            return $postCommentCount[$postId];
+        }
+
+        // Otherwise, get the comment count and return after adding to cache
+        $commentMapper = $this->container['commentMapper'];
+
+        return $postCommentCount[$postId] = $commentMapper->getCommentCountByPostId($postId);
     }
 
     /**
