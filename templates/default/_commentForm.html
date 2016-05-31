@@ -1,7 +1,8 @@
 {# Contact Form Include #}
 
-  <form class="form-horizontal" action="{{ pathFor('commentSubmit') }}" class="form-horizontal"  id="commentForm" method="post" accept-charset="utf-8">
+  <form class="form-horizontal comment-form" action="{{ pathFor('commentSubmit') }}" class="form-horizontal" method="post" accept-charset="utf-8">
   	<input type="hidden" name="post_id" value="{{ post.id }}">
+    <input type="hidden" name="reply_id" value="0">
     <input type="hidden" name="post_title" value="{{ post.title|default('Contact Form') }}">
 
     <div class="form-group">
