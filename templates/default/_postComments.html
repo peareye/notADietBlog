@@ -22,7 +22,7 @@
             {% endif %}
         </div>
         <div class="panel-body comment-body" {% if level == 2 %}style="display:none;"{% endif %}>
-            <p>{{ comment.comment }}</p>
+            <p>{{ comment.comment|nl2br }}</p>
             <a href="#" class="comment-reply-link btn btn-info btn-xs" data-id="{{ comment.id }}">Reply</a>
 
             {% if comment.replies %}
