@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +7,6 @@
     <meta name="robots" content="noindex, nofollow">
     <title>{{ setting.user.htmlAdminTitle }}</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link href="{{ basePath() }}/assets/admin/ie10-viewport-bug.css" rel="stylesheet">
     <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css" rel="stylesheet">
     <link href="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" rel="stylesheet">
     <link href="{{ basePath() }}/assets/admin/style.css" rel="stylesheet">
@@ -26,27 +24,12 @@
 </head>
 
 <body>
-    <div class="modal fade thumbPathModal" id="image-upload-modal" tabindex="-1">
+    <div class="modal fade thumbPathModal" id="admin-modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Upload Image</h4>
-                </div>
-                <div class="modal-body">
-                    {% include '@admin/_uploadImageForm.html' %}
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.modal -->
-
-    <div class="modal fade thumbPathModal" id="image-gallery-modal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Image Gallery</h4>
+                    <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
                 </div>
@@ -68,8 +51,8 @@
                     <li class="list-group-item {% if inUrl( 'dashboard') %} active{% endif %}"><a href="{{ pathFor('adminDashboard') }}">Admin Home</a></li>
                     <li class="list-group-item {% if inUrl( 'editpost') %}active{% endif %}"><a href="{{ pathFor('editPost') }}">New Post</a></li>
                     <li class="list-group-item {% if inUrl( 'comments') %}active{% endif %}"><a href="{{ pathFor('comments') }}">Comments <span class="label label-default">{{ newCommentCount() }}</span></a></li>
-                    <li class="list-group-item"><a data-toggle="modal" href="#" data-target="#image-upload-modal">Upload Image</a></li>
-                    <li class="list-group-item"><a data-toggle="modal" href="#" data-target="#image-gallery-modal">Image Gallery</a></li>
+                    <li class="list-group-item"><a data-toggle="modal" href="#" data-target="#admin-modal" data-action="uploadFile">Upload Image</a></li>
+                    <li class="list-group-item"><a data-toggle="modal" href="#" data-target="#admin-modal" data-action="viewFiles">Image Gallery</a></li>
                     <li class="list-group-item"><a href="{{ pathFor('updateSitemap') }}">Update Sitemap</a></li>
                     <li class="list-group-item"><a href="{{ pathFor('logout') }}">Logout</a></li>
                 </ul>
@@ -80,11 +63,12 @@
         </div>
     </div>
 
-
+    <div id="uploadFileForm" style="display:none;">
+        {% include '@admin/_uploadImageForm.html' %}
+    </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="{{ basePath() }}/assets/admin/ie10-viewport-bug.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
     <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="{{ basePath() }}/assets/admin/script.js"></script>
