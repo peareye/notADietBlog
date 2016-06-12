@@ -77,7 +77,7 @@ $('#admin-modal').on('hidden.bs.modal', function() {
     var $modal = $(this);
     $modal.find('.modal-title').text('');
     $modal.find('.modal-body').html('');
-    $modal.find('.modal-dialog').removeClass('modal-lg modal-sm');
+    $modal.find('.modal-dialog').removeClass('modal-lg modal-sm modal-preview-post');
 });
 
 // Add focus to thumbnail path input
@@ -172,4 +172,30 @@ $('body').on('submit', '.image-delete', function(e) {
     });
 
     return false;
+});
+
+// Preview post
+$('#save-post').on('submit', function(e) {
+    // If preview was clicked, send to server via ajax, otherwise just submit
+    if (document.activeElement.value === 'preview') {
+        $.ajax({
+            url: basePath + '/' + adminSegment + '/savepost',
+            method: 'POST',
+            processData: false,
+            contentType:false,
+            data:  new FormData(this),
+            success: function(r) {
+                loadModalBody('Preview', '<iframe src="about:blank" frameborder="0" width="100%" height="100%"></iframe>', 'modal-preview-post');
+                $('#admin-modal').modal('show').find('.modal-body iframe').attr('srcdoc', r).on('load', function() {
+                    this.style.height = this.contentDocument.body.scrollHeight +'px';
+                });
+            },
+            error: function(r) {
+                console.log('Unable to preview post')
+                console.log(r)
+            }
+        });
+
+        return false;
+    }
 });

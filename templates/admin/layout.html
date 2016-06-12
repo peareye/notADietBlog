@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <div class="modal fade thumbPathModal" id="admin-modal" tabindex="-1">
+    <div class="modal thumbPathModal" id="admin-modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -50,7 +50,7 @@
                 <ul class="list-group u-m-t-2">
                     <li class="list-group-item {% if inUrl( 'dashboard') %} active{% endif %}"><a href="{{ pathFor('adminDashboard') }}">Admin Home</a></li>
                     <li class="list-group-item {% if inUrl( 'editpost') %}active{% endif %}"><a href="{{ pathFor('editPost') }}">New Post</a></li>
-                    <li class="list-group-item {% if inUrl( 'comments') %}active{% endif %}"><a href="{{ pathFor('comments') }}">Comments <span class="label label-default">{{ newCommentCount() }}</span></a></li>
+                    <li class="list-group-item {% if inUrl( 'comments') %}active{% endif %}"><a href="{{ pathFor('comments') }}">Comments</a> <span class="label label-default">{{ newCommentCount() }}</span></li>
                     <li class="list-group-item"><a data-toggle="modal" href="#" data-target="#admin-modal" data-action="uploadFile">Upload Image</a></li>
                     <li class="list-group-item"><a data-toggle="modal" href="#" data-target="#admin-modal" data-action="viewFiles">Image Gallery</a></li>
                     <li class="list-group-item"><a href="{{ pathFor('updateSitemap') }}">Update Sitemap</a></li>
