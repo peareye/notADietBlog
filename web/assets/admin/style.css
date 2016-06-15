@@ -2,7 +2,7 @@
 
 /* Left Nav styling */
 .list-group>.active a{
-    color: #fff;   
+    color: #fff;
 }
 
 /*
@@ -63,4 +63,7 @@ textarea {
 #admin-img-gallery{
     display: flex;
     flex-flow: row wrap;
+}
+.modal-preview-post {
+  width: 95%;
 }

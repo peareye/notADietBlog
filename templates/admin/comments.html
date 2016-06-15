@@ -1,9 +1,9 @@
-{% extends '@admin/layout.html' %} {% block body %}
+{% extends '@admin/_layout.html' %} {% block body %}
 
 <!-- Panel panes Comments to review-->
 <div class="panel panel-danger u-m-t-2">
     <div class="panel-heading">
-        <h3>Comments to Review</h3>
+        <h3 class="panel-title">Comments to Review</h3>
     </div>
 
     <div class="panel-body">
@@ -15,9 +15,9 @@
 <!-- Panel panes Comments Reviewed -->
 <div class="panel panel-success">
 	<div class="panel-heading">
-		<h3>Comments Reviewed</h3>
+		<h3 class="panel-title">Comments Reviewed</h3>
 	</div>
-	
+
 	<div class="panel-body">
         {% for c in comments if c.approved == 'Y' %} {{ _self.commentRow(c, 'N') }} {% else %}
         <h4>No comments found</h4> {% endfor %}
@@ -28,13 +28,11 @@
 
 <div class="panel panel-warning">
     <div class="panel-heading">
-        <h4>{{ c.name }} {{ c.email }}, {{ c.title }}, {{ c.created_date|date('F j, Y') }}</h4></div>
+        <h4 class="panel-title">{{ c.name }} {{ c.email }}, {{ c.title }}, {{ c.created_date|date('F j, Y') }}</h4></div>
     <div class="panel-body">
         <p>{{ c.comment }}</p>
         <p><a href="{{ pathFor('changeCommentStatus',{'commentId': c.id, 'newStatus': s}) }}">{% if s == 'Y' %}Approve{% else %}Disapprove{% endif %}</a> | <a href="{{ pathFor('deleteComment', {'commentId': c.id}) }}" class="deleteButton"><span class="text-danger">Delete</span></a></p>
     </div>
-
-
 </div>
 
 {% endmacro %} {% endblock %}
