@@ -16,15 +16,14 @@
 {% macro commentBlock(comment, level) %}
     <div class="panel panel-{% if level == 1 %}success{% elseif level == 2 %}info comment-reply{% elseif level > 2 %}warning{% endif %}">
         <div class="panel-heading">
-            {{ comment.name }}&nbsp;&nbsp;<small class="">{{ comment.created_date|date('F j, Y') }}</small>
+            {{ comment.name }} <small class="">{{ comment.created_date|date('F j, Y') }}</small>
             {% if level == 2 %}
             <span class="pull-right toggle-comments panel-collapsed"><i class="glyphicon glyphicon-plus"></i></span>
             {% endif %}
         </div>
         <div class="panel-body comment-body" {% if level == 2 %}style="display:none;"{% endif %}>
-            <p>{{ comment.comment|nl2br }}</p>
+            <div>{{ comment.comment|nl2br }}</div>
             <a href="#" class="comment-reply-link btn btn-info btn-xs" data-id="{{ comment.id }}">Reply</a>
-
             {% if comment.replies %}
                 {% for replies in comment.replies %}
 
