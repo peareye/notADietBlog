@@ -28,7 +28,7 @@ $('#post-comments').on('submit', '.comment-form', function(e) {
 	return false;
 });
 
-// Show comment reply
+// Show comment reply form
 var $commentForm = $('#post-comments .comment-form');
 $('#post-comments').on('click', '.comment-reply-link', function(e) {
 	e.preventDefault();
@@ -44,6 +44,7 @@ $('#post-comments').on('click', '.cancel-reply', function(e) {
 	$(this).toggleClass('cancel-reply comment-reply-link').html('Reply');
 });
 
+// Expand/Collapse nested comments
 $('#post-comments').on('click', '.toggle-comments', function (e) {
     var $this = $(this);
     if (!$this.hasClass('panel-collapsed')) {
@@ -60,26 +61,31 @@ $('#post-comments').on('click', '.toggle-comments', function (e) {
 // Apply read more modal on long comments
 // Weird: http://stackoverflow.com/a/16861927/452133
 // Need to wait to get height, although this script is in the footer
-// $(window).load(function() {
-// 	var commentMaxHeight = 150; // Desired max height
-// 	var $commentReadMoreDiv = $('.comment-read-more');
-// 	var readMoreHeight = $('.comment-read-more').outerHeight();
+$(window).load(function() {
+	var commentMaxHeight = 250; // Desired max height
+	var $commentReadMoreDiv = $('.comment-read-more');
+	var readMoreHeight = $('.comment-read-more').outerHeight();
 
-// 	$('.comment-body').each(function(i) {
-// 		var commentHeight = $(this).outerHeight();
-// 		if (commentHeight >= commentMaxHeight) {
-// 			$(this).data({'height': commentHeight + readMoreHeight, 'status': 'closed'})
-// 			.css('height', commentMaxHeight).append($commentReadMoreDiv.clone().show());
-// 		};
-// 	});
+	// Limit height and add read more link
+	$('.comment-body').each(function(i) {
+		var commentHeight = $(this).outerHeight();
+		if (commentHeight >= commentMaxHeight) {
+			$(this).data({'height': commentHeight + readMoreHeight, 'status': 'closed'})
+			.css('height', commentMaxHeight).append($commentReadMoreDiv.clone().show()).find('.comment-reply-link').hide();
+		};
+	});
 
-// 	// Expand comment
-// 	$('body').on('click', '.comment-read-more', function() {
-// 		var $commentBody = $(this).parent('.comment-body');
-// 		if ($commentBody.data('status') == 'closed') {
-// 			$commentBody.animate({'height': $commentBody.data('height')}).data('status', 'open').find('.comment-read-more h6').html("Read less...");
-// 		} else {
-// 			$commentBody.animate({'height': commentMaxHeight}).data('status', 'closed').find('.comment-read-more h6').html("Read more...");
-// 		}
-// 	});
-// });
+	// Expand comment
+	$('#post-comments').on('click', '.comment-read-more', function() {
+		var $commentBody = $(this).parent('.comment-body');
+		if ($commentBody.data('status') == 'closed') {
+			$commentBody.animate({'height': $commentBody.data('height')}, function() {
+				$(this).css('height','auto').find('.comment-reply-link').show();
+			}).data('status', 'open').find('.comment-read-more h6').html("Read less...");
+		} else {
+			$commentBody.animate({'height': commentMaxHeight}).data('status', 'closed')
+			.find('.comment-read-more h6').html("Read more...").end()
+			.find('.comment-reply-link').hide();
+		}
+	});
+});
