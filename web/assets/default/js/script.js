@@ -17,6 +17,9 @@ $('#post-comments').on('submit', '.comment-form', function(e) {
 		success: function(r) {
 			console.log(r)
 			if (r.status == 1) {
+				$submittedForm.find('button').removeClass('disabled').html('Submit');
+				$submittedForm.siblings('h2').remove();
+				$submittedForm.siblings('a').remove();
 				$submittedForm.replaceWith(r.source).fadeIn('fast');
 			};
 		},
