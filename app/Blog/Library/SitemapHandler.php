@@ -14,6 +14,7 @@ class SitemapHandler
     protected $logger;
     protected $sitemapXML;
     protected $alertSearchEngines;
+    protected $messages = [];
 
     /**
      *  Constructor
@@ -46,6 +47,16 @@ class SitemapHandler
             $this->logger->alert('..Alerting search engines with updated sitemap');
             $this->alertSearchEngines();
         }
+    }
+
+    /**
+     * Get Messages
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->messages;
     }
 
     /**
@@ -114,10 +125,17 @@ class SitemapHandler
                 $response = curl_exec($ch);
                 $httpResponseStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
+
+                // Save messages
+                $this->messages[] = ['engine' => $submission, 'status' => $httpResponseStatus];
+
             } catch (\Exception $e) {
                 // Log failure
                 $log->error('Failed to connect to search engines');
                 $log->error(print_r($e->getMessage(), true));
+
+                // Save messages
+                $this->messages[] = ['engine' => $submission, 'status' => 'Error: ' . print_r($e->getMessage(), true)];
             }
 
             $this->logger->alert('..Sitemap submission response: ' . $httpResponseStatus);

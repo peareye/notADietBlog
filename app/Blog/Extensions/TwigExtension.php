@@ -83,6 +83,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('nextPost', array($this, 'getPriorAndNextPosts')),
             new \Twig_SimpleFunction('priorPost', array($this, 'getPriorPost')),
             new \Twig_SimpleFunction('postCommentCount', array($this, 'getCommentCountByPostId')),
+            new \Twig_SimpleFunction('flashMessage', array($this, 'getFlashMessage')),
         ];
     }
 
@@ -364,5 +365,36 @@ class TwigExtension extends \Twig_Extension
     public function getPriorPost($currentPost)
     {
         return $this->getPriorAndNextPosts($currentPost, 'prior');
+    }
+
+    /**
+     * Get Flash Messages
+     *
+     * If a message key is provided, then that message is returned.
+     * If no key is provided, all messages are returned in an unordered list.
+     * @param string $key Optional array key of message
+     * @return array
+     */
+    public function getFlashMessage($key = null)
+    {
+        static $messages;
+
+        if (!$messages) {
+            $session = $this->container->sessionHandler;
+            $messages = $session->getFlashData();
+        }
+
+        // If we have no messages, then return nothing
+        if (empty($messages)) {
+            return null;
+        }
+
+        // If a key was provided, return that flash data element
+        if ($key !== null) {
+            return isset($messages[$key]) ? $messages[$key] : null;
+        }
+
+        // Return all messages as unordered list
+        return '<ul><li>' . implode('</li><li>', $messages) . '</li></ul>';
     }
 }
