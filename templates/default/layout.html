@@ -86,30 +86,31 @@
     <footer>
         <div class="container">
             <div class="row">
-
-            </div>
-            <div class="row">
                 <div class="col-sm-3">
                     <div class="sidebar-module sidebar-module-inset">
                         <h5>About</h5>
                         <ul class="list-unstyled small">
                             <li>{{ setting.user.sidebarAbout }}</li>
                         </ul>
-
                     </div>
                 </div>
                 <!-- end col-sm-4 -->
                 <div class="col-sm-3">
                     <div class="sidebar-module">
-                        <h5>Archives</h5> {% include '_archiveNavigation.html' %} </div>
+                        <h5>Archives</h5> {% include '_archiveNavigation.html' %}
+                    </div>
                 </div>
                 <!-- end col-sm-2 -->
                 <div class="col-sm-3"> {% if setting.user.sidebarRelatedLinks %}
                     <div class="sidebar-module">
                         <h5>Elsewhere</h5>
-                        <ul class="list-unstyled small"> {% for link in setting.user.sidebarRelatedLinks %}
-                            <li><a href="{{ link.url }}">{{ link.name }}</a></li> {% endfor %} </ul>
-                    </div> {% endif %} </div>
+                        <ul class="list-unstyled small">
+                            {% for link in setting.user.sidebarRelatedLinks %}
+                            <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div> {% endif %}
+                </div>
                 <!-- end col-sm-2 -->
                 <div class="col-sm-3">
                     <h6>&nbsp;</h6>
@@ -117,11 +118,12 @@
                         <li>Copyright &copy; {{ now|date('Y') }}
                             <br>{{ setting.user.blogTitle }}</li>
                     </ul>
-
                 </div>
+
                 <!-- end row -->
             </div>
             <!-- end container -->
+        </div>
     </footer>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -134,6 +136,7 @@
             };
             return '{{ basePath() }}' + src;
         });
-    </script> {% endif %} </body>
-
+    </script>
+    {% endif %}
+</body>
 </html>
