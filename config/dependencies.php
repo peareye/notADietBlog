@@ -33,9 +33,10 @@ $container['pagination'] = function ($c) {
 
 // Monolog logging
 $container['logger'] = function ($c) {
+    $level = ($c->get('settings')['production']) ? Monolog\Logger::ERROR : Monolog\Logger::DEBUG;
     $logger = new Monolog\Logger('blog');
     // $logger->pushProcessor(new Monolog\Processor\UidProcessor());
-    $logger->pushHandler(new Monolog\Handler\StreamHandler(ROOT_DIR . 'logs/' . date('Y-m-d') . '.log', Monolog\Logger::DEBUG));
+    $logger->pushHandler(new Monolog\Handler\StreamHandler(ROOT_DIR . 'logs/' . date('Y-m-d') . '.log', $level));
 
     return $logger;
 };
