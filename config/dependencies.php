@@ -94,7 +94,7 @@ $container['mailMessage'] = $container->factory(function ($c) {
 
 // Send mail message
 $container['sendMailMessage'] = function ($c) {
-    return new Nette\Mail\SmtpMailer($c->get('settings')['email']);
+    return new Nette\Mail\SendmailMailer();
 };
 
 // Security Handler
@@ -105,7 +105,7 @@ $container['securityHandler'] = function ($c) {
 // Sitemap
 $container['sitemapHandler'] = function ($c) {
     return new Blog\Library\SitemapHandler($c->get('logger'), [
-        'sitemapFilePath' => ROOT_DIR . 'web/',
+        'sitemapFilePath' => ROOT_DIR . 'public/',
         'baseUrl' => $c->get('settings')['baseUrl'],
         'alertSearchEngines' => $c->get('settings')['production'],
     ]);
