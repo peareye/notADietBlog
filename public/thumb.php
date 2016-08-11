@@ -1,6 +1,6 @@
 <?php
 // If a thumbnail of the required size is not found, then make one
-// This file is invoked by the htaccess file in web/.htaccess when an image file is not found
+// This file is invoked by the htaccess file in public/.htaccess when an image file is not found
 
 // Define the root directory
 define('ROOT_DIR', dirname(__DIR__) . '/');

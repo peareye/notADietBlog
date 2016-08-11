@@ -38,6 +38,14 @@
     </div>
     <!-- /.modal -->
 
+    <div class="alert alert-{{ flashMessage('alertStatus')|default('info') }} alert-dismissible" role="alert" {% if not flashMessage() %}style="display:none;"{% endif %}>
+      <button type="button" class="alert-close close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="alert-message">
+          {{ flashMessage('message')|raw }}
+      </div>
+    </div>
+    <!-- /.alert -->
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12" style="rgba(51,122,183, 0.8);">
@@ -62,6 +70,7 @@
             </div>
         </div>
     </div>
+    <!-- /.container-fluid -->
 
     <div id="uploadFileForm" style="display:none;">
         {% include '@admin/_uploadImageForm.html' %}

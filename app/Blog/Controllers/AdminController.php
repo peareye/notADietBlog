@@ -185,6 +185,7 @@ class AdminController extends BaseController
         $postMapper = $this->container->get('postMapper');
         $sitemap = $this->container->get('sitemapHandler');
         $baseUrl = $this->container->get('settings')['baseUrl'];
+        $sessionHandler = $this->container->get('sessionHandler');
 
         // Create page link array starting with home page
         $pages[] = ['link' => $baseUrl, 'date' => date('c')];
@@ -198,6 +199,7 @@ class AdminController extends BaseController
 
         // Make sitemap
         $sitemap->make($pages);
+        $sessionHandler->setFlashData('message', 'Updated sitemap and notified search engines');
 
         return $response->withRedirect($this->container->router->pathFor('adminDashboard'));
     }

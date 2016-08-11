@@ -33,9 +33,10 @@ $container['pagination'] = function ($c) {
 
 // Monolog logging
 $container['logger'] = function ($c) {
+    $level = ($c->get('settings')['production']) ? Monolog\Logger::ERROR : Monolog\Logger::DEBUG;
     $logger = new Monolog\Logger('blog');
     // $logger->pushProcessor(new Monolog\Processor\UidProcessor());
-    $logger->pushHandler(new Monolog\Handler\StreamHandler(ROOT_DIR . 'logs/' . date('Y-m-d') . '.log', Monolog\Logger::DEBUG));
+    $logger->pushHandler(new Monolog\Handler\StreamHandler(ROOT_DIR . 'logs/' . date('Y-m-d') . '.log', $level));
 
     return $logger;
 };
@@ -93,7 +94,7 @@ $container['mailMessage'] = $container->factory(function ($c) {
 
 // Send mail message
 $container['sendMailMessage'] = function ($c) {
-    return new Nette\Mail\SmtpMailer($c->get('settings')['email']);
+    return new Nette\Mail\SendmailMailer();
 };
 
 // Security Handler
@@ -104,7 +105,7 @@ $container['securityHandler'] = function ($c) {
 // Sitemap
 $container['sitemapHandler'] = function ($c) {
     return new Blog\Library\SitemapHandler($c->get('logger'), [
-        'sitemapFilePath' => ROOT_DIR . 'web/',
+        'sitemapFilePath' => ROOT_DIR . 'public/',
         'baseUrl' => $c->get('settings')['baseUrl'],
         'alertSearchEngines' => $c->get('settings')['production'],
     ]);

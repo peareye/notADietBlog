@@ -62,19 +62,12 @@ $config['session']['salt'] = ''; // Salt key to hash
 $config['session']['secondsUntilExpiration'] = 7200;
 
 /**
- * Email Connection
- */
-$config['email']['host'] = '';
-$config['email']['username'] = '';
-$config['email']['password'] = '';
-
-/**
  * File Uploads Config
  *
  * Including trailing slash
  */
-$config['file']['filePath'] = ROOT_DIR . 'web/media/large/';
-$config['file']['fileThumbPath'] = ROOT_DIR . 'web/media/small/';
+$config['file']['filePath'] = ROOT_DIR . 'public/media/large/';
+$config['file']['fileThumbPath'] = ROOT_DIR . 'public/media/small/';
 $config['file']['fileUri'] = 'media/large/';
 $config['file']['fileThumbUri'] = 'media/small/';
 

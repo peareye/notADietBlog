@@ -4,6 +4,16 @@ $('body').on('click', '.deleteButton', function() {
   return reply;
 });
 
+// Show alert on request
+var showAlert = function(message, status = 'alert-info') {
+    $('.alert').removeClass('alert-info alert-success alert-danger alert-warning').addClass(status).find('.alert-message').html(message).end().show();
+}
+
+// Dismiss alert without deleting element
+$('.alert').on('click', '.alert-close', function() {
+    $(this).closest('.alert').hide().find('.alert-message').html('');
+});
+
 // Validate post title URL
 $('input[name="title"]').on('focusout', function() {
     if ($('input[name="url_locked"]').val() === 'Y') {
@@ -23,7 +33,7 @@ $('input[name="title"]').on('focusout', function() {
             }
         },
         error: function(r) {
-            console.log('Validate URL failed')
+            showAlert('Validate post URL failed', 'alert-danger');
         }
     });
 });
@@ -66,7 +76,7 @@ $('#admin-modal').on('show.bs.modal', function (e) {
             loadModalBody('Gallery', r, 'modal-lg');
         },
         error: function(r) {
-            loadModalBody('Error', 'Failed to load files' + r);
+            showAlert('Failed to load files' + r, 'alert-danger');
         }
     });
   }
@@ -117,7 +127,7 @@ $('#admin-modal').on('submit', '#imageUploadForm', function(e) {
             };
         },
         error: function(r) {
-            console.log('Upload file failed')
+            showAlert('Upload file failed', 'alert-danger');
         }
     });
 
@@ -167,7 +177,7 @@ $('body').on('submit', '.image-delete', function(e) {
             }
         },
         error: function(r) {
-            console.log('Delete file failed')
+            showAlert('Delete file failed', 'alert-danger');
         }
     });
 
@@ -191,8 +201,7 @@ $('#save-post').on('submit', function(e) {
                 });
             },
             error: function(r) {
-                console.log('Unable to preview post')
-                console.log(r)
+                showAlert('Unable to preview post', 'alert-danger');
             }
         });
 
