@@ -43,7 +43,7 @@ class LoginController extends BaseController
         $link = $request->getUri()->getHost() . $this->container->router->pathFor('processLoginToken', ['token' => $token]);
 
         // Send message
-        $message->setFrom("My Blog <{$config['email']['username']}>")
+        $message->setFrom("My Blog <{$config['user']['email']}>")
             ->addTo($config['user']['email'])
             ->setSubject('Blog Login')
             ->setBody("Click to login\n\n http://{$link}");

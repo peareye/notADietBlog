@@ -81,11 +81,11 @@ class AdminController extends BaseController
 
         } else {
             // Save
-            $postMapper->save($this->post);
+            $post = $postMapper->save($this->post);
         }
 
         // Display admin dashboard
-        return $response->withRedirect($this->container->router->pathFor('adminDashboard'));
+        return $response->withRedirect($this->container->router->pathFor('editPost', ['id' => $post->id]));
     }
 
     /**
