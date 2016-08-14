@@ -54,7 +54,7 @@ $app->group("/{$app->getContainer()->get('settings')['route']['adminSegment']}",
         return (new Blog\Controllers\FileController($this))->deleteFile($request, $response, $args);
     })->setName('deleteFile');
 
-    // Preview unpublished post
+    // Preview unpublished post (Used in admin dashboard, the Edit Post Preview uses the savePost route)
     $this->get('/previewpost/{url}', function ($request, $response, $args) {
         return (new Blog\Controllers\AdminController($this))->previewPost($request, $response, $args);
     })->setName('previewPost');

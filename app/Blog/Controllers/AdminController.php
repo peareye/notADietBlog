@@ -130,6 +130,7 @@ class AdminController extends BaseController
     {
         // What kind of request?
         if ($request->isGet()) {
+            // Called from the admin dashboard (not savePost Preview)
             // Fetch the requested post
             $postMapper = $this->container['postMapper'];
             $this->post = $postMapper->getSinglePost($args['url'], false);
@@ -220,7 +221,7 @@ class AdminController extends BaseController
         if ($request->getParsedBodyParam('title') === null || $request->getParsedBodyParam('url') === null) {
             // Save to session data for redisplay
             $sessionHandler->setData(['postFormData' => $request->getParsedBody()]);
-            return $response->withRedirect($router->pathFor('editPost'));
+            return $response->withRedirect($this->container->router->pathFor('editPost'));
         }
 
         // If this is a previously published post, use that publish date as default

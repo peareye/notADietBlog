@@ -193,7 +193,7 @@ $('#save-post').on('submit', function(e) {
             method: 'POST',
             processData: false,
             contentType:false,
-            data:  new FormData(this),
+            data:  new FormData($(this)[0]),
             success: function(r) {
                 loadModalBody('Preview', '<iframe src="about:blank" frameborder="0" width="100%" height="100%"></iframe>', 'modal-preview-post');
                 $('#admin-modal').modal('show').find('.modal-body iframe').attr('srcdoc', r).on('load', function() {
