@@ -121,7 +121,7 @@ class CommentController extends BaseController
         $config = $this->container->get('settings');
 
         // Create message
-        $message->setFrom("My Blog <{$config['email']['username']}>")
+        $message->setFrom("My Blog <{$config['user']['email']}>")
             ->addTo($config['user']['email'])
             ->setSubject($subject)
             ->setBody("Name: {$comment->name}\nEmail: {$comment->email}\nPost Title: {$comment->post_title}\n\n{$comment->comment}");
