@@ -39,15 +39,15 @@
                         <li class="{% if inUrl('/') %}active{% endif %}"><a href="{{ pathFor('home') }}">Home<span class="sr-only">(current)</span></a></li>
                         <li class="{% if inUrl('resources') %}active{% endif %}"><a href="{{ pathFor('viewPage',{'url':'resources'}) }}">Resources</a></li>
                         <li class="{% if inUrl('contact') %}active{% endif %}"><a href="{{ pathFor('contactForm') }}" title="Contact Me">Contact</a></li>
-                        
-                        
+
+
                        <!-- <li class="{% if inUrl('digital') %}active{% endif %}"><a href="{{ pathFor('viewPage',{'url':'digital'}) }}">Digital Arts</a></li>
                         <li><a href="http://localhost/blog336/letmein">Let Me In</a></li>
 -->
                         <!-- Remove the above link for production-->
                     </ul>
 
-                    <!-- <form accept-charset="utf-8" action="" method="get" class="navbar-form navbar-right">
+                    <form accept-charset="utf-8" action="{{ pathFor('search') }}" method="get" class="navbar-form navbar-right">
                         <div class="form-group" style="display:inline;">
                             <div class="input-group">
                                 <input type="text" name="terms" class="form-control" value="{{ search }}" autocomplete="off" placeholder="Search this site..." id="searchInput">
@@ -57,7 +57,7 @@
                                 </span>
                             </div>
                         </div>
-                    </form> -->
+                    </form>
 
                     <!-- end navbar-form -->
                 </div>
