@@ -120,8 +120,12 @@ class CommentController extends BaseController
         $mailer = $this->container->get('sendMailMessage');
         $config = $this->container->get('settings');
 
+        // Set the "from" address based on host
+        $from = $this->container->request->getUri()->getHost();
+        $from = ($from !== 'localhost') ? $from : $from . '.com';
+
         // Create message
-        $message->setFrom("My Blog <{$config['user']['email']}>")
+        $message->setFrom("My Blog <send@{$from}>")
             ->addTo($config['user']['email'])
             ->setSubject($subject)
             ->setBody("Name: {$comment->name}\nEmail: {$comment->email}\nPost Title: {$comment->post_title}\n\n{$comment->comment}");
