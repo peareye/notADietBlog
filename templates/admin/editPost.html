@@ -9,6 +9,7 @@
       <button type="submit" class="btn btn-primary" name="button" value="save">Save{% if not post.published_date %} Draft{% endif %}</button>
       {% if post.published_date %}
       <a href="{{ pathFor('unpublishPost', {'id': post.id}) }}" class="btn btn-warning">Unpublish</a>
+      <input type="hidden" name="published_date" value="{{ post.published_date }}">
       {% else %}
       <div class="btn-group">
         <button type="submit" class="btn btn-success" name="button" value="publish">Publish</button>
