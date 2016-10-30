@@ -188,12 +188,14 @@ $('body').on('submit', '.image-delete', function(e) {
 $('#save-post').on('submit', function(e) {
     // If preview was clicked, send to server via ajax, otherwise just submit
     if (document.activeElement.value === 'preview') {
+        var formData = new FormData($(this)[0]);
+        formData.append('button', document.activeElement.value);
         $.ajax({
             url: basePath + '/' + adminSegment + '/savepost',
             method: 'POST',
             processData: false,
-            contentType:false,
-            data:  new FormData($(this)[0]),
+            contentType: false,
+            data: formData,
             success: function(r) {
                 loadModalBody('Preview', '<iframe src="about:blank" frameborder="0" width="100%" height="100%"></iframe>', 'modal-preview-post');
                 $('#admin-modal').modal('show').find('.modal-body iframe').attr('srcdoc', r).on('load', function() {
