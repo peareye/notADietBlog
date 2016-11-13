@@ -38,8 +38,9 @@ class CommentController extends BaseController
         $source = $this->container->view->fetch('_thankYou.html');
 
         // Check honeypot for spammers
-        if (!empty($request->getParsedBodyParam('altemail'))) {
+        if ($request->getParsedBodyParam('alt-email') !== 'alt@example.com') {
             // Just return and say nothing
+            $this->container->logger->info('Comment honeypot caught a fly: ' . $request->getParsedBodyParam('alt-email'));
             return $r->write(json_encode(["status" => "1", "source" => "$source"]));
         }
 
@@ -123,6 +124,7 @@ class CommentController extends BaseController
         // Set the "from" address based on host
         $from = $this->container->request->getUri()->getHost();
         $from = ($from !== 'localhost') ? $from : $from . '.com';
+        $from = ltrim($from, 'www.');
 
         // Create message
         $message->setFrom("My Blog <send@{$from}>")
