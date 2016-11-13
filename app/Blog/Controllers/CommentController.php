@@ -123,8 +123,7 @@ class CommentController extends BaseController
 
         // Set the "from" address based on host
         $from = $this->container->request->getUri()->getHost();
-        $from = ($from !== 'localhost') ? $from : $from . '.com';
-        $from = ltrim($from, 'www.');
+        $from = preg_replace('/^www\./', '', $from);
 
         // Create message
         $message->setFrom("My Blog <send@{$from}>")
