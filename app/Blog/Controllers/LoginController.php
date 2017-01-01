@@ -37,13 +37,22 @@ class LoginController extends BaseController
             return $response->withRedirect($this->container->router->pathFor('home'));
         }
 
-        // Save token and create link with token a
+        // Save token to session and create link to mail
         $token = hash('sha256', time() . $config['session']['salt']);
         $session->setData(['loginToken' => $token, 'loginTokenExpires' => time() + 120]);
-        $link = $request->getUri()->getHost() . $this->container->router->pathFor('processLoginToken', ['token' => $token]);
+        $host = $request->getUri()->getHost();
+        $link = $host . $this->container->router->pathFor('processLoginToken', ['token' => $token]);
+
+        // Strip "www." from host domain
+        $host = preg_replace('/^www\./i', '', $host);
+
+        // If sending from localhost, add .com to the end to make mail happy
+        if ($host === 'localhost') {
+            $host .= '.com';
+        }
 
         // Send message
-        $message->setFrom("My Blog <{$config['user']['email']}>")
+        $message->setFrom("My Blog <send@{$host}>")
             ->addTo($config['user']['email'])
             ->setSubject('Blog Login')
             ->setBody("Click to login\n\n http://{$link}");
