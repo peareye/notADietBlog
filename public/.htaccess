@@ -20,7 +20,7 @@ RewriteRule .*\.(jpe?g|png) thumb.php [L,NC]
 # request to index.php.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_URI} !\.(jpe?g|png|gif)$ [NC]
-RewriteRule . /index.php [L]
+RewriteRule . index.php [L]
 
 # Caching
 <IfModule mod_expires.c>
