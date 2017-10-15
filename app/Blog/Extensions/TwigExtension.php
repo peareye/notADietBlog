@@ -267,27 +267,6 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Get Comment Count by Post ID
-     *
-     * @param int $postId Post record ID
-     * @return int
-     */
-    public function getCommentCountByPostId($postId)
-    {
-        static $postCommentCount = [];
-
-        // Return cached value if we have it
-        if (isset($postCommentCount[$postId])) {
-            return $postCommentCount[$postId];
-        }
-
-        // Otherwise, get the comment count and return after adding to cache
-        $commentMapper = $this->container['commentMapper'];
-
-        return $postCommentCount[$postId] = $commentMapper->getCommentCountByPostId($postId);
-    }
-
-    /**
      * Get New Comment Count
      *
      * @return int

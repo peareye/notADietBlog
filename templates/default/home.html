@@ -5,8 +5,8 @@
           <div class="blog-post">
             <h2 class="blog-post-title">
               <a href="{{ pathFor('viewPost', {'url': p.url}) }}">{{ p.title }}</a>
-              {% if postCommentCount(p.id) %}
-                <span class="badge">{{ postCommentCount(p.id) }} Comment{% if postCommentCount(p.id) > 1 %}s{% endif %}</span>
+              {% if p.comment_count > 0 %}
+                <span class="badge">{{ p.comment_count }} Comment{% if p.comment_count > 1 %}s{% endif %}</span>
               {% endif %}
             </h2>
             <p class="blog-post-meta">{{ p.published_date|date('F j, Y') }}</p>
