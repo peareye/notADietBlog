@@ -4,6 +4,7 @@ config/config.local.php
 public/media/
 logs/
 twigcache/
+.sass-cache
 
 # Misc
 *.xml

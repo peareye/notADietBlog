@@ -26,7 +26,7 @@ class PostMapper extends DataMapperAbstract
      */
     public function getPosts($limit = null, $offset = null, $publishedPostsOnly = true, $postsOnly = true)
     {
-        $this->sql = $this->defaultSelect . ' where 1=1 ';
+        $this->sql = 'select SQL_CALC_FOUND_ROWS p.*, (select count(*) from comment c where p.id = c.post_id and c.approved = \'Y\') comment_count from post p where 1=1 ';
 
         if ($publishedPostsOnly) {
             $this->sql .= ' and p.published_date <= curdate()';

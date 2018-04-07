@@ -98,6 +98,14 @@ $app->group("/{$app->getContainer()->get('settings')['route']['adminSegment']}",
     $response = $next($request, $response);
 
     return $response;
+})->add(function ($request, $response, $next) {
+    // Add http header to prevent back button access to admin
+    $newResponse = $response->withAddedHeader("Cache-Control", "private, no-cache, no-store, must-revalidate");
+
+    // Next call
+    $response = $next($request, $newResponse);
+
+    return $response;
 });
 
 //

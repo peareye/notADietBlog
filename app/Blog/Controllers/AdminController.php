@@ -81,11 +81,11 @@ class AdminController extends BaseController
 
         } else {
             // Save
-            $post = $postMapper->save($this->post);
+            $this->post = $postMapper->save($this->post);
         }
 
         // Display admin dashboard
-        return $response->withRedirect($this->container->router->pathFor('editPost', ['id' => $post->id]));
+        return $response->withRedirect($this->container->router->pathFor('editPost', ['id' => $this->post->id]));
     }
 
     /**
@@ -225,7 +225,8 @@ class AdminController extends BaseController
         }
 
         // If this is a previously published post, use that publish date as default
-        $publishedDate = ($request->getParsedBodyParam('published_date')) ?: '';
+        $publishedDate = ($request->getParsedBodyParam('published_date')) ? $request->getParsedBodyParam('published_date') : null;
+
         if ($request->getParsedBodyParam('button') === 'publish' && empty($publishedDate)) {
             // Then default to today
             $date = new \DateTime();
